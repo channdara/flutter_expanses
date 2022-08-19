@@ -38,9 +38,9 @@ class PurchaseItem {
   Icon getDisplayIcon() {
     switch (type) {
       case ItemType.me:
-        return const Icon(Icons.male, color: Colors.blue);
+        return const Icon(Icons.person, color: Colors.blue);
       case ItemType.bee:
-        return const Icon(Icons.female, color: Colors.pinkAccent);
+        return const Icon(Icons.person, color: Colors.pinkAccent);
       default:
         return const Icon(Icons.people, color: Colors.green);
     }
