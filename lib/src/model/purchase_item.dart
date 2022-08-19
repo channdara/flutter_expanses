@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expenses/src/model/enum/collection.dart';
 import 'package:expenses/src/model/enum/item_type.dart';
 import 'package:flutter/material.dart';
 
@@ -50,8 +51,7 @@ class PurchaseItem {
     return '${newDate?.day}/${newDate?.month} \n${newDate?.hour}:${newDate?.second}';
   }
 
-  // static const String collection = 'purchase_items';
-  static const String collection = 'purchase_items_debug';
+  static String collection = Collection.purchaseItems.value;
   static const String idField = 'id';
   static const String nameField = 'name';
   static const String typeField = 'type';

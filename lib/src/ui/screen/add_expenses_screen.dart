@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expenses/src/common/extension/double_extension.dart';
+import 'package:expenses/src/common/extension/string_extension.dart';
+import 'package:expenses/src/common/extension/timestamp_extension.dart';
 import 'package:expenses/src/model/enum/item_type.dart';
 import 'package:expenses/src/model/purchase_item.dart';
+import 'package:expenses/src/model/total_expanses.dart';
 import 'package:expenses/src/ui/widget/base_scaffold.dart';
 import 'package:expenses/src/ui/widget/elevated_button_widget.dart';
 import 'package:expenses/src/ui/widget/text_form_field_widget.dart';
@@ -154,25 +157,25 @@ class _AddExpensesScreenState extends State<AddExpensesScreen>
               label: 'Add',
               onPressed: () {
                 if (_itemController.text.isEmpty) return;
-                final Timestamp timestamp = Timestamp.now();
-                final PurchaseItem item = PurchaseItem(
+                final timestamp = Timestamp.now();
+                final dMe = _dMeController.text.trim().toDouble();
+                final dBee = _dBeeController.text.trim().toDouble();
+                final rMe = _rMeController.text.trim().toInt();
+                final rBee = _rBeeController.text.trim().toInt();
+                final item = PurchaseItem(
                   id: timestamp.seconds,
                   name: _itemController.text.trim(),
                   type: ItemType.getValueByIndex(_tabController.index),
-                  dollarMe: _dMeController.text.isEmpty
-                      ? 0.0
-                      : double.parse(_dMeController.text.trim()),
-                  dollarBee: _dBeeController.text.isEmpty
-                      ? 0.0
-                      : double.parse(_dBeeController.text.trim()),
-                  rielMe: _rMeController.text.isEmpty
-                      ? 0
-                      : int.parse(_rMeController.text.trim()),
-                  rielBee: _rBeeController.text.isEmpty
-                      ? 0
-                      : int.parse(_rBeeController.text.trim()),
+                  dollarMe: dMe,
+                  dollarBee: dBee,
+                  rielMe: rMe,
+                  rielBee: rBee,
                   date: timestamp,
                 );
+                FirebaseFirestore.instance
+                    .collection(TotalExpenses.collection)
+                    .doc(timestamp.toYM())
+                    .update(TotalExpenses.toUpdateJson(item));
                 FirebaseFirestore.instance
                     .collection(PurchaseItem.collection)
                     .doc(timestamp.seconds.toString())

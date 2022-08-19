@@ -5,7 +5,7 @@ enum ItemType {
 
   const ItemType(this.value);
 
-  final num value;
+  final int value;
 
   static ItemType getValueBy(int number) =>
       ItemType.values.singleWhere((element) => element.value == number);
