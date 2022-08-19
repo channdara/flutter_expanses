@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "521884876312",
+    "project_id": "my-expenses-ba972",
+    "storage_bucket": "my-expenses-ba972.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:521884876312:android:6982c5c498910240dc8d6d",
+        "android_client_info": {
+          "package_name": "com.mastertipsy.expenses"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "521884876312-45i1igglo2ne4s85m2ca8jddurfddrbe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIpBvQi-JTdPWMJ2ce4lR4jKCPclQ8xYc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "521884876312-45i1igglo2ne4s85m2ca8jddurfddrbe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
