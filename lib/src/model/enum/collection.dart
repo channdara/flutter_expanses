@@ -1,8 +1,10 @@
 enum Collection {
   // purchaseItems('purchase_items'),
   purchaseItems('purchase_items_debug'),
-  // totalExpenses('total_expenses');
-  totalExpenses('total_expenses_debug');
+  // dailyExpenses('daily_expenses'),
+  dailyExpenses('daily_expenses_debug'),
+  // totalExpenses('monthly_expenses');
+  totalExpenses('monthly_expenses_debug');
 
   const Collection(this.value);
 

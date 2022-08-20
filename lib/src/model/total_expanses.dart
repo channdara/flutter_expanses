@@ -3,7 +3,7 @@ import 'package:expenses/src/model/enum/collection.dart';
 import 'package:expenses/src/model/purchase_item.dart';
 
 class TotalExpenses {
-  final int id;
+  final String id;
   final double totalDollarMe;
   final double totalDollarBee;
   final int totalRielMe;
@@ -12,7 +12,7 @@ class TotalExpenses {
   final Timestamp? lastUpdate;
 
   TotalExpenses({
-    this.id = 0,
+    this.id = '',
     this.totalDollarMe = 0.0,
     this.totalDollarBee = 0.0,
     this.totalRielMe = 0,
@@ -21,14 +21,18 @@ class TotalExpenses {
     this.lastUpdate,
   });
 
-  String getMyExpenses() => 'Me: \$$totalDollarMe --- ${totalRielMe}r';
+  String getMyExpenses() => 'Me: \$$totalDollarMe   ·   ${totalRielMe}r';
 
-  String getBeeExpenses() => 'Bee: \$$totalDollarBee --- ${totalRielBee}r';
+  String getBeeExpenses() => 'Bee: \$$totalDollarBee   ·   ${totalRielBee}r';
 
-  String getTotalExpenses() =>
-      'Total This Month: \$${totalDollarMe + totalDollarBee} --- ${totalRielMe + totalRielBee}r';
+  String getTotalMonthlyExpenses() =>
+      'Total This Month: \$${totalDollarMe + totalDollarBee}   ·   ${totalRielMe + totalRielBee}r';
 
-  static String collection = Collection.totalExpenses.value;
+  String getTotalDailyExpenses() =>
+      'Total Today: \$${totalDollarMe + totalDollarBee}   ·   ${totalRielMe + totalRielBee}r';
+
+  static String collectionMonthly = Collection.totalExpenses.value;
+  static String collectionDaily = Collection.dailyExpenses.value;
   static const String idField = 'id';
   static const String totalDollarMeField = 'total_dollar_me';
   static const String totalDollarBeeField = 'total_dollar_bee';
@@ -37,7 +41,7 @@ class TotalExpenses {
   static const String dateField = 'date';
   static const String lastUpdateField = 'last_update';
 
-  static Map<String, Object?> toUpdateJson(PurchaseItem item) => {
+  static Map<String, Object?> toUpdateIncrementJson(PurchaseItem item) => {
         totalDollarMeField: FieldValue.increment(item.dollarMe),
         totalDollarBeeField: FieldValue.increment(item.dollarBee),
         totalRielMeField: FieldValue.increment(item.rielMe),
@@ -45,14 +49,24 @@ class TotalExpenses {
         lastUpdateField: item.date,
       };
 
+  static Map<String, Object?> toUpdateDecrementJson(PurchaseItem item) => {
+    totalDollarMeField: FieldValue.increment(-item.dollarMe),
+    totalDollarBeeField: FieldValue.increment(-item.dollarBee),
+    totalRielMeField: FieldValue.increment(-item.rielMe),
+    totalRielBeeField: FieldValue.increment(-item.rielBee),
+    lastUpdateField: item.date,
+  };
+
   TotalExpenses.fromJson(Map<String, Object?> json)
       : this(
-            id: json[idField] as int,
-            totalDollarMe: json[totalDollarMeField] as double,
-            totalDollarBee: json[totalDollarBeeField] as double,
-            totalRielMe: json[totalRielMeField] as int,
-            totalRielBee: json[totalRielBeeField] as int,
-            date: json[dateField] as Timestamp);
+          id: json[idField] as String,
+          totalDollarMe: json[totalDollarMeField] as double,
+          totalDollarBee: json[totalDollarBeeField] as double,
+          totalRielMe: json[totalRielMeField] as int,
+          totalRielBee: json[totalRielBeeField] as int,
+          date: json[dateField] as Timestamp,
+          lastUpdate: json[lastUpdateField] as Timestamp,
+        );
 
   Map<String, Object?> toJson() => {
         idField: id,

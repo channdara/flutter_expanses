@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expenses/src/common/extension/context_extension.dart';
 import 'package:expenses/src/common/extension/double_extension.dart';
 import 'package:expenses/src/common/extension/string_extension.dart';
 import 'package:expenses/src/common/extension/timestamp_extension.dart';
@@ -10,14 +11,22 @@ import 'package:expenses/src/ui/widget/elevated_button_widget.dart';
 import 'package:expenses/src/ui/widget/text_form_field_widget.dart';
 import 'package:flutter/material.dart';
 
-class AddExpensesScreen extends StatefulWidget {
-  const AddExpensesScreen({Key? key}) : super(key: key);
+class AddItemScreen extends StatefulWidget {
+  const AddItemScreen({Key? key, this.item}) : super(key: key);
+
+  final PurchaseItem? item;
+
+  bool get isAddAction => item == null;
+
+  String get appBarTitle => isAddAction ? 'Take Note' : 'Edit Note';
+
+  String get buttonText => isAddAction ? 'Add' : 'Update';
 
   @override
-  State<AddExpensesScreen> createState() => _AddExpensesScreenState();
+  State<AddItemScreen> createState() => _AddItemScreenState();
 }
 
-class _AddExpensesScreenState extends State<AddExpensesScreen>
+class _AddItemScreenState extends State<AddItemScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late TextEditingController _itemController;
@@ -29,13 +38,18 @@ class _AddExpensesScreenState extends State<AddExpensesScreen>
 
   @override
   void initState() {
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: ItemType.values.length, vsync: this);
+    if (!widget.isAddAction) _tabController.animateTo(widget.item!.type.value);
     _tabController.addListener(_handleTabListener);
-    _itemController = TextEditingController();
-    _dMeController = TextEditingController();
-    _rMeController = TextEditingController();
-    _dBeeController = TextEditingController();
-    _rBeeController = TextEditingController();
+    _itemController = TextEditingController(text: widget.item?.name);
+    _dMeController =
+        TextEditingController(text: widget.item?.dollarMe.toString());
+    _rMeController =
+        TextEditingController(text: widget.item?.rielMe.toString());
+    _dBeeController =
+        TextEditingController(text: widget.item?.dollarBee.toString());
+    _rBeeController =
+        TextEditingController(text: widget.item?.rielBee.toString());
     _itemFocusNode = FocusNode();
     super.initState();
   }
@@ -70,7 +84,7 @@ class _AddExpensesScreenState extends State<AddExpensesScreen>
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      appBar: AppBar(title: const Text('Take Note')),
+      appBar: AppBar(title: Text(widget.appBarTitle)),
       body: SingleChildScrollView(
         padding: 16.0.spacingAll(),
         child: Column(
@@ -96,11 +110,9 @@ class _AddExpensesScreenState extends State<AddExpensesScreen>
                   color: Theme.of(context).primaryColor,
                 ),
                 unselectedLabelColor: Colors.grey.shade700,
-                tabs: const [
-                  Tab(text: 'Me'),
-                  Tab(text: 'Bee'),
-                  Tab(text: 'Both'),
-                ],
+                tabs: ItemType.values
+                    .map((e) => Tab(text: e.name.toCapitalized()))
+                    .toList(),
               ),
             ),
             if (_tabController.index == 0 || _tabController.index == 2)
@@ -154,38 +166,82 @@ class _AddExpensesScreenState extends State<AddExpensesScreen>
               ),
             ElevatedButtonWidget(
               margin: 32.0.spacingTop(),
-              label: 'Add',
+              label: widget.buttonText,
               onPressed: () {
                 if (_itemController.text.isEmpty) return;
                 final timestamp = Timestamp.now();
-                final dMe = _dMeController.text.trim().toDouble();
-                final dBee = _dBeeController.text.trim().toDouble();
-                final rMe = _rMeController.text.trim().toInt();
-                final rBee = _rBeeController.text.trim().toInt();
-                final item = PurchaseItem(
-                  id: timestamp.seconds,
-                  name: _itemController.text.trim(),
-                  type: ItemType.getValueByIndex(_tabController.index),
-                  dollarMe: dMe,
-                  dollarBee: dBee,
-                  rielMe: rMe,
-                  rielBee: rBee,
-                  date: timestamp,
-                );
-                FirebaseFirestore.instance
-                    .collection(TotalExpenses.collection)
-                    .doc(timestamp.toYM())
-                    .update(TotalExpenses.toUpdateJson(item));
-                FirebaseFirestore.instance
-                    .collection(PurchaseItem.collection)
-                    .doc(timestamp.seconds.toString())
-                    .set(item.toJson())
-                    .whenComplete(() => _clearController());
+                final newItem = _createPurchaseItem(timestamp);
+                if (widget.isAddAction) {
+                  _addPurchaseItem(timestamp, newItem);
+                  _clearController();
+                  return;
+                }
+                _updatePurchasedItem(timestamp, widget.item!, newItem);
+                context.pop();
               },
             ),
           ],
         ),
       ),
     );
+  }
+
+  PurchaseItem _createPurchaseItem(Timestamp timestamp) {
+    final dMe = _dMeController.text.trim().toDouble();
+    final dBee = _dBeeController.text.trim().toDouble();
+    final rMe = _rMeController.text.trim().toInt();
+    final rBee = _rBeeController.text.trim().toInt();
+    return PurchaseItem(
+      id: timestamp.seconds,
+      name: _itemController.text.trim(),
+      type: ItemType.getItemType(_tabController.index),
+      dollarMe: dMe,
+      dollarBee: dBee,
+      rielMe: rMe,
+      rielBee: rBee,
+      date: timestamp,
+    );
+  }
+
+  void _addPurchaseItem(Timestamp timestamp, PurchaseItem item) {
+    FirebaseFirestore.instance
+        .collection(TotalExpenses.collectionDaily)
+        .doc(timestamp.toYearMonthDay())
+        .collection(PurchaseItem.collection)
+        .doc(timestamp.seconds.toString())
+        .set(item.toJson());
+    FirebaseFirestore.instance
+        .collection(TotalExpenses.collectionMonthly)
+        .doc(timestamp.toYearMonth())
+        .update(TotalExpenses.toUpdateIncrementJson(item));
+    FirebaseFirestore.instance
+        .collection(TotalExpenses.collectionDaily)
+        .doc(timestamp.toYearMonthDay())
+        .update(TotalExpenses.toUpdateIncrementJson(item));
+  }
+
+  void _updatePurchasedItem(
+    Timestamp timestamp,
+    PurchaseItem oldItem,
+    PurchaseItem newItem,
+  ) {
+    FirebaseFirestore.instance
+        .collection(TotalExpenses.collectionDaily)
+        .doc(timestamp.toYearMonthDay())
+        .collection(PurchaseItem.collection)
+        .doc(oldItem.id.toString())
+        .update(newItem.toUpdateJson());
+    final monthlyDoc = FirebaseFirestore.instance
+        .collection(TotalExpenses.collectionMonthly)
+        .doc(timestamp.toYearMonth());
+    final dailyDoc = FirebaseFirestore.instance
+        .collection(TotalExpenses.collectionDaily)
+        .doc(timestamp.toYearMonthDay());
+    monthlyDoc
+        .update(TotalExpenses.toUpdateDecrementJson(oldItem))
+        .whenComplete(() =>
+            monthlyDoc.update(TotalExpenses.toUpdateIncrementJson(newItem)));
+    dailyDoc.update(TotalExpenses.toUpdateDecrementJson(oldItem)).whenComplete(
+        () => dailyDoc.update(TotalExpenses.toUpdateIncrementJson(newItem)));
   }
 }

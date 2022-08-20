@@ -31,7 +31,7 @@ class PurchaseItem {
       case ItemType.bee:
         return '\$$dollarBee     |     ${rielBee}r';
       default:
-        return '\$$dollarMe --- ${rielMe}r     |     \$$dollarBee --- ${rielBee}r';
+        return '\$$dollarMe   ·   ${rielMe}r     |     \$$dollarBee   ·   ${rielBee}r';
     }
   }
 
@@ -44,11 +44,6 @@ class PurchaseItem {
       default:
         return const Icon(Icons.people, color: Colors.green);
     }
-  }
-
-  String getDisplayDate() {
-    final newDate = date?.toDate();
-    return '${newDate?.day}/${newDate?.month} \n${newDate?.hour}:${newDate?.second}';
   }
 
   static String collection = Collection.purchaseItems.value;
@@ -64,12 +59,12 @@ class PurchaseItem {
   PurchaseItem.fromJson(Map<String, Object?> json)
       : this(
           id: json[idField] as int,
-          name: json[nameField].toString(),
-          type: ItemType.getValueBy(int.parse(json[typeField].toString())),
-          dollarMe: double.parse(json[dollarMeField].toString()),
-          dollarBee: double.parse(json[dollarBeeField].toString()),
-          rielMe: int.parse(json[rielMeField].toString()),
-          rielBee: int.parse(json[rielBeeField].toString()),
+          name: json[nameField] as String,
+          type: ItemType.getItemType(json[typeField] as int),
+          dollarMe: json[dollarMeField] as double,
+          dollarBee: json[dollarBeeField] as double,
+          rielMe: json[rielMeField] as int,
+          rielBee: json[rielBeeField] as int,
           date: json[dateField] as Timestamp,
         );
 
@@ -82,5 +77,14 @@ class PurchaseItem {
         rielMeField: rielMe,
         rielBeeField: rielBee,
         dateField: date,
+      };
+
+  Map<String, Object?> toUpdateJson() => {
+        nameField: name,
+        typeField: type.value,
+        dollarMeField: dollarMe,
+        dollarBeeField: dollarBee,
+        rielMeField: rielMe,
+        rielBeeField: rielBee,
       };
 }
