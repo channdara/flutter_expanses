@@ -8,7 +8,7 @@ import '../widget/monthly_expenses/monthly_expenses_list_widget.dart';
 class MonthlyExpensesScreen extends StatefulWidget {
   const MonthlyExpensesScreen({super.key});
 
-  String get appBarTitle => 'Expenses on: ${Timestamp.now().toYearMonth()}';
+  String get appBarTitle => 'Expenses on: ${Timestamp.now().year}';
 
   @override
   State<MonthlyExpensesScreen> createState() => _MonthlyExpensesScreenState();

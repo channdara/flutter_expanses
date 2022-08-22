@@ -41,9 +41,9 @@ class ItemModel extends BaseModel {
   String getDisplayAmount() {
     switch (type) {
       case ItemType.me:
-        return '\$$dollarMe     |     ${rielMe}r';
+        return '\$$dollarMe   ·   ${rielMe}r';
       case ItemType.bee:
-        return '\$$dollarBee     |     ${rielBee}r';
+        return '\$$dollarBee   ·   ${rielBee}r';
       default:
         return '\$$dollarMe   ·   ${rielMe}r     |     \$$dollarBee   ·   ${rielBee}r';
     }

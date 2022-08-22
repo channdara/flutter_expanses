@@ -7,16 +7,16 @@ import '../../common/extension/timestamp_extension.dart';
 import '../widget/purchase_items/purchase_items_list_widget.dart';
 import 'add_item_screen.dart';
 
-class PurchaseItemsScreen extends StatefulWidget {
-  const PurchaseItemsScreen({super.key});
+class PurchasedItemsScreen extends StatefulWidget {
+  const PurchasedItemsScreen({super.key});
 
   String get appBarTitle => 'Expenses on: ${Timestamp.now().toYearMonthDay()}';
 
   @override
-  State<PurchaseItemsScreen> createState() => _PurchaseItemsScreenState();
+  State<PurchasedItemsScreen> createState() => _PurchasedItemsScreenState();
 }
 
-class _PurchaseItemsScreenState extends BaseState<PurchaseItemsScreen> {
+class _PurchasedItemsScreenState extends BaseState<PurchasedItemsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

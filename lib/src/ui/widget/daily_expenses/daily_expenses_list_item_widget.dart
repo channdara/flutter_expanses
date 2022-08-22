@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../common/extension/context_extension.dart';
 import '../../../common/extension/timestamp_extension.dart';
 import '../../../model/day_model.dart';
-import '../../screen/purchase_items_screen.dart';
+import '../../screen/purchased_items_screen.dart';
 
 class DailyExpensesListItemWidget extends StatelessWidget {
   const DailyExpensesListItemWidget({
@@ -32,7 +32,7 @@ class DailyExpensesListItemWidget extends StatelessWidget {
         Icons.keyboard_arrow_right,
         color: Colors.red,
       ),
-      onTap: () => context.push(const PurchaseItemsScreen()),
+      onTap: () => context.push(const PurchasedItemsScreen()),
     );
   }
 }

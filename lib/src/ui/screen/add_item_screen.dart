@@ -51,6 +51,7 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
     _rBeeController =
         TextEditingController(text: widget.item?.rielBee.toString());
     _itemFocusNode = FocusNode();
+    _itemFocusNode.requestFocus();
     super.initState();
   }
 
