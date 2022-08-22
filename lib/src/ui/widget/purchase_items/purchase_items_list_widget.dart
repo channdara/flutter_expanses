@@ -1,14 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expenses/src/common/extension/double_extension.dart';
-import 'package:expenses/src/model/item_model.dart';
-import 'package:expenses/src/ui/widget/purchase_items/purchase_items_list_item_widget.dart';
 import 'package:flutter/material.dart';
+
+import '../../../common/extension/double_extension.dart';
+import '../../../model/item_model.dart';
+import 'purchase_items_list_item_widget.dart';
 
 class PurchaseItemsListWidget extends StatelessWidget {
   const PurchaseItemsListWidget({
-    Key? key,
+    super.key,
     required this.docs,
-  }) : super(key: key);
+  });
 
   final List<QueryDocumentSnapshot> docs;
 
@@ -19,7 +20,7 @@ class PurchaseItemsListWidget extends StatelessWidget {
       itemCount: docs.length,
       itemBuilder: (context, index) {
         final data = docs[index].data();
-        final item = ItemModel.fromJson(data as Map<String, dynamic>);
+        final item = ItemModel.fromJson(data! as Map<String, Object>);
         return PurchaseItemListItemWidget(item: item);
       },
     );

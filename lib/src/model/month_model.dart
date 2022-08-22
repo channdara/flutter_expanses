@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expenses/src/common/base/base_model.dart';
-import 'package:expenses/src/model/enum/field.dart';
+
+import '../common/base/base_model.dart';
+import 'enum/field.dart';
 
 class MonthModel extends BaseModel {
   MonthModel({
@@ -11,6 +12,16 @@ class MonthModel extends BaseModel {
     this.totalRielMe = 0,
     this.totalRielBee = 0,
   });
+
+  MonthModel.fromJson(Map<String, Object> json)
+      : this(
+          id: json[Field.id.name]! as int,
+          date: json[Field.date.name]! as Timestamp,
+          totalDollarMe: json[Field.total_dollar_me.name]! as double,
+          totalDollarBee: json[Field.total_dollar_bee.name]! as double,
+          totalRielMe: json[Field.total_riel_me.name]! as int,
+          totalRielBee: json[Field.total_riel_bee.name]! as int,
+        );
 
   final int id;
   final Timestamp date;
@@ -25,16 +36,6 @@ class MonthModel extends BaseModel {
 
   String get getTotalMonthlyExpenses =>
       'Total This Month: \$${totalDollarMe + totalDollarBee}   ·   ${totalRielMe + totalRielBee}r';
-
-  MonthModel.fromJson(Map<String, Object?> json)
-      : this(
-          id: json[Field.id.name] as int,
-          date: json[Field.date.name] as Timestamp,
-          totalDollarMe: json[Field.total_dollar_me.name] as double,
-          totalDollarBee: json[Field.total_dollar_bee.name] as double,
-          totalRielMe: json[Field.total_riel_me.name] as int,
-          totalRielBee: json[Field.total_riel_bee.name] as int,
-        );
 
   @override
   Map<String, Object?> toJson() => {

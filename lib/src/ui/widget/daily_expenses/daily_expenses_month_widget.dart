@@ -1,14 +1,15 @@
-import 'package:expenses/src/common/extension/context_extension.dart';
-import 'package:expenses/src/common/extension/double_extension.dart';
-import 'package:expenses/src/model/month_model.dart';
-import 'package:expenses/src/ui/screen/monthly_expenses_screen.dart';
 import 'package:flutter/material.dart';
+
+import '../../../common/extension/context_extension.dart';
+import '../../../common/extension/double_extension.dart';
+import '../../../model/month_model.dart';
+import '../../screen/monthly_expenses_screen.dart';
 
 class DailyExpensesMonthWidget extends StatelessWidget {
   const DailyExpensesMonthWidget({
-    Key? key,
+    super.key,
     required this.item,
-  }) : super(key: key);
+  });
 
   final MonthModel item;
 

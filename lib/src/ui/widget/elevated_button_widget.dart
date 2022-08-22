@@ -1,13 +1,14 @@
-import 'package:expenses/src/common/extension/double_extension.dart';
 import 'package:flutter/material.dart';
+
+import '../../common/extension/double_extension.dart';
 
 class ElevatedButtonWidget extends StatelessWidget {
   const ElevatedButtonWidget({
-    Key? key,
+    super.key,
     required this.onPressed,
     this.label,
     this.margin,
-  }) : super(key: key);
+  });
 
   final String? label;
   final VoidCallback? onPressed;

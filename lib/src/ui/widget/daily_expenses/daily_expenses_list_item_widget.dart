@@ -1,14 +1,15 @@
-import 'package:expenses/src/common/extension/context_extension.dart';
-import 'package:expenses/src/common/extension/timestamp_extension.dart';
-import 'package:expenses/src/model/day_model.dart';
-import 'package:expenses/src/ui/screen/purchase_items_screen.dart';
 import 'package:flutter/material.dart';
+
+import '../../../common/extension/context_extension.dart';
+import '../../../common/extension/timestamp_extension.dart';
+import '../../../model/day_model.dart';
+import '../../screen/purchase_items_screen.dart';
 
 class DailyExpensesListItemWidget extends StatelessWidget {
   const DailyExpensesListItemWidget({
-    Key? key,
+    super.key,
     required this.item,
-  }) : super(key: key);
+  });
 
   final DayModel item;
 

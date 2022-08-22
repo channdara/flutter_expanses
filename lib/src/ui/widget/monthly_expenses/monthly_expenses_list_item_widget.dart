@@ -1,12 +1,13 @@
-import 'package:expenses/src/common/extension/timestamp_extension.dart';
-import 'package:expenses/src/model/month_model.dart';
 import 'package:flutter/material.dart';
+
+import '../../../common/extension/timestamp_extension.dart';
+import '../../../model/month_model.dart';
 
 class MonthlyExpensesListItemWidget extends StatelessWidget {
   const MonthlyExpensesListItemWidget({
-    Key? key,
+    super.key,
     required this.item,
-  }) : super(key: key);
+  });
 
   final MonthModel item;
 

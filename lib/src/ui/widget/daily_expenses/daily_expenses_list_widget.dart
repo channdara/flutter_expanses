@@ -1,14 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expenses/src/common/extension/double_extension.dart';
-import 'package:expenses/src/model/day_model.dart';
-import 'package:expenses/src/ui/widget/daily_expenses/daily_expenses_list_item_widget.dart';
 import 'package:flutter/material.dart';
+
+import '../../../common/extension/double_extension.dart';
+import '../../../model/day_model.dart';
+import 'daily_expenses_list_item_widget.dart';
 
 class DailyExpensesListWidget extends StatelessWidget {
   const DailyExpensesListWidget({
-    Key? key,
+    super.key,
     required this.docs,
-  }) : super(key: key);
+  });
 
   final List<QueryDocumentSnapshot> docs;
 
@@ -20,7 +21,7 @@ class DailyExpensesListWidget extends StatelessWidget {
       itemCount: docs.length,
       itemBuilder: (context, index) {
         final data = docs[index].data();
-        final item = DayModel.fromJson(data as Map<String, dynamic>);
+        final item = DayModel.fromJson(data! as Map<String, Object>);
         return DailyExpensesListItemWidget(item: item);
       },
     );

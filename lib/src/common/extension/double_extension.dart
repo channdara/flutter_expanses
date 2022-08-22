@@ -20,7 +20,7 @@ extension DoubleExtension on double {
 
 extension ListDoubleExtension on List<double> {
   EdgeInsets spacingLTRB() {
-    if (length < 4) throw "List size must be equal 4";
+    if (length < 4) throw Exception('List size must be equal 4');
     return EdgeInsets.fromLTRB(this[0], this[1], this[2], this[3]);
   }
 }

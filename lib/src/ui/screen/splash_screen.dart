@@ -1,10 +1,11 @@
-import 'package:expenses/src/common/base/base_state.dart';
-import 'package:expenses/src/common/extension/context_extension.dart';
-import 'package:expenses/src/ui/screen/daily_expenses_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../../common/base/base_state.dart';
+import '../../common/extension/context_extension.dart';
+import 'daily_expenses_screen.dart';
+
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();

@@ -1,13 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expenses/src/common/base/base_state.dart';
-import 'package:expenses/src/common/extension/context_extension.dart';
-import 'package:expenses/src/common/extension/timestamp_extension.dart';
-import 'package:expenses/src/ui/screen/add_item_screen.dart';
-import 'package:expenses/src/ui/widget/purchase_items/purchase_items_list_widget.dart';
 import 'package:flutter/material.dart';
 
+import '../../common/base/base_state.dart';
+import '../../common/extension/context_extension.dart';
+import '../../common/extension/timestamp_extension.dart';
+import '../widget/purchase_items/purchase_items_list_widget.dart';
+import 'add_item_screen.dart';
+
 class PurchaseItemsScreen extends StatefulWidget {
-  const PurchaseItemsScreen({Key? key}) : super(key: key);
+  const PurchaseItemsScreen({super.key});
 
   String get appBarTitle => 'Expenses on: ${Timestamp.now().toYearMonthDay()}';
 

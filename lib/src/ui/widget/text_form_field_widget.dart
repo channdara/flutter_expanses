@@ -1,9 +1,10 @@
-import 'package:expenses/src/common/extension/double_extension.dart';
 import 'package:flutter/material.dart';
+
+import '../../common/extension/double_extension.dart';
 
 class TextFormFieldWidget extends StatelessWidget {
   const TextFormFieldWidget({
-    Key? key,
+    super.key,
     this.labelText,
     this.prefixIcon,
     this.controller,
@@ -11,7 +12,7 @@ class TextFormFieldWidget extends StatelessWidget {
     this.keyboardType,
     this.validator,
     this.textCapitalization,
-  }) : super(key: key);
+  });
 
   final String? labelText;
   final Widget? prefixIcon;

@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expenses/src/common/base/base_model.dart';
-import 'package:expenses/src/model/enum/field.dart';
-import 'package:expenses/src/model/enum/item_type.dart';
 import 'package:flutter/material.dart';
+
+import '../common/base/base_model.dart';
+import 'enum/field.dart';
+import 'enum/item_type.dart';
 
 class ItemModel extends BaseModel {
   ItemModel({
@@ -15,6 +16,18 @@ class ItemModel extends BaseModel {
     this.rielMe = 0,
     this.rielBee = 0,
   });
+
+  ItemModel.fromJson(Map<String, Object> json)
+      : this(
+          id: json[Field.id.name]! as int,
+          date: json[Field.date.name]! as Timestamp,
+          content: json[Field.content.name]! as String,
+          type: ItemType.getItemType(json[Field.type.name]! as int),
+          dollarMe: json[Field.dollar_me.name]! as double,
+          dollarBee: json[Field.dollar_bee.name]! as double,
+          rielMe: json[Field.riel_me.name]! as int,
+          rielBee: json[Field.riel_bee.name]! as int,
+        );
 
   final int id;
   final Timestamp date;
@@ -61,18 +74,6 @@ class ItemModel extends BaseModel {
           isIncrement ? rielBee : -rielBee,
         ),
       };
-
-  ItemModel.fromJson(Map<String, Object?> json)
-      : this(
-          id: json[Field.id.name] as int,
-          date: json[Field.date.name] as Timestamp,
-          content: json[Field.content.name] as String,
-          type: ItemType.getItemType(json[Field.type.name] as int),
-          dollarMe: json[Field.dollar_me.name] as double,
-          dollarBee: json[Field.dollar_bee.name] as double,
-          rielMe: json[Field.riel_me.name] as int,
-          rielBee: json[Field.riel_bee.name] as int,
-        );
 
   @override
   Map<String, Object?> toJson() => {

@@ -1,17 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expenses/src/common/base/base_state.dart';
-import 'package:expenses/src/common/extension/context_extension.dart';
-import 'package:expenses/src/common/extension/double_extension.dart';
-import 'package:expenses/src/common/extension/string_extension.dart';
-import 'package:expenses/src/model/enum/item_type.dart';
-import 'package:expenses/src/model/item_model.dart';
-import 'package:expenses/src/ui/widget/base_scaffold.dart';
-import 'package:expenses/src/ui/widget/elevated_button_widget.dart';
-import 'package:expenses/src/ui/widget/text_form_field_widget.dart';
 import 'package:flutter/material.dart';
 
+import '../../common/base/base_state.dart';
+import '../../common/extension/context_extension.dart';
+import '../../common/extension/double_extension.dart';
+import '../../common/extension/string_extension.dart';
+import '../../model/enum/item_type.dart';
+import '../../model/item_model.dart';
+import '../widget/base_scaffold.dart';
+import '../widget/elevated_button_widget.dart';
+import '../widget/text_form_field_widget.dart';
+
 class AddItemScreen extends StatefulWidget {
-  const AddItemScreen({Key? key, this.item}) : super(key: key);
+  const AddItemScreen({super.key, this.item});
 
   final ItemModel? item;
 

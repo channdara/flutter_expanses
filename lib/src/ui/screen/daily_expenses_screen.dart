@@ -1,14 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expenses/src/common/base/base_state.dart';
-import 'package:expenses/src/common/extension/context_extension.dart';
-import 'package:expenses/src/model/month_model.dart';
-import 'package:expenses/src/ui/screen/add_item_screen.dart';
-import 'package:expenses/src/ui/widget/daily_expenses/daily_expenses_list_widget.dart';
-import 'package:expenses/src/ui/widget/daily_expenses/daily_expenses_month_widget.dart';
 import 'package:flutter/material.dart';
 
+import '../../common/base/base_state.dart';
+import '../../common/extension/context_extension.dart';
+import '../../model/month_model.dart';
+import '../widget/daily_expenses/daily_expenses_list_widget.dart';
+import '../widget/daily_expenses/daily_expenses_month_widget.dart';
+import 'add_item_screen.dart';
+
 class DailyExpensesScreen extends StatefulWidget {
-  const DailyExpensesScreen({Key? key}) : super(key: key);
+  const DailyExpensesScreen({super.key});
 
   @override
   State<DailyExpensesScreen> createState() => _DailyExpensesScreenState();
@@ -30,7 +31,7 @@ class _DailyExpensesScreenState extends BaseState<DailyExpensesScreen> {
             builder: (context, snapshot) {
               if (snapshot.data == null) return const SizedBox();
               final data = snapshot.data!.data();
-              final item = MonthModel.fromJson(data as Map<String, dynamic>);
+              final item = MonthModel.fromJson(data! as Map<String, Object>);
               return DailyExpensesMonthWidget(item: item);
             },
           ),

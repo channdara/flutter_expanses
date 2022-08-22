@@ -1,20 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expenses/src/common/extension/timestamp_extension.dart';
-import 'package:expenses/src/model/day_model.dart';
-import 'package:expenses/src/model/enum/collection.dart';
-import 'package:expenses/src/model/enum/field.dart';
-import 'package:expenses/src/model/item_model.dart';
-import 'package:expenses/src/model/month_model.dart';
-import 'package:expenses/src/model/year_model.dart';
+
+import '../common/extension/timestamp_extension.dart';
+import '../model/day_model.dart';
+import '../model/enum/collection.dart';
+import '../model/enum/field.dart';
+import '../model/item_model.dart';
+import '../model/month_model.dart';
+import '../model/year_model.dart';
 
 class FirestoreService {
-  static final FirestoreService _singleton = FirestoreService._internal();
-
   factory FirestoreService() {
     return _singleton;
   }
 
   FirestoreService._internal();
+
+  static final FirestoreService _singleton = FirestoreService._internal();
 
   Timestamp get _timestamp => Timestamp.now();
 

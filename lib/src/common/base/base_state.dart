@@ -1,5 +1,6 @@
-import 'package:expenses/src/service/firestore_service.dart';
 import 'package:flutter/widgets.dart';
+
+import '../../service/firestore_service.dart';
 
 abstract class BaseState<T extends StatefulWidget> extends State<T> {
   @protected

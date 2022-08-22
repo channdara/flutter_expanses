@@ -1,14 +1,15 @@
-import 'package:expenses/src/common/extension/context_extension.dart';
-import 'package:expenses/src/common/extension/timestamp_extension.dart';
-import 'package:expenses/src/model/item_model.dart';
-import 'package:expenses/src/ui/screen/add_item_screen.dart';
 import 'package:flutter/material.dart';
+
+import '../../../common/extension/context_extension.dart';
+import '../../../common/extension/timestamp_extension.dart';
+import '../../../model/item_model.dart';
+import '../../screen/add_item_screen.dart';
 
 class PurchaseItemListItemWidget extends StatelessWidget {
   const PurchaseItemListItemWidget({
-    Key? key,
+    super.key,
     required this.item,
-  }) : super(key: key);
+  });
 
   final ItemModel item;
 

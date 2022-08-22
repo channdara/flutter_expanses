@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expenses/src/common/base/base_state.dart';
-import 'package:expenses/src/common/extension/timestamp_extension.dart';
-import 'package:expenses/src/ui/widget/monthly_expenses/monthly_expenses_list_widget.dart';
 import 'package:flutter/material.dart';
 
+import '../../common/base/base_state.dart';
+import '../../common/extension/timestamp_extension.dart';
+import '../widget/monthly_expenses/monthly_expenses_list_widget.dart';
+
 class MonthlyExpensesScreen extends StatefulWidget {
-  const MonthlyExpensesScreen({Key? key}) : super(key: key);
+  const MonthlyExpensesScreen({super.key});
 
   String get appBarTitle => 'Expenses on: ${Timestamp.now().toYearMonth()}';
 
