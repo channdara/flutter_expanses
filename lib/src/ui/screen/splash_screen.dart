@@ -15,11 +15,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    _service.checkCurrentDate().whenComplete(() => _next());
+    _service
+        .checkCurrentDate()
+        .whenComplete(() => context.pushClearTop(const DailyExpensesScreen()));
     super.initState();
   }
-
-  void _next() => context.pushClearTop(const DailyExpensesScreen());
 
   @override
   Widget build(BuildContext context) {
