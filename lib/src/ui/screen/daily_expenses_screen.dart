@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expenses/src/common/base/base_state.dart';
 import 'package:expenses/src/common/extension/context_extension.dart';
 import 'package:expenses/src/model/month_model.dart';
-import 'package:expenses/src/service/firestore_service.dart';
 import 'package:expenses/src/ui/screen/add_item_screen.dart';
 import 'package:expenses/src/ui/widget/daily_expenses/daily_expenses_list_widget.dart';
 import 'package:expenses/src/ui/widget/daily_expenses/daily_expenses_month_widget.dart';
@@ -14,9 +14,7 @@ class DailyExpensesScreen extends StatefulWidget {
   State<DailyExpensesScreen> createState() => _DailyExpensesScreenState();
 }
 
-class _DailyExpensesScreenState extends State<DailyExpensesScreen> {
-  final FirestoreService _service = FirestoreService();
-
+class _DailyExpensesScreenState extends BaseState<DailyExpensesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +26,7 @@ class _DailyExpensesScreenState extends State<DailyExpensesScreen> {
       body: Column(
         children: [
           StreamBuilder<DocumentSnapshot>(
-            stream: _service.monthDocumentSnapshot,
+            stream: firebaseService.monthDocumentSnapshot,
             builder: (context, snapshot) {
               if (snapshot.data == null) return const SizedBox();
               final data = snapshot.data!.data();
@@ -37,7 +35,7 @@ class _DailyExpensesScreenState extends State<DailyExpensesScreen> {
             },
           ),
           StreamBuilder<QuerySnapshot>(
-            stream: _service.dayQuerySnapshot,
+            stream: firebaseService.dayQuerySnapshot,
             builder: (context, snapshot) {
               if (snapshot.data == null) return const SizedBox();
               return DailyExpensesListWidget(docs: snapshot.data!.docs);

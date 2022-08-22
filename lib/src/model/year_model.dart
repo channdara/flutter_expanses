@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expenses/src/model/base_model.dart';
+import 'package:expenses/src/common/base/base_model.dart';
 import 'package:expenses/src/model/enum/field.dart';
 
 class YearModel extends BaseModel {

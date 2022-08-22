@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expenses/src/common/base/base_state.dart';
 import 'package:expenses/src/common/extension/context_extension.dart';
 import 'package:expenses/src/common/extension/timestamp_extension.dart';
-import 'package:expenses/src/service/firestore_service.dart';
 import 'package:expenses/src/ui/screen/add_item_screen.dart';
 import 'package:expenses/src/ui/widget/purchase_items/purchase_items_list_widget.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +15,7 @@ class PurchaseItemsScreen extends StatefulWidget {
   State<PurchaseItemsScreen> createState() => _PurchaseItemsScreenState();
 }
 
-class _PurchaseItemsScreenState extends State<PurchaseItemsScreen> {
-  final FirestoreService _service = FirestoreService();
-
+class _PurchaseItemsScreenState extends BaseState<PurchaseItemsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +25,7 @@ class _PurchaseItemsScreenState extends State<PurchaseItemsScreen> {
         onPressed: () => context.push(const AddItemScreen()),
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: _service.itemQuerySnapshot,
+        stream: firebaseService.itemQuerySnapshot,
         builder: (context, snapshot) {
           if (snapshot.data == null) return const SizedBox();
           return PurchaseItemsListWidget(docs: snapshot.data!.docs);

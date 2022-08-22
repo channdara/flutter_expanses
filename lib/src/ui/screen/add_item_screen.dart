@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expenses/src/common/base/base_state.dart';
 import 'package:expenses/src/common/extension/context_extension.dart';
 import 'package:expenses/src/common/extension/double_extension.dart';
 import 'package:expenses/src/common/extension/string_extension.dart';
 import 'package:expenses/src/model/enum/item_type.dart';
 import 'package:expenses/src/model/item_model.dart';
-import 'package:expenses/src/service/firestore_service.dart';
 import 'package:expenses/src/ui/widget/base_scaffold.dart';
 import 'package:expenses/src/ui/widget/elevated_button_widget.dart';
 import 'package:expenses/src/ui/widget/text_form_field_widget.dart';
@@ -25,9 +25,8 @@ class AddItemScreen extends StatefulWidget {
   State<AddItemScreen> createState() => _AddItemScreenState();
 }
 
-class _AddItemScreenState extends State<AddItemScreen>
+class _AddItemScreenState extends BaseState<AddItemScreen>
     with SingleTickerProviderStateMixin {
-  final FirestoreService _service = FirestoreService();
   late TabController _tabController;
   late TextEditingController _itemController;
   late TextEditingController _dMeController;
@@ -200,9 +199,9 @@ class _AddItemScreenState extends State<AddItemScreen>
   }
 
   void _addPurchaseItem(ItemModel item) {
-    _service.addItem(item);
-    _service.increaseMonth(item);
-    _service.increaseDay(item);
+    firebaseService.addItem(item);
+    firebaseService.increaseMonth(item);
+    firebaseService.increaseDay(item);
   }
 
   void _updatePurchasedItem(
@@ -210,12 +209,12 @@ class _AddItemScreenState extends State<AddItemScreen>
     ItemModel oldItem,
     ItemModel newItem,
   ) {
-    _service.updateItem(oldItem.id, newItem);
-    _service
+    firebaseService.updateItem(oldItem.id, newItem);
+    firebaseService
         .increaseDay(oldItem, isIncrement: false)
-        .whenComplete(() => _service.increaseDay(newItem));
-    _service
+        .whenComplete(() => firebaseService.increaseDay(newItem));
+    firebaseService
         .increaseMonth(oldItem, isIncrement: false)
-        .whenComplete(() => _service.increaseMonth(newItem));
+        .whenComplete(() => firebaseService.increaseMonth(newItem));
   }
 }
