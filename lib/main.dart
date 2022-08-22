@@ -19,6 +19,9 @@ class MainApp extends StatefulWidget {
 class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: SplashScreen());
+    return MaterialApp(
+      home: const SplashScreen(),
+      theme: ThemeData(fontFamily: 'ProductSan'),
+    );
   }
 }
