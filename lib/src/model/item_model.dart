@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expenses/src/model/base_model.dart';
 import 'package:expenses/src/model/enum/field.dart';
 import 'package:expenses/src/model/enum/item_type.dart';
 import 'package:flutter/material.dart';
 
-class ItemModel {
+class ItemModel extends BaseModel {
   ItemModel({
     required this.id,
     required this.date,
@@ -73,6 +74,7 @@ class ItemModel {
           rielBee: json[Field.riel_bee.name] as int,
         );
 
+  @override
   Map<String, Object?> toJson() => {
         Field.id.name: id,
         Field.date.name: date,

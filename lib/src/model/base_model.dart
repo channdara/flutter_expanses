@@ -1,3 +1,3 @@
 abstract class BaseModel {
-  Map<String, Object?> toJson() => {};
+  Map<String, Object?> toJson();
 }
