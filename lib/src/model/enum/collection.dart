@@ -1,4 +1,6 @@
 enum Collection {
+  // owner('dara'),
+  owner('dara_debug'),
   // purchaseItems('purchase_items'),
   purchaseItems('purchase_items_debug'),
   // dailyExpenses('daily_expenses'),

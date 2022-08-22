@@ -1,23 +1,33 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 extension TimestampExtension on Timestamp {
-  String _getMonth() =>
-      toDate().month < 10 ? '0${toDate().month}' : toDate().month.toString();
+  String getYear() => year.toString();
 
-  String _getDay() =>
-      toDate().day < 10 ? '0${toDate().day}' : toDate().day.toString();
+  String getMonth() => month < 10 ? '0$month' : month.toString();
 
-  String _getHour() =>
-      toDate().hour < 10 ? '0${toDate().hour}' : toDate().hour.toString();
+  String getDay() => day < 10 ? '0$day' : day.toString();
 
-  String _getMinute() =>
-      toDate().minute < 10 ? '0${toDate().minute}' : toDate().minute.toString();
+  String getHour() => hour < 10 ? '0$hour' : hour.toString();
 
-  String toYear() => '${toDate().year}';
+  String getMinute() => minute < 10 ? '0$minute' : minute.toString();
 
-  String toYearMonth() => '${toYear()}-${_getMonth()}';
+  String toYearMonth() => '$year-${getMonth()}';
 
-  String toYearMonthDay() => '${toYearMonth()}-${_getDay()}';
+  String toYearMonthDay() => '${toYearMonth()}-${getDay()}';
 
-  String toHourMinute() => '${_getHour()}:${_getMinute()}';
+  String toMonthDay() => '${getMonth()}-${getDay()}';
+
+  String toHourMinute() => '${getHour()}:${getMinute()}';
+
+  int get year => toDate().year;
+
+  int get month => toDate().month;
+
+  int get day => toDate().day;
+
+  int get hour => toDate().hour;
+
+  int get minute => toDate().minute;
+
+  bool get isToday => toMonthDay() == Timestamp.now().toMonthDay();
 }

@@ -2,48 +2,45 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expenses/src/common/extension/context_extension.dart';
 import 'package:expenses/src/common/extension/double_extension.dart';
 import 'package:expenses/src/common/extension/timestamp_extension.dart';
-import 'package:expenses/src/model/purchase_item.dart';
-import 'package:expenses/src/model/total_expanses.dart';
+import 'package:expenses/src/model/item_model.dart';
+import 'package:expenses/src/service/firestore_service.dart';
 import 'package:expenses/src/ui/screen/add_item_screen.dart';
 import 'package:flutter/material.dart';
 
 class DailyItemsScreen extends StatefulWidget {
   const DailyItemsScreen({Key? key}) : super(key: key);
 
+  String get appBarTitle => 'Expenses on: ${Timestamp.now().toYearMonthDay()}';
+
   @override
   State<DailyItemsScreen> createState() => _DailyItemsScreenState();
 }
 
 class _DailyItemsScreenState extends State<DailyItemsScreen> {
-  final _dailyExpenses = FirebaseFirestore.instance
-      .collection(TotalExpenses.collectionDaily)
-      .doc(Timestamp.now().toYearMonthDay())
-      .collection(PurchaseItem.collection)
-      .orderBy(PurchaseItem.idField, descending: true)
-      .snapshots();
+  final FirestoreService _service = FirestoreService();
 
   @override
   Widget build(BuildContext context) {
-    final appBarText = 'Expenses on: ${Timestamp.now().toYearMonthDay()}';
     return Scaffold(
-      appBar: AppBar(title: Text(appBarText)),
+      appBar: AppBar(title: Text(widget.appBarTitle)),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () => context.push(const AddItemScreen()),
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: _dailyExpenses,
+        stream: _service.itemQuerySnapshot,
         builder: (context, snapshot) {
+          if (snapshot.data == null) return const SizedBox();
           return ListView.builder(
             padding: 70.0.spacingBottom(),
-            itemCount: snapshot.data != null ? snapshot.data!.docs.length : 0,
+            itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) {
               final data = snapshot.data!.docs[index].data();
-              final item = PurchaseItem.fromJson(data as Map<String, dynamic>);
+              final item = ItemModel.fromJson(data as Map<String, dynamic>);
               return ListTile(
                 leading: item.getDisplayIcon(),
                 title: Text(
-                  item.name,
+                  item.content,
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 subtitle: Text(
@@ -51,7 +48,7 @@ class _DailyItemsScreenState extends State<DailyItemsScreen> {
                   style: const TextStyle(fontSize: 12.0),
                 ),
                 trailing: Text(
-                  item.date?.toHourMinute() ?? '',
+                  item.date.toHourMinute(),
                   style: const TextStyle(fontSize: 12.0),
                 ),
                 onTap: () => context.push(AddItemScreen(item: item)),

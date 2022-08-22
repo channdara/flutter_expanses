@@ -2,10 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expenses/src/common/extension/context_extension.dart';
 import 'package:expenses/src/common/extension/double_extension.dart';
 import 'package:expenses/src/common/extension/string_extension.dart';
-import 'package:expenses/src/common/extension/timestamp_extension.dart';
 import 'package:expenses/src/model/enum/item_type.dart';
-import 'package:expenses/src/model/purchase_item.dart';
-import 'package:expenses/src/model/total_expanses.dart';
+import 'package:expenses/src/model/item_model.dart';
+import 'package:expenses/src/service/firestore_service.dart';
 import 'package:expenses/src/ui/widget/base_scaffold.dart';
 import 'package:expenses/src/ui/widget/elevated_button_widget.dart';
 import 'package:expenses/src/ui/widget/text_form_field_widget.dart';
@@ -14,7 +13,7 @@ import 'package:flutter/material.dart';
 class AddItemScreen extends StatefulWidget {
   const AddItemScreen({Key? key, this.item}) : super(key: key);
 
-  final PurchaseItem? item;
+  final ItemModel? item;
 
   bool get isAddAction => item == null;
 
@@ -28,6 +27,7 @@ class AddItemScreen extends StatefulWidget {
 
 class _AddItemScreenState extends State<AddItemScreen>
     with SingleTickerProviderStateMixin {
+  final FirestoreService _service = FirestoreService();
   late TabController _tabController;
   late TextEditingController _itemController;
   late TextEditingController _dMeController;
@@ -41,7 +41,7 @@ class _AddItemScreenState extends State<AddItemScreen>
     _tabController = TabController(length: ItemType.values.length, vsync: this);
     if (!widget.isAddAction) _tabController.animateTo(widget.item!.type.value);
     _tabController.addListener(_handleTabListener);
-    _itemController = TextEditingController(text: widget.item?.name);
+    _itemController = TextEditingController(text: widget.item?.content);
     _dMeController =
         TextEditingController(text: widget.item?.dollarMe.toString());
     _rMeController =
@@ -126,9 +126,7 @@ class _AddItemScreenState extends State<AddItemScreen>
                       keyboardType: TextInputType.number,
                     ),
                   ),
-                  const SizedBox(width: 4.0),
-                  const Text('or'),
-                  const SizedBox(width: 4.0),
+                  const Text(' or '),
                   Expanded(
                     child: TextFormFieldWidget(
                       labelText: 'Riel',
@@ -151,9 +149,7 @@ class _AddItemScreenState extends State<AddItemScreen>
                       keyboardType: TextInputType.number,
                     ),
                   ),
-                  const SizedBox(width: 4.0),
-                  const Text('or'),
-                  const SizedBox(width: 4.0),
+                  const Text(' or '),
                   Expanded(
                     child: TextFormFieldWidget(
                       labelText: 'Riel',
@@ -172,7 +168,7 @@ class _AddItemScreenState extends State<AddItemScreen>
                 final timestamp = Timestamp.now();
                 final newItem = _createPurchaseItem(timestamp);
                 if (widget.isAddAction) {
-                  _addPurchaseItem(timestamp, newItem);
+                  _addPurchaseItem(newItem);
                   _clearController();
                   return;
                 }
@@ -186,14 +182,14 @@ class _AddItemScreenState extends State<AddItemScreen>
     );
   }
 
-  PurchaseItem _createPurchaseItem(Timestamp timestamp) {
+  ItemModel _createPurchaseItem(Timestamp timestamp) {
     final dMe = _dMeController.text.trim().toDouble();
     final dBee = _dBeeController.text.trim().toDouble();
     final rMe = _rMeController.text.trim().toInt();
     final rBee = _rBeeController.text.trim().toInt();
-    return PurchaseItem(
+    return ItemModel(
       id: timestamp.seconds,
-      name: _itemController.text.trim(),
+      content: _itemController.text.trim(),
       type: ItemType.getItemType(_tabController.index),
       dollarMe: dMe,
       dollarBee: dBee,
@@ -203,45 +199,23 @@ class _AddItemScreenState extends State<AddItemScreen>
     );
   }
 
-  void _addPurchaseItem(Timestamp timestamp, PurchaseItem item) {
-    FirebaseFirestore.instance
-        .collection(TotalExpenses.collectionDaily)
-        .doc(timestamp.toYearMonthDay())
-        .collection(PurchaseItem.collection)
-        .doc(timestamp.seconds.toString())
-        .set(item.toJson());
-    FirebaseFirestore.instance
-        .collection(TotalExpenses.collectionMonthly)
-        .doc(timestamp.toYearMonth())
-        .update(TotalExpenses.toUpdateIncrementJson(item));
-    FirebaseFirestore.instance
-        .collection(TotalExpenses.collectionDaily)
-        .doc(timestamp.toYearMonthDay())
-        .update(TotalExpenses.toUpdateIncrementJson(item));
+  void _addPurchaseItem(ItemModel item) {
+    _service.addItem(item);
+    _service.increaseMonth(item);
+    _service.increaseDay(item);
   }
 
   void _updatePurchasedItem(
     Timestamp timestamp,
-    PurchaseItem oldItem,
-    PurchaseItem newItem,
+    ItemModel oldItem,
+    ItemModel newItem,
   ) {
-    FirebaseFirestore.instance
-        .collection(TotalExpenses.collectionDaily)
-        .doc(timestamp.toYearMonthDay())
-        .collection(PurchaseItem.collection)
-        .doc(oldItem.id.toString())
-        .update(newItem.toUpdateJson());
-    final monthlyDoc = FirebaseFirestore.instance
-        .collection(TotalExpenses.collectionMonthly)
-        .doc(timestamp.toYearMonth());
-    final dailyDoc = FirebaseFirestore.instance
-        .collection(TotalExpenses.collectionDaily)
-        .doc(timestamp.toYearMonthDay());
-    monthlyDoc
-        .update(TotalExpenses.toUpdateDecrementJson(oldItem))
-        .whenComplete(() =>
-            monthlyDoc.update(TotalExpenses.toUpdateIncrementJson(newItem)));
-    dailyDoc.update(TotalExpenses.toUpdateDecrementJson(oldItem)).whenComplete(
-        () => dailyDoc.update(TotalExpenses.toUpdateIncrementJson(newItem)));
+    _service.updateItem(oldItem.id, newItem);
+    _service
+        .increaseDay(oldItem, isIncrement: false)
+        .whenComplete(() => _service.increaseDay(newItem));
+    _service
+        .increaseMonth(oldItem, isIncrement: false)
+        .whenComplete(() => _service.increaseMonth(newItem));
   }
 }
