@@ -17,7 +17,7 @@ class ItemModel extends BaseModel {
     this.rielBee = 0,
   });
 
-  ItemModel.fromJson(Map<String, Object> json)
+  ItemModel.fromJson(Map<String, dynamic> json)
       : this(
           id: json[Field.id.name]! as int,
           date: json[Field.date.name]! as Timestamp,

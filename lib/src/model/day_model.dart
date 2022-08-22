@@ -14,7 +14,7 @@ class DayModel extends BaseModel {
     this.totalRielBee = 0,
   });
 
-  DayModel.fromJson(Map<String, Object> json)
+  DayModel.fromJson(Map<String, dynamic> json)
       : this(
           id: json[Field.id.name]! as int,
           date: json[Field.date.name]! as Timestamp,

@@ -21,7 +21,7 @@ class DailyExpensesListWidget extends StatelessWidget {
       itemCount: docs.length,
       itemBuilder: (context, index) {
         final data = docs[index].data();
-        final item = DayModel.fromJson(data! as Map<String, Object>);
+        final item = DayModel.fromJson(data! as Map<String, dynamic>);
         return DailyExpensesListItemWidget(item: item);
       },
     );

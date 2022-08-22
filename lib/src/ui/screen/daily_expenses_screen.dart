@@ -31,7 +31,7 @@ class _DailyExpensesScreenState extends BaseState<DailyExpensesScreen> {
             builder: (context, snapshot) {
               if (snapshot.data == null) return const SizedBox();
               final data = snapshot.data!.data();
-              final item = MonthModel.fromJson(data! as Map<String, Object>);
+              final item = MonthModel.fromJson(data! as Map<String, dynamic>);
               return DailyExpensesMonthWidget(item: item);
             },
           ),

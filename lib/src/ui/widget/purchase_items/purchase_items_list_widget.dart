@@ -16,11 +16,12 @@ class PurchaseItemsListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      shrinkWrap: true,
       padding: 70.0.spacingBottom(),
       itemCount: docs.length,
       itemBuilder: (context, index) {
         final data = docs[index].data();
-        final item = ItemModel.fromJson(data! as Map<String, Object>);
+        final item = ItemModel.fromJson(data! as Map<String, dynamic>);
         return PurchaseItemListItemWidget(item: item);
       },
     );

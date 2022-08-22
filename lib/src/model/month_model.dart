@@ -13,7 +13,7 @@ class MonthModel extends BaseModel {
     this.totalRielBee = 0,
   });
 
-  MonthModel.fromJson(Map<String, Object> json)
+  MonthModel.fromJson(Map<String, dynamic> json)
       : this(
           id: json[Field.id.name]! as int,
           date: json[Field.date.name]! as Timestamp,
