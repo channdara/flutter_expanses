@@ -67,7 +67,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '521884876312',
     projectId: 'my-expenses-ba972',
     storageBucket: 'my-expenses-ba972.appspot.com',
-    iosClientId: '521884876312-khe681739clcl8kh7aap393tah9ckn26.apps.googleusercontent.com',
+    iosClientId:
+        '521884876312-khe681739clcl8kh7aap393tah9ckn26.apps.googleusercontent.com',
     iosBundleId: 'com.mastertipsy.expenses',
   );
 
@@ -77,7 +78,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '521884876312',
     projectId: 'my-expenses-ba972',
     storageBucket: 'my-expenses-ba972.appspot.com',
-    iosClientId: '521884876312-khe681739clcl8kh7aap393tah9ckn26.apps.googleusercontent.com',
+    iosClientId:
+        '521884876312-khe681739clcl8kh7aap393tah9ckn26.apps.googleusercontent.com',
     iosBundleId: 'com.mastertipsy.expenses',
   );
 }
