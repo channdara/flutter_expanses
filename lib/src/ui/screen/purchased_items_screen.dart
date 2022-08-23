@@ -8,7 +8,9 @@ import '../widget/purchase_items/purchase_items_list_widget.dart';
 import 'add_item_screen.dart';
 
 class PurchasedItemsScreen extends StatefulWidget {
-  const PurchasedItemsScreen({super.key});
+  const PurchasedItemsScreen({super.key, required this.docId});
+
+  final String docId;
 
   String get appBarTitle => 'Expenses on: ${Timestamp.now().toYearMonthDay()}';
 
@@ -26,7 +28,7 @@ class _PurchasedItemsScreenState extends BaseState<PurchasedItemsScreen> {
         onPressed: () => context.push(const AddItemScreen()),
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: firebaseService.itemQuerySnapshot,
+        stream: firebaseService.itemQuerySnapshot(widget.docId),
         builder: (context, snapshot) {
           if (snapshot.data == null) return const SizedBox();
           return PurchaseItemsListWidget(docs: snapshot.data!.docs);

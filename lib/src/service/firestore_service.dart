@@ -28,8 +28,9 @@ class FirestoreService {
       .collection(Collection.owner.value)
       .doc(_timestamp.getMonth());
 
-  DocumentReference get _currentDay =>
-      _currentMonth.collection(Collection.owner.value).doc(_timestamp.getDay());
+  DocumentReference _currentDay({String? id}) => _currentMonth
+      .collection(Collection.owner.value)
+      .doc(id ?? _timestamp.getDay());
 
   /// getting stream of DocumentSnapshot
   Stream<DocumentSnapshot> get monthDocumentSnapshot =>
@@ -46,21 +47,21 @@ class FirestoreService {
       .orderBy(Field.id.name, descending: true)
       .snapshots();
 
-  Stream<QuerySnapshot> get itemQuerySnapshot => _currentDay
+  Stream<QuerySnapshot> itemQuerySnapshot(String id) => _currentDay(id: id)
       .collection(Collection.owner.value)
       .orderBy(Field.id.name, descending: true)
       .snapshots();
 
   /// Firestore functionality
   Future<void> addItem(ItemModel item) async {
-    _currentDay
+    _currentDay()
         .collection(Collection.owner.value)
         .doc(_timestamp.seconds.toString())
         .set(item.toJson());
   }
 
   Future<void> updateItem(int id, ItemModel item) async {
-    _currentDay
+    _currentDay()
         .collection(Collection.owner.value)
         .doc(id.toString())
         .update(item.toUpdateJson());
@@ -71,7 +72,7 @@ class FirestoreService {
   }
 
   Future<void> increaseDay(ItemModel item, {bool isIncrement = true}) async {
-    _currentDay.update(item.toIncrementJson(isIncrement: isIncrement));
+    _currentDay().update(item.toIncrementJson(isIncrement: isIncrement));
   }
 
   Future<void> checkCurrentDate() async {
@@ -95,9 +96,9 @@ class FirestoreService {
   }
 
   Future<void> _checkDay() async {
-    final value = await _currentDay.get();
+    final value = await _currentDay().get();
     if (value.exists) return;
     final data = DayModel(id: _timestamp.day, date: _timestamp);
-    _currentDay.set(data.toJson());
+    _currentDay().set(data.toJson());
   }
 }

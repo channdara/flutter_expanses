@@ -32,7 +32,7 @@ class DailyExpensesListItemWidget extends StatelessWidget {
         Icons.keyboard_arrow_right,
         color: Colors.red,
       ),
-      onTap: () => context.push(const PurchasedItemsScreen()),
+      onTap: () => context.push(PurchasedItemsScreen(docId: item.date.getDay())),
     );
   }
 }
