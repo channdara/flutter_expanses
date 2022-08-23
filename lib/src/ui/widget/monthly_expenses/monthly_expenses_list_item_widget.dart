@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../common/extension/double_extension.dart';
 import '../../../common/extension/timestamp_extension.dart';
 import '../../../model/month_model.dart';
 
@@ -16,7 +17,7 @@ class MonthlyExpensesListItemWidget extends StatelessWidget {
     return ListTile(
       leading: const Icon(
         Icons.keyboard_double_arrow_right,
-        color: Colors.red,
+        color: Colors.pinkAccent,
       ),
       title: Text(
         item.date.toYearMonth(),
@@ -26,9 +27,18 @@ class MonthlyExpensesListItemWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(item.getMyExpenses),
-          Text(item.getBeeExpenses),
-          Text(item.getTotalMonthlyExpenses),
+          Text(
+            item.getMyExpenses,
+            style: const TextStyle(fontSize: 12.0),
+          ),
+          Text(
+            item.getBeeExpenses,
+            style: const TextStyle(fontSize: 12.0),
+          ),
+          Text(
+            item.getTotalMonthlyExpenses,
+            style: const TextStyle(fontSize: 12.0),
+          ),
         ],
       ),
     );

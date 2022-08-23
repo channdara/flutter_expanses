@@ -18,7 +18,8 @@ class DailyExpensesListItemWidget extends StatelessWidget {
     return ListTile(
       leading: Icon(
         Icons.circle,
-        color: item.date.isToday ? Colors.green : Colors.red,
+        size: 20.0,
+        color: item.date.isToday ? Colors.green : Colors.pinkAccent,
       ),
       title: Text(
         item.date.toYearMonthDay(),
@@ -28,11 +29,9 @@ class DailyExpensesListItemWidget extends StatelessWidget {
         item.getTotalDailyExpenses,
         style: const TextStyle(fontSize: 12.0),
       ),
-      trailing: const Icon(
-        Icons.keyboard_arrow_right,
-        color: Colors.red,
-      ),
-      onTap: () => context.push(PurchasedItemsScreen(docId: item.date.getDay())),
+      trailing: const Icon(Icons.keyboard_arrow_right),
+      onTap: () =>
+          context.push(PurchasedItemsScreen(docId: item.date.getDay())),
     );
   }
 }

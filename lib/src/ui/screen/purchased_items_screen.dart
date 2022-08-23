@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../common/base/base_state.dart';
 import '../../common/extension/context_extension.dart';
 import '../../common/extension/timestamp_extension.dart';
-import '../widget/purchase_items/purchase_items_list_widget.dart';
+import '../widget/purchased_items/purchased_items_list_widget.dart';
 import 'add_item_screen.dart';
 
 class PurchasedItemsScreen extends StatefulWidget {
@@ -31,7 +31,7 @@ class _PurchasedItemsScreenState extends BaseState<PurchasedItemsScreen> {
         stream: firebaseService.itemQuerySnapshot(widget.docId),
         builder: (context, snapshot) {
           if (snapshot.data == null) return const SizedBox();
-          return PurchaseItemsListWidget(docs: snapshot.data!.docs);
+          return PurchasedItemsListWidget(docs: snapshot.data!.docs);
         },
       ),
     );

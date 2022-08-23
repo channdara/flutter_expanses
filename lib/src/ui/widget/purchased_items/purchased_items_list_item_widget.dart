@@ -5,8 +5,8 @@ import '../../../common/extension/timestamp_extension.dart';
 import '../../../model/item_model.dart';
 import '../../screen/add_item_screen.dart';
 
-class PurchaseItemListItemWidget extends StatelessWidget {
-  const PurchaseItemListItemWidget({
+class PurchasedItemListItemWidget extends StatelessWidget {
+  const PurchasedItemListItemWidget({
     super.key,
     required this.item,
   });

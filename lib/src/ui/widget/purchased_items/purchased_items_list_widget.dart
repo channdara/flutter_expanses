@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 import '../../../common/extension/double_extension.dart';
 import '../../../model/item_model.dart';
-import 'purchase_items_list_item_widget.dart';
+import 'purchased_items_list_item_widget.dart';
 
-class PurchaseItemsListWidget extends StatelessWidget {
-  const PurchaseItemsListWidget({
+class PurchasedItemsListWidget extends StatelessWidget {
+  const PurchasedItemsListWidget({
     super.key,
     required this.docs,
   });
@@ -22,7 +22,7 @@ class PurchaseItemsListWidget extends StatelessWidget {
       itemBuilder: (context, index) {
         final data = docs[index].data();
         final item = ItemModel.fromJson(data! as Map<String, dynamic>);
-        return PurchaseItemListItemWidget(item: item);
+        return PurchasedItemListItemWidget(item: item);
       },
     );
   }

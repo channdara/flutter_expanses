@@ -6,11 +6,11 @@ class ElevatedButtonWidget extends StatelessWidget {
   const ElevatedButtonWidget({
     super.key,
     required this.onPressed,
-    this.label,
+    required this.label,
     this.margin,
   });
 
-  final String? label;
+  final String label;
   final VoidCallback? onPressed;
   final EdgeInsetsGeometry? margin;
 
@@ -29,7 +29,7 @@ class ElevatedButtonWidget extends StatelessWidget {
           ),
         ),
         onPressed: onPressed,
-        child: Text(label ?? ''),
+        child: Text(label),
       ),
     );
   }
