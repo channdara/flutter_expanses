@@ -34,23 +34,23 @@ class FirestoreService {
 
   /// getting stream of DocumentSnapshot
   Stream<DocumentSnapshot> get monthDocumentSnapshot =>
-      _currentMonth.snapshots();
+      _currentMonth.snapshots().distinct();
 
   /// getting stream of QuerySnapshot
   Stream<QuerySnapshot> get monthQuerySnapshot => _currentYear
       .collection(Collection.owner.value)
       .orderBy(Field.id.name, descending: true)
-      .snapshots();
+      .snapshots().distinct();
 
   Stream<QuerySnapshot> get dayQuerySnapshot => _currentMonth
       .collection(Collection.owner.value)
       .orderBy(Field.id.name, descending: true)
-      .snapshots();
+      .snapshots().distinct();
 
   Stream<QuerySnapshot> itemQuerySnapshot(String id) => _currentDay(id: id)
       .collection(Collection.owner.value)
       .orderBy(Field.id.name, descending: true)
-      .snapshots();
+      .snapshots().distinct();
 
   /// Firestore functionality
   Future<void> addItem(ItemModel item) async {

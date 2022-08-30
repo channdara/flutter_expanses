@@ -88,100 +88,103 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(widget.appBarTitle)),
-      body: Padding(
-        padding: 16.0.spacingAll(),
-        child: Column(
-          children: [
-            TextFormFieldWidget(
-              labelText: 'Item Description',
-              prefixIcon: const Icon(Icons.add_chart),
-              controller: _itemController,
-              focusNode: _itemFocusNode,
-            ),
-            Container(
-              margin: 16.0.spacingVertical(),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-                borderRadius: 12.0.circular(),
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        appBar: AppBar(title: Text(widget.appBarTitle)),
+        body: Padding(
+          padding: 16.0.spacingAll(),
+          child: Column(
+            children: [
+              TextFormFieldWidget(
+                labelText: 'Item Description',
+                prefixIcon: const Icon(Icons.add_chart),
+                controller: _itemController,
+                focusNode: _itemFocusNode,
               ),
-              child: TabBar(
-                controller: _tabController,
-                indicator: BoxDecoration(
+              Container(
+                margin: 16.0.spacingVertical(),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade300,
                   borderRadius: 12.0.circular(),
-                  color: Theme.of(context).primaryColor,
                 ),
-                unselectedLabelColor: Colors.grey.shade700,
-                tabs: ItemType.values
-                    .map((e) => Tab(text: e.name.toCapitalized()))
-                    .toList(),
+                child: TabBar(
+                  controller: _tabController,
+                  indicator: BoxDecoration(
+                    borderRadius: 12.0.circular(),
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  unselectedLabelColor: Colors.grey.shade700,
+                  tabs: ItemType.values
+                      .map((e) => Tab(text: e.name.toCapitalized()))
+                      .toList(),
+                ),
               ),
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextFormFieldWidget(
-                    labelText: 'Dollar',
-                    prefixIcon: const Icon(Icons.currency_bitcoin),
-                    controller: _dMeController,
-                    keyboardType: TextInputType.number,
-                    enabled: _myTextFieldEnabled,
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormFieldWidget(
+                      labelText: 'Dollar',
+                      prefixIcon: const Icon(Icons.currency_bitcoin),
+                      controller: _dMeController,
+                      keyboardType: TextInputType.number,
+                      enabled: _myTextFieldEnabled,
+                    ),
                   ),
-                ),
-                const Text(' or '),
-                Expanded(
-                  child: TextFormFieldWidget(
-                    labelText: 'Riel',
-                    prefixIcon: const Icon(Icons.currency_bitcoin),
-                    controller: _rMeController,
-                    keyboardType: TextInputType.number,
-                    enabled: _myTextFieldEnabled,
+                  const Text(' or '),
+                  Expanded(
+                    child: TextFormFieldWidget(
+                      labelText: 'Riel',
+                      prefixIcon: const Icon(Icons.currency_bitcoin),
+                      controller: _rMeController,
+                      keyboardType: TextInputType.number,
+                      enabled: _myTextFieldEnabled,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16.0),
-            Row(
-              children: [
-                Expanded(
-                  child: TextFormFieldWidget(
-                    labelText: 'Dollar',
-                    prefixIcon: const Icon(Icons.currency_bitcoin),
-                    controller: _dBeeController,
-                    keyboardType: TextInputType.number,
-                    enabled: _beeTextFieldEnabled,
+                ],
+              ),
+              const SizedBox(height: 16.0),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormFieldWidget(
+                      labelText: 'Dollar',
+                      prefixIcon: const Icon(Icons.currency_bitcoin),
+                      controller: _dBeeController,
+                      keyboardType: TextInputType.number,
+                      enabled: _beeTextFieldEnabled,
+                    ),
                   ),
-                ),
-                const Text(' or '),
-                Expanded(
-                  child: TextFormFieldWidget(
-                    labelText: 'Riel',
-                    prefixIcon: const Icon(Icons.currency_bitcoin),
-                    controller: _rBeeController,
-                    keyboardType: TextInputType.number,
-                    enabled: _beeTextFieldEnabled,
+                  const Text(' or '),
+                  Expanded(
+                    child: TextFormFieldWidget(
+                      labelText: 'Riel',
+                      prefixIcon: const Icon(Icons.currency_bitcoin),
+                      controller: _rBeeController,
+                      keyboardType: TextInputType.number,
+                      enabled: _beeTextFieldEnabled,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            ElevatedButtonWidget(
-              margin: 32.0.spacingTop(),
-              label: widget.buttonText,
-              onPressed: () {
-                if (_itemController.text.isEmpty) return;
-                final timestamp = Timestamp.now();
-                final newItem = _createPurchaseItem(timestamp);
-                if (widget.isAddAction) {
-                  _addPurchaseItem(newItem);
-                  _clearController();
-                  return;
-                }
-                _updatePurchasedItem(timestamp, widget.item!, newItem);
-                context.pop();
-              },
-            ),
-          ],
+                ],
+              ),
+              ElevatedButtonWidget(
+                margin: 32.0.spacingTop(),
+                label: widget.buttonText,
+                onPressed: () {
+                  if (_itemController.text.isEmpty) return;
+                  final timestamp = Timestamp.now();
+                  final newItem = _createPurchaseItem(timestamp);
+                  if (widget.isAddAction) {
+                    _addPurchaseItem(newItem);
+                    _clearController();
+                    return;
+                  }
+                  _updatePurchasedItem(timestamp, widget.item!, newItem);
+                  context.pop();
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
