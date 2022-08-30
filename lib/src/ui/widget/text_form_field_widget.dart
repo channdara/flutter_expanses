@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import '../../common/extension/double_extension.dart';
 
 class TextFormFieldWidget extends StatelessWidget {
-  const TextFormFieldWidget({
-    super.key,
-    this.labelText,
-    this.prefixIcon,
-    this.controller,
-    this.focusNode,
-    this.keyboardType,
-    this.validator,
-    this.textCapitalization,
-  });
+  const TextFormFieldWidget(
+      {super.key,
+      this.labelText,
+      this.prefixIcon,
+      this.controller,
+      this.focusNode,
+      this.keyboardType,
+      this.validator,
+      this.textCapitalization,
+      this.enabled});
 
   final String? labelText;
   final Widget? prefixIcon;
@@ -21,6 +21,7 @@ class TextFormFieldWidget extends StatelessWidget {
   final TextInputType? keyboardType;
   final FormFieldValidator<String>? validator;
   final TextCapitalization? textCapitalization;
+  final bool? enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +37,7 @@ class TextFormFieldWidget extends StatelessWidget {
       keyboardType: keyboardType,
       validator: validator,
       textCapitalization: textCapitalization ?? TextCapitalization.sentences,
+      enabled: enabled,
     );
   }
 }

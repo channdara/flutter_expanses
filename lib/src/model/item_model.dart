@@ -54,7 +54,7 @@ class ItemModel extends BaseModel {
       case ItemType.me:
         return const Icon(Icons.person, color: Colors.blue);
       case ItemType.bee:
-        return const Icon(Icons.person, color: Colors.pinkAccent);
+        return const Icon(Icons.person, color: Colors.pink);
       default:
         return const Icon(Icons.people, color: Colors.green);
     }

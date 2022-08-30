@@ -16,7 +16,6 @@ class DailyExpensesListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      shrinkWrap: true,
       padding: 70.0.spacingBottom(),
       itemCount: docs.length,
       itemBuilder: (context, index) {

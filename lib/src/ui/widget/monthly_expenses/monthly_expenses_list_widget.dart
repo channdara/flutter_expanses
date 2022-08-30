@@ -16,7 +16,6 @@ class MonthlyExpensesListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      shrinkWrap: true,
       padding: 8.0.spacingVertical(),
       itemCount: docs.length,
       itemBuilder: (context, index) {

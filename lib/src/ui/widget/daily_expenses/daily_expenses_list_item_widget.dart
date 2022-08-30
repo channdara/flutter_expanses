@@ -19,7 +19,7 @@ class DailyExpensesListItemWidget extends StatelessWidget {
       leading: Icon(
         Icons.circle,
         size: 20.0,
-        color: item.date.isToday ? Colors.green : Colors.pinkAccent,
+        color: item.date.getDayOfWeekColor(),
       ),
       title: Text(
         item.date.toYearMonthDay(),

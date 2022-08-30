@@ -35,12 +35,14 @@ class _DailyExpensesScreenState extends BaseState<DailyExpensesScreen> {
               return DailyExpensesMonthWidget(item: item);
             },
           ),
-          StreamBuilder<QuerySnapshot>(
-            stream: firebaseService.dayQuerySnapshot,
-            builder: (context, snapshot) {
-              if (snapshot.data == null) return const SizedBox();
-              return DailyExpensesListWidget(docs: snapshot.data!.docs);
-            },
+          Expanded(
+            child: StreamBuilder<QuerySnapshot>(
+              stream: firebaseService.dayQuerySnapshot,
+              builder: (context, snapshot) {
+                if (snapshot.data == null) return const SizedBox();
+                return DailyExpensesListWidget(docs: snapshot.data!.docs);
+              },
+            ),
           ),
         ],
       ),

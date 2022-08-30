@@ -7,7 +7,6 @@ import '../../common/extension/double_extension.dart';
 import '../../common/extension/string_extension.dart';
 import '../../model/enum/item_type.dart';
 import '../../model/item_model.dart';
-import '../widget/base_scaffold.dart';
 import '../widget/elevated_button_widget.dart';
 import '../widget/text_form_field_widget.dart';
 
@@ -36,6 +35,12 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
   late TextEditingController _rBeeController;
   late FocusNode _itemFocusNode;
 
+  bool get _myTextFieldEnabled =>
+      _tabController.index == 0 || _tabController.index == 2;
+
+  bool get _beeTextFieldEnabled =>
+      _tabController.index == 1 || _tabController.index == 2;
+
   @override
   void initState() {
     _tabController = TabController(length: ItemType.values.length, vsync: this);
@@ -50,8 +55,7 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
         TextEditingController(text: widget.item?.dollarBee.toString());
     _rBeeController =
         TextEditingController(text: widget.item?.rielBee.toString());
-    _itemFocusNode = FocusNode();
-    _itemFocusNode.requestFocus();
+    _itemFocusNode = FocusNode()..requestFocus();
     super.initState();
   }
 
@@ -84,13 +88,11 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
 
   @override
   Widget build(BuildContext context) {
-    return BaseScaffold(
+    return Scaffold(
       appBar: AppBar(title: Text(widget.appBarTitle)),
-      body: SingleChildScrollView(
+      body: Padding(
         padding: 16.0.spacingAll(),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextFormFieldWidget(
               labelText: 'Item Description',
@@ -116,51 +118,53 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
                     .toList(),
               ),
             ),
-            if (_tabController.index == 0 || _tabController.index == 2)
-              Row(
-                children: [
-                  Expanded(
-                    child: TextFormFieldWidget(
-                      labelText: 'Dollar',
-                      prefixIcon: const Icon(Icons.currency_bitcoin),
-                      controller: _dMeController,
-                      keyboardType: TextInputType.number,
-                    ),
+            Row(
+              children: [
+                Expanded(
+                  child: TextFormFieldWidget(
+                    labelText: 'Dollar',
+                    prefixIcon: const Icon(Icons.currency_bitcoin),
+                    controller: _dMeController,
+                    keyboardType: TextInputType.number,
+                    enabled: _myTextFieldEnabled,
                   ),
-                  const Text(' or '),
-                  Expanded(
-                    child: TextFormFieldWidget(
-                      labelText: 'Riel',
-                      prefixIcon: const Icon(Icons.currency_bitcoin),
-                      controller: _rMeController,
-                      keyboardType: TextInputType.number,
-                    ),
+                ),
+                const Text(' or '),
+                Expanded(
+                  child: TextFormFieldWidget(
+                    labelText: 'Riel',
+                    prefixIcon: const Icon(Icons.currency_bitcoin),
+                    controller: _rMeController,
+                    keyboardType: TextInputType.number,
+                    enabled: _myTextFieldEnabled,
                   ),
-                ],
-              ),
-            if (_tabController.index == 2) const SizedBox(height: 16.0),
-            if (_tabController.index == 1 || _tabController.index == 2)
-              Row(
-                children: [
-                  Expanded(
-                    child: TextFormFieldWidget(
-                      labelText: 'Dollar',
-                      prefixIcon: const Icon(Icons.currency_bitcoin),
-                      controller: _dBeeController,
-                      keyboardType: TextInputType.number,
-                    ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16.0),
+            Row(
+              children: [
+                Expanded(
+                  child: TextFormFieldWidget(
+                    labelText: 'Dollar',
+                    prefixIcon: const Icon(Icons.currency_bitcoin),
+                    controller: _dBeeController,
+                    keyboardType: TextInputType.number,
+                    enabled: _beeTextFieldEnabled,
                   ),
-                  const Text(' or '),
-                  Expanded(
-                    child: TextFormFieldWidget(
-                      labelText: 'Riel',
-                      prefixIcon: const Icon(Icons.currency_bitcoin),
-                      controller: _rBeeController,
-                      keyboardType: TextInputType.number,
-                    ),
+                ),
+                const Text(' or '),
+                Expanded(
+                  child: TextFormFieldWidget(
+                    labelText: 'Riel',
+                    prefixIcon: const Icon(Icons.currency_bitcoin),
+                    controller: _rBeeController,
+                    keyboardType: TextInputType.number,
+                    enabled: _beeTextFieldEnabled,
                   ),
-                ],
-              ),
+                ),
+              ],
+            ),
             ElevatedButtonWidget(
               margin: 32.0.spacingTop(),
               label: widget.buttonText,
