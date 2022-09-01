@@ -31,6 +31,7 @@ class DailyExpensesMonthWidget extends StatelessWidget {
             children: [
               Text(item.getMyExpenses),
               Text(item.getBeeExpenses),
+              const SizedBox(height: 8.0),
               Align(
                 alignment: Alignment.topRight,
                 child: Text(item.getTotalMonthlyExpenses),

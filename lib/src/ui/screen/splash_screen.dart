@@ -22,6 +22,6 @@ class _SplashScreenState extends BaseState<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(backgroundColor: Theme.of(context).primaryColor);
   }
 }

@@ -3,16 +3,17 @@ import 'package:flutter/material.dart';
 import '../../common/extension/double_extension.dart';
 
 class TextFormFieldWidget extends StatelessWidget {
-  const TextFormFieldWidget(
-      {super.key,
-      this.labelText,
-      this.prefixIcon,
-      this.controller,
-      this.focusNode,
-      this.keyboardType,
-      this.validator,
-      this.textCapitalization,
-      this.enabled});
+  const TextFormFieldWidget({
+    super.key,
+    this.labelText,
+    this.prefixIcon,
+    this.controller,
+    this.focusNode,
+    this.keyboardType,
+    this.validator,
+    this.textCapitalization,
+    this.enabled,
+  });
 
   final String? labelText;
   final Widget? prefixIcon;

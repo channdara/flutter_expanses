@@ -7,11 +7,15 @@ import '../../common/extension/double_extension.dart';
 import '../../common/extension/string_extension.dart';
 import '../../model/enum/item_type.dart';
 import '../../model/item_model.dart';
+import '../widget/add_item/tab_bar_widget.dart';
 import '../widget/elevated_button_widget.dart';
 import '../widget/text_form_field_widget.dart';
 
 class AddItemScreen extends StatefulWidget {
-  const AddItemScreen({super.key, this.item});
+  const AddItemScreen({
+    super.key,
+    this.item,
+  });
 
   final ItemModel? item;
 
@@ -35,11 +39,9 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
   late TextEditingController _rBeeController;
   late FocusNode _itemFocusNode;
 
-  bool get _myTextFieldEnabled =>
-      _tabController.index == 0 || _tabController.index == 2;
+  bool get _myTextFieldEnabled => [0, 2].contains(_tabController.index);
 
-  bool get _beeTextFieldEnabled =>
-      _tabController.index == 1 || _tabController.index == 2;
+  bool get _beeTextFieldEnabled => [1, 2].contains(_tabController.index);
 
   @override
   void initState() {
@@ -102,24 +104,7 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
                 controller: _itemController,
                 focusNode: _itemFocusNode,
               ),
-              Container(
-                margin: 16.0.spacingVertical(),
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
-                  borderRadius: 12.0.circular(),
-                ),
-                child: TabBar(
-                  controller: _tabController,
-                  indicator: BoxDecoration(
-                    borderRadius: 12.0.circular(),
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  unselectedLabelColor: Colors.grey.shade700,
-                  tabs: ItemType.values
-                      .map((e) => Tab(text: e.name.toCapitalized()))
-                      .toList(),
-                ),
-              ),
+              TabBarWidget(controller: _tabController),
               Row(
                 children: [
                   Expanded(

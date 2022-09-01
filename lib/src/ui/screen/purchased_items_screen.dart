@@ -6,7 +6,10 @@ import '../../common/extension/timestamp_extension.dart';
 import '../widget/purchased_items/purchased_items_list_widget.dart';
 
 class PurchasedItemsScreen extends StatefulWidget {
-  const PurchasedItemsScreen({super.key, required this.docId});
+  const PurchasedItemsScreen({
+    super.key,
+    required this.docId,
+  });
 
   final String docId;
 
