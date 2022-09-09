@@ -12,18 +12,15 @@ import '../widget/elevated_button_widget.dart';
 import '../widget/text_form_field_widget.dart';
 
 class AddItemScreen extends StatefulWidget {
-  const AddItemScreen({
-    super.key,
-    this.item,
-  });
+  const AddItemScreen({super.key, this.item});
 
   final ItemModel? item;
 
-  bool get isAddAction => item == null;
+  bool get willAdd => item == null;
 
-  String get appBarTitle => isAddAction ? 'Take Note' : 'Edit Note';
+  String get appBarTitle => willAdd ? 'Take Note' : 'Edit Note';
 
-  String get buttonText => isAddAction ? 'Add' : 'Update';
+  String get buttonText => willAdd ? 'Add' : 'Update';
 
   @override
   State<AddItemScreen> createState() => _AddItemScreenState();
@@ -46,7 +43,7 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
   @override
   void initState() {
     _tabController = TabController(length: ItemType.values.length, vsync: this);
-    if (!widget.isAddAction) _tabController.animateTo(widget.item!.type.value);
+    if (!widget.willAdd) _tabController.animateTo(widget.item!.type.value);
     _tabController.addListener(_handleTabListener);
     _itemController = TextEditingController(text: widget.item?.content);
     _dMeController =
@@ -159,12 +156,12 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
                   if (_itemController.text.isEmpty) return;
                   final timestamp = Timestamp.now();
                   final newItem = _createPurchaseItem(timestamp);
-                  if (widget.isAddAction) {
+                  if (widget.willAdd) {
                     _addPurchaseItem(newItem);
                     _clearController();
                     return;
                   }
-                  _updatePurchasedItem(timestamp, widget.item!, newItem);
+                  _updatePurchasedItem(widget.item!, newItem);
                   context.pop();
                 },
               ),
@@ -194,21 +191,21 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
 
   void _addPurchaseItem(ItemModel item) {
     firebaseService.addItem(item);
-    firebaseService.increaseMonth(item);
-    firebaseService.increaseDay(item);
+    firebaseService.increaseMonth(item.date, item);
+    firebaseService.increaseDay(item.date, item);
   }
 
-  void _updatePurchasedItem(
-    Timestamp timestamp,
-    ItemModel oldItem,
-    ItemModel newItem,
-  ) {
-    firebaseService.updateItem(oldItem.id, newItem);
+  void _updatePurchasedItem(ItemModel oldItem, ItemModel newItem) {
+    firebaseService.updateItem(oldItem, newItem);
     firebaseService
-        .increaseDay(oldItem, isIncrement: false)
-        .whenComplete(() => firebaseService.increaseDay(newItem));
+        .increaseDay(oldItem.date, oldItem, isIncrement: false)
+        .whenComplete(() {
+      firebaseService.increaseDay(oldItem.date, newItem);
+    });
     firebaseService
-        .increaseMonth(oldItem, isIncrement: false)
-        .whenComplete(() => firebaseService.increaseMonth(newItem));
+        .increaseMonth(oldItem.date, oldItem, isIncrement: false)
+        .whenComplete(() {
+      firebaseService.increaseMonth(oldItem.date, newItem);
+    });
   }
 }

@@ -6,14 +6,11 @@ import '../../common/extension/timestamp_extension.dart';
 import '../widget/purchased_items/purchased_items_list_widget.dart';
 
 class PurchasedItemsScreen extends StatefulWidget {
-  const PurchasedItemsScreen({
-    super.key,
-    required this.docId,
-  });
+  const PurchasedItemsScreen({super.key, required this.date});
 
-  final String docId;
+  final Timestamp date;
 
-  String get appBarTitle => 'Expenses on: ${Timestamp.now().toYearMonthDay()}';
+  String get appBarTitle => 'Expenses on: ${date.toYearMonthDay()}';
 
   @override
   State<PurchasedItemsScreen> createState() => _PurchasedItemsScreenState();
@@ -25,7 +22,7 @@ class _PurchasedItemsScreenState extends BaseState<PurchasedItemsScreen> {
     return Scaffold(
       appBar: AppBar(title: Text(widget.appBarTitle)),
       body: StreamBuilder<QuerySnapshot>(
-        stream: firebaseService.itemQuerySnapshot(widget.docId),
+        stream: firebaseService.itemQuerySnapshot(widget.date),
         builder: (context, snapshot) {
           if (snapshot.data == null) return const SizedBox();
           return PurchasedItemsListWidget(docs: snapshot.data!.docs);

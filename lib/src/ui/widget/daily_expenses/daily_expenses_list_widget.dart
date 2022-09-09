@@ -6,10 +6,7 @@ import '../../../model/day_model.dart';
 import 'daily_expenses_list_item_widget.dart';
 
 class DailyExpensesListWidget extends StatelessWidget {
-  const DailyExpensesListWidget({
-    super.key,
-    required this.docs,
-  });
+  const DailyExpensesListWidget({super.key, required this.docs});
 
   final List<QueryDocumentSnapshot> docs;
 

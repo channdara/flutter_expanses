@@ -6,9 +6,11 @@ import '../../common/extension/timestamp_extension.dart';
 import '../widget/monthly_expenses/monthly_expenses_list_widget.dart';
 
 class MonthlyExpensesScreen extends StatefulWidget {
-  const MonthlyExpensesScreen({super.key});
+  const MonthlyExpensesScreen({super.key, required this.date});
 
-  String get appBarTitle => 'Expenses on: ${Timestamp.now().year}';
+  final Timestamp date;
+
+  String get appBarTitle => 'Expenses on: ${date.year}';
 
   @override
   State<MonthlyExpensesScreen> createState() => _MonthlyExpensesScreenState();
@@ -20,7 +22,7 @@ class _MonthlyExpensesScreenState extends BaseState<MonthlyExpensesScreen> {
     return Scaffold(
       appBar: AppBar(title: Text(widget.appBarTitle)),
       body: StreamBuilder<QuerySnapshot>(
-        stream: firebaseService.monthQuerySnapshot,
+        stream: firebaseService.monthQuerySnapshot(widget.date),
         builder: (context, snapshot) {
           if (snapshot.data == null) return const SizedBox();
           return MonthlyExpensesListWidget(docs: snapshot.data!.docs);

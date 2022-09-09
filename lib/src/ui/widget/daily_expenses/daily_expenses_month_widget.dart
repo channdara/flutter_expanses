@@ -6,17 +6,14 @@ import '../../../model/month_model.dart';
 import '../../screen/monthly_expenses_screen.dart';
 
 class DailyExpensesMonthWidget extends StatelessWidget {
-  const DailyExpensesMonthWidget({
-    super.key,
-    required this.item,
-  });
+  const DailyExpensesMonthWidget({super.key, required this.item});
 
   final MonthModel item;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.push(const MonthlyExpensesScreen()),
+      onTap: () => context.push(MonthlyExpensesScreen(date: item.date)),
       child: Card(
         margin: 8.0.spacingAll(),
         clipBehavior: Clip.antiAliasWithSaveLayer,

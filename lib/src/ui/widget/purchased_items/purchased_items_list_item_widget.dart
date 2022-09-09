@@ -6,10 +6,7 @@ import '../../../model/item_model.dart';
 import '../../screen/add_item_screen.dart';
 
 class PurchasedItemListItemWidget extends StatelessWidget {
-  const PurchasedItemListItemWidget({
-    super.key,
-    required this.item,
-  });
+  const PurchasedItemListItemWidget({super.key, required this.item});
 
   final ItemModel item;
 

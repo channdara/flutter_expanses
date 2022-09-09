@@ -6,10 +6,7 @@ import '../../../model/month_model.dart';
 import 'monthly_expenses_list_item_widget.dart';
 
 class MonthlyExpensesListWidget extends StatelessWidget {
-  const MonthlyExpensesListWidget({
-    super.key,
-    required this.docs,
-  });
+  const MonthlyExpensesListWidget({super.key, required this.docs});
 
   final List<QueryDocumentSnapshot> docs;
 

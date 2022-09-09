@@ -6,10 +6,7 @@ import '../../../model/day_model.dart';
 import '../../screen/purchased_items_screen.dart';
 
 class DailyExpensesListItemWidget extends StatelessWidget {
-  const DailyExpensesListItemWidget({
-    super.key,
-    required this.item,
-  });
+  const DailyExpensesListItemWidget({super.key, required this.item});
 
   final DayModel item;
 
@@ -30,8 +27,7 @@ class DailyExpensesListItemWidget extends StatelessWidget {
         style: const TextStyle(fontSize: 12.0),
       ),
       trailing: const Icon(Icons.keyboard_arrow_right),
-      onTap: () =>
-          context.push(PurchasedItemsScreen(docId: item.date.getDay())),
+      onTap: () => context.push(PurchasedItemsScreen(date: item.date)),
     );
   }
 }

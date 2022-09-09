@@ -4,10 +4,7 @@ import '../../../common/extension/timestamp_extension.dart';
 import '../../../model/month_model.dart';
 
 class MonthlyExpensesListItemWidget extends StatelessWidget {
-  const MonthlyExpensesListItemWidget({
-    super.key,
-    required this.item,
-  });
+  const MonthlyExpensesListItemWidget({super.key, required this.item});
 
   final MonthModel item;
 

@@ -9,7 +9,9 @@ import '../widget/daily_expenses/daily_expenses_month_widget.dart';
 import 'add_item_screen.dart';
 
 class DailyExpensesScreen extends StatefulWidget {
-  const DailyExpensesScreen({super.key});
+  const DailyExpensesScreen({super.key, required this.date});
+
+  final Timestamp date;
 
   @override
   State<DailyExpensesScreen> createState() => _DailyExpensesScreenState();
@@ -27,7 +29,7 @@ class _DailyExpensesScreenState extends BaseState<DailyExpensesScreen> {
       body: Column(
         children: [
           StreamBuilder<DocumentSnapshot>(
-            stream: firebaseService.monthDocumentSnapshot,
+            stream: firebaseService.monthDocumentSnapshot(widget.date),
             builder: (context, snapshot) {
               if (snapshot.data == null) return const SizedBox();
               final data = snapshot.data!.data();
@@ -37,7 +39,7 @@ class _DailyExpensesScreenState extends BaseState<DailyExpensesScreen> {
           ),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
-              stream: firebaseService.dayQuerySnapshot,
+              stream: firebaseService.dayQuerySnapshot(widget.date),
               builder: (context, snapshot) {
                 if (snapshot.data == null) return const SizedBox();
                 return DailyExpensesListWidget(docs: snapshot.data!.docs);

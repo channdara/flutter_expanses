@@ -6,10 +6,7 @@ import '../../../model/item_model.dart';
 import 'purchased_items_list_item_widget.dart';
 
 class PurchasedItemsListWidget extends StatelessWidget {
-  const PurchasedItemsListWidget({
-    super.key,
-    required this.docs,
-  });
+  const PurchasedItemsListWidget({super.key, required this.docs});
 
   final List<QueryDocumentSnapshot> docs;
 
