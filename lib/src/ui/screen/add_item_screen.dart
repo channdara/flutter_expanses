@@ -30,15 +30,9 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late TextEditingController _itemController;
-  late TextEditingController _dMeController;
-  late TextEditingController _rMeController;
-  late TextEditingController _dBeeController;
-  late TextEditingController _rBeeController;
+  late TextEditingController _dollarController;
+  late TextEditingController _rielController;
   late FocusNode _itemFocusNode;
-
-  bool get _myTextFieldEnabled => [0, 2].contains(_tabController.index);
-
-  bool get _beeTextFieldEnabled => [1, 2].contains(_tabController.index);
 
   @override
   void initState() {
@@ -46,14 +40,10 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
     if (!widget.willAdd) _tabController.animateTo(widget.item!.type.value);
     _tabController.addListener(_handleTabListener);
     _itemController = TextEditingController(text: widget.item?.content);
-    _dMeController =
-        TextEditingController(text: widget.item?.dollarMe.toString());
-    _rMeController =
-        TextEditingController(text: widget.item?.rielMe.toString());
-    _dBeeController =
-        TextEditingController(text: widget.item?.dollarBee.toString());
-    _rBeeController =
-        TextEditingController(text: widget.item?.rielBee.toString());
+    _dollarController =
+        TextEditingController(text: widget.item?.totalDollar().toString());
+    _rielController =
+        TextEditingController(text: widget.item?.totalRiel().toString());
     _itemFocusNode = FocusNode()..requestFocus();
     super.initState();
   }
@@ -62,10 +52,8 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
   void dispose() {
     _tabController.dispose();
     _itemController.dispose();
-    _dMeController.dispose();
-    _rMeController.dispose();
-    _dBeeController.dispose();
-    _rBeeController.dispose();
+    _dollarController.dispose();
+    _rielController.dispose();
     _itemFocusNode.dispose();
     super.dispose();
   }
@@ -77,10 +65,8 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
 
   void _clearController() {
     _itemController.clear();
-    _dMeController.clear();
-    _rMeController.clear();
-    _dBeeController.clear();
-    _rBeeController.clear();
+    _dollarController.clear();
+    _rielController.clear();
     _tabController.animateTo(0);
     _itemFocusNode.requestFocus();
   }
@@ -108,9 +94,8 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
                     child: TextFormFieldWidget(
                       labelText: 'Dollar',
                       prefixIcon: const Icon(Icons.currency_bitcoin),
-                      controller: _dMeController,
+                      controller: _dollarController,
                       keyboardType: TextInputType.number,
-                      enabled: _myTextFieldEnabled,
                     ),
                   ),
                   const Text(' or '),
@@ -118,33 +103,8 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
                     child: TextFormFieldWidget(
                       labelText: 'Riel',
                       prefixIcon: const Icon(Icons.currency_bitcoin),
-                      controller: _rMeController,
+                      controller: _rielController,
                       keyboardType: TextInputType.number,
-                      enabled: _myTextFieldEnabled,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16.0),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextFormFieldWidget(
-                      labelText: 'Dollar',
-                      prefixIcon: const Icon(Icons.currency_bitcoin),
-                      controller: _dBeeController,
-                      keyboardType: TextInputType.number,
-                      enabled: _beeTextFieldEnabled,
-                    ),
-                  ),
-                  const Text(' or '),
-                  Expanded(
-                    child: TextFormFieldWidget(
-                      labelText: 'Riel',
-                      prefixIcon: const Icon(Icons.currency_bitcoin),
-                      controller: _rBeeController,
-                      keyboardType: TextInputType.number,
-                      enabled: _beeTextFieldEnabled,
                     ),
                   ),
                 ],
@@ -173,14 +133,39 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
   }
 
   ItemModel _createPurchaseItem(Timestamp timestamp) {
-    final dMe = _dMeController.text.trim().toDouble();
-    final dBee = _dBeeController.text.trim().toDouble();
-    final rMe = _rMeController.text.trim().toInt();
-    final rBee = _rBeeController.text.trim().toInt();
+    final type = ItemType.getItemType(_tabController.index);
+    double dMe = 0.0;
+    double dBee = 0.0;
+    int rMe = 0;
+    int rBee = 0;
+    switch (type) {
+      case ItemType.me:
+        {
+          dMe = _dollarController.text.trim().toDouble();
+          rMe = _rielController.text.trim().toInt();
+          break;
+        }
+      case ItemType.bee:
+        {
+          dBee = _dollarController.text.trim().toDouble();
+          rBee = _rielController.text.trim().toInt();
+          break;
+        }
+      case ItemType.both:
+        {
+          final splitD = _dollarController.text.trim().toDouble() / 2;
+          final splitR = _rielController.text.trim().toInt() / 2;
+          dMe = splitD;
+          dBee = splitD;
+          rMe = splitR.toInt();
+          rBee = splitR.toInt();
+          break;
+        }
+    }
     return ItemModel(
       id: timestamp.seconds,
       content: _itemController.text.trim(),
-      type: ItemType.getItemType(_tabController.index),
+      type: type,
       dollarMe: dMe,
       dollarBee: dBee,
       rielMe: rMe,

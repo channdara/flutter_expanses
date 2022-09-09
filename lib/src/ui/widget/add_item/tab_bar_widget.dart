@@ -21,7 +21,7 @@ class TabBarWidget extends StatelessWidget {
         controller: controller,
         indicator: BoxDecoration(
           borderRadius: 12.0.circular(),
-          color: Theme.of(context).primaryColor,
+          color: _color(),
         ),
         unselectedLabelColor: Colors.grey.shade700,
         tabs: ItemType.values
@@ -29,5 +29,16 @@ class TabBarWidget extends StatelessWidget {
             .toList(),
       ),
     );
+  }
+
+  Color _color() {
+    switch (controller.index) {
+      case 0:
+        return Colors.blue;
+      case 1:
+        return Colors.pink;
+      default:
+        return Colors.green;
+    }
   }
 }
