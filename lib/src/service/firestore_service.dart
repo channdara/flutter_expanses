@@ -56,7 +56,7 @@ class FirestoreService {
   Future<void> addItem(ItemModel item) async {
     _currentDay()
         .collection(Collection.owner.value)
-        .doc(_timestamp.seconds.toString())
+        .doc(item.date.seconds.toString())
         .set(item.toJson());
   }
 
