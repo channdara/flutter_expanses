@@ -13,6 +13,7 @@ class TextFormFieldWidget extends StatelessWidget {
     this.validator,
     this.textCapitalization,
     this.enabled,
+    this.onEditingComplete,
   });
 
   final String? labelText;
@@ -23,6 +24,7 @@ class TextFormFieldWidget extends StatelessWidget {
   final FormFieldValidator<String>? validator;
   final TextCapitalization? textCapitalization;
   final bool? enabled;
+  final VoidCallback? onEditingComplete;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +41,7 @@ class TextFormFieldWidget extends StatelessWidget {
       validator: validator,
       textCapitalization: textCapitalization ?? TextCapitalization.sentences,
       enabled: enabled,
+      onEditingComplete: onEditingComplete,
     );
   }
 }

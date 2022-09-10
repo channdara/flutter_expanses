@@ -33,6 +33,8 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
   late TextEditingController _dollarController;
   late TextEditingController _rielController;
   late FocusNode _itemFocusNode;
+  late FocusNode _dollarFocusNode;
+  late FocusNode _rielFocusNode;
 
   @override
   void initState() {
@@ -45,6 +47,8 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
     _rielController =
         TextEditingController(text: widget.item?.totalRiel().toString());
     _itemFocusNode = FocusNode()..requestFocus();
+    _dollarFocusNode = FocusNode();
+    _rielFocusNode = FocusNode();
     super.initState();
   }
 
@@ -55,6 +59,8 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
     _dollarController.dispose();
     _rielController.dispose();
     _itemFocusNode.dispose();
+    _dollarFocusNode.dispose();
+    _rielFocusNode.dispose();
     super.dispose();
   }
 
@@ -86,6 +92,7 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
                 prefixIcon: const Icon(Icons.add_chart),
                 controller: _itemController,
                 focusNode: _itemFocusNode,
+                onEditingComplete: () => _rielFocusNode.requestFocus(),
               ),
               TabBarWidget(controller: _tabController),
               Row(
@@ -96,6 +103,7 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
                       prefixIcon: const Icon(Icons.currency_bitcoin),
                       controller: _dollarController,
                       keyboardType: TextInputType.number,
+                      focusNode: _dollarFocusNode,
                     ),
                   ),
                   const Text(' or '),
@@ -105,6 +113,7 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
                       prefixIcon: const Icon(Icons.currency_bitcoin),
                       controller: _rielController,
                       keyboardType: TextInputType.number,
+                      focusNode: _rielFocusNode,
                     ),
                   ),
                 ],
