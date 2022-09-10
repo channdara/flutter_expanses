@@ -1,9 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/base/base_state.dart';
 import '../../common/extension/context_extension.dart';
-import 'daily_expenses_screen.dart';
+import 'daily_expanses/daily_expenses_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -15,8 +14,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends BaseState<SplashScreen> {
   @override
   void initState() {
-    firebaseService.checkCurrentDate().whenComplete(() {
-      final Timestamp date = Timestamp.now();
+    firebaseService.checkCurrentDate().then((date) {
       context.pushClearTop(DailyExpensesScreen(date: date));
     });
     super.initState();

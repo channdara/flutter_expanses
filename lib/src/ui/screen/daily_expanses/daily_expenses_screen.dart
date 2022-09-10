@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../../common/base/base_state.dart';
-import '../../common/extension/context_extension.dart';
-import '../../model/month_model.dart';
-import '../widget/daily_expenses/daily_expenses_list_widget.dart';
-import '../widget/daily_expenses/daily_expenses_month_widget.dart';
-import 'add_item_screen.dart';
+import '../../../common/base/base_state.dart';
+import '../../../common/extension/context_extension.dart';
+import '../../../model/month_model.dart';
+import '../add_item/add_item_screen.dart';
+import 'daily_expenses_list_widget.dart';
+import 'daily_expenses_month_widget.dart';
 
 class DailyExpensesScreen extends StatefulWidget {
   const DailyExpensesScreen({super.key, required this.date});
@@ -33,7 +33,8 @@ class _DailyExpensesScreenState extends BaseState<DailyExpensesScreen> {
             builder: (context, snapshot) {
               if (snapshot.data == null) return const SizedBox();
               final data = snapshot.data!.data();
-              final item = MonthModel.fromJson(data! as Map<String, dynamic>);
+              if (data == null) return const SizedBox();
+              final item = MonthModel.fromJson(data as Map<String, dynamic>);
               return DailyExpensesMonthWidget(item: item);
             },
           ),

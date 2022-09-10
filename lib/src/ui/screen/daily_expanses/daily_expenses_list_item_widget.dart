@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../common/extension/context_extension.dart';
 import '../../../common/extension/timestamp_extension.dart';
 import '../../../model/day_model.dart';
-import '../../screen/purchased_items_screen.dart';
+import '../purchased_items/purchased_items_screen.dart';
 
 class DailyExpensesListItemWidget extends StatelessWidget {
   const DailyExpensesListItemWidget({super.key, required this.item});

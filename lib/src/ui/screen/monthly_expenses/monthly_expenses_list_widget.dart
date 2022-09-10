@@ -17,7 +17,8 @@ class MonthlyExpensesListWidget extends StatelessWidget {
       itemCount: docs.length,
       itemBuilder: (context, index) {
         final data = docs[index].data();
-        final item = MonthModel.fromJson(data! as Map<String, dynamic>);
+        if (data == null) return const SizedBox();
+        final item = MonthModel.fromJson(data as Map<String, dynamic>);
         return MonthlyExpensesListItemWidget(item: item);
       },
     );

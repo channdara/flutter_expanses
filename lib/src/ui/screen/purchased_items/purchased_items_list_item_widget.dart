@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../common/extension/context_extension.dart';
 import '../../../common/extension/timestamp_extension.dart';
 import '../../../model/item_model.dart';
-import '../../screen/add_item_screen.dart';
+import '../add_item/add_item_screen.dart';
 
 class PurchasedItemListItemWidget extends StatelessWidget {
   const PurchasedItemListItemWidget({super.key, required this.item});

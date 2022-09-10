@@ -60,9 +60,9 @@ class ItemModel extends BaseModel {
     }
   }
 
-  double totalDollar() => dollarMe + dollarBee;
+  String totalDollar() => (dollarMe + dollarBee).toString();
 
-  int totalRiel() => rielMe + rielBee;
+  String totalRiel() => (rielMe + rielBee).toString();
 
   Map<String, Object?> toIncrementJson({bool isIncrement = true}) => {
         Field.total_dollar_me.name: FieldValue.increment(

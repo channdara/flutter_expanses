@@ -89,30 +89,31 @@ class FirestoreService {
     _day(timestamp).update(item.toIncrementJson(isIncrement: isIncrement));
   }
 
-  Future<void> checkCurrentDate() async {
+  Future<Timestamp> checkCurrentDate() async {
     await _checkYear();
     await _checkMonth();
     await _checkDay();
+    return _timestamp;
   }
 
   Future<void> _checkYear() async {
     final value = await _year(_timestamp).get();
     if (value.exists) return;
     final data = YearModel(id: _timestamp.year, date: _timestamp);
-    _year(_timestamp).set(data.toJson());
+    await _year(_timestamp).set(data.toJson());
   }
 
   Future<void> _checkMonth() async {
     final value = await _month(_timestamp).get();
     if (value.exists) return;
     final data = MonthModel(id: _timestamp.month, date: _timestamp);
-    _month(_timestamp).set(data.toJson());
+    await _month(_timestamp).set(data.toJson());
   }
 
   Future<void> _checkDay() async {
     final value = await _day(_timestamp).get();
     if (value.exists) return;
     final data = DayModel(id: _timestamp.day, date: _timestamp);
-    _day(_timestamp).set(data.toJson());
+    await _day(_timestamp).set(data.toJson());
   }
 }

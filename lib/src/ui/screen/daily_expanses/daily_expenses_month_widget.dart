@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../common/extension/context_extension.dart';
 import '../../../common/extension/double_extension.dart';
 import '../../../model/month_model.dart';
-import '../../screen/monthly_expenses_screen.dart';
+import '../monthly_expenses/monthly_expenses_screen.dart';
 
 class DailyExpensesMonthWidget extends StatelessWidget {
   const DailyExpensesMonthWidget({super.key, required this.item});

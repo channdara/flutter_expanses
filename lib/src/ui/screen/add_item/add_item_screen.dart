@@ -1,15 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../../common/base/base_state.dart';
-import '../../common/extension/context_extension.dart';
-import '../../common/extension/double_extension.dart';
-import '../../common/extension/string_extension.dart';
-import '../../model/enum/item_type.dart';
-import '../../model/item_model.dart';
-import '../widget/add_item/tab_bar_widget.dart';
-import '../widget/elevated_button_widget.dart';
-import '../widget/text_form_field_widget.dart';
+import '../../../common/base/base_state.dart';
+import '../../../common/extension/context_extension.dart';
+import '../../../common/extension/double_extension.dart';
+import '../../../common/extension/string_extension.dart';
+import '../../../model/enum/item_type.dart';
+import '../../../model/item_model.dart';
+import '../../widget/elevated_button_widget.dart';
+import '../../widget/text_form_field_widget.dart';
+import 'tab_bar_widget.dart';
 
 class AddItemScreen extends StatefulWidget {
   const AddItemScreen({super.key, this.item});
@@ -38,17 +38,21 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
 
   @override
   void initState() {
-    _tabController = TabController(length: ItemType.values.length, vsync: this);
-    if (!widget.willAdd) _tabController.animateTo(widget.item!.type.value);
+    _tabController = TabController(
+      initialIndex: widget.item?.type.value ?? 0,
+      length: ItemType.values.length,
+      vsync: this,
+    );
     _tabController.addListener(_handleTabListener);
+
     _itemController = TextEditingController(text: widget.item?.content);
-    _dollarController =
-        TextEditingController(text: widget.item?.totalDollar().toString());
-    _rielController =
-        TextEditingController(text: widget.item?.totalRiel().toString());
-    _itemFocusNode = FocusNode()..requestFocus();
+    _dollarController = TextEditingController(text: widget.item?.totalDollar());
+    _rielController = TextEditingController(text: widget.item?.totalRiel());
+
+    _itemFocusNode = FocusNode();
     _dollarFocusNode = FocusNode();
     _rielFocusNode = FocusNode();
+    if (widget.willAdd) _itemFocusNode.requestFocus();
     super.initState();
   }
 
@@ -143,31 +147,31 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
 
   ItemModel _createPurchaseItem(Timestamp timestamp) {
     final type = ItemType.getItemType(_tabController.index);
-    double dMe = 0.0;
-    double dBee = 0.0;
-    int rMe = 0;
-    int rBee = 0;
+    double dollarMe = 0.0;
+    double dollarBee = 0.0;
+    int rielMe = 0;
+    int rielBee = 0;
     switch (type) {
       case ItemType.me:
         {
-          dMe = _dollarController.text.trim().toDouble();
-          rMe = _rielController.text.trim().toInt();
+          dollarMe = _dollarController.text.trim().toDouble();
+          rielMe = _rielController.text.trim().toInt();
           break;
         }
       case ItemType.bee:
         {
-          dBee = _dollarController.text.trim().toDouble();
-          rBee = _rielController.text.trim().toInt();
+          dollarBee = _dollarController.text.trim().toDouble();
+          rielBee = _rielController.text.trim().toInt();
           break;
         }
       case ItemType.both:
         {
-          final splitD = _dollarController.text.trim().toDouble() / 2;
-          final splitR = _rielController.text.trim().toInt() / 2;
-          dMe = splitD;
-          dBee = splitD;
-          rMe = splitR.toInt();
-          rBee = splitR.toInt();
+          final splitDollar = _dollarController.text.trim().toDouble() / 2;
+          final splitRiel = _rielController.text.trim().toInt() / 2;
+          dollarMe = splitDollar;
+          dollarBee = splitDollar;
+          rielMe = splitRiel.toInt();
+          rielBee = splitRiel.toInt();
           break;
         }
     }
@@ -175,10 +179,10 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
       id: timestamp.seconds,
       content: _itemController.text.trim(),
       type: type,
-      dollarMe: dMe,
-      dollarBee: dBee,
-      rielMe: rMe,
-      rielBee: rBee,
+      dollarMe: dollarMe,
+      dollarBee: dollarBee,
+      rielMe: rielMe,
+      rielBee: rielBee,
       date: timestamp,
     );
   }
