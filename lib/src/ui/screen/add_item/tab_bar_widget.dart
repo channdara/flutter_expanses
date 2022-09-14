@@ -36,7 +36,7 @@ class TabBarWidget extends StatelessWidget {
       case 0:
         return Colors.blue;
       case 1:
-        return Colors.pink;
+        return Colors.pinkAccent;
       default:
         return Colors.green;
     }

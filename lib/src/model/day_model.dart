@@ -31,7 +31,7 @@ class DayModel extends BaseModel {
   final int totalRielBee;
 
   String get getTotalDailyExpenses =>
-      'Total Today: \$${totalDollarMe + totalDollarBee}   ·   ${totalRielMe + totalRielBee}r';
+      'Total Today: \$${(totalDollarMe + totalDollarBee).toStringAsFixed(2)}   ·   ${totalRielMe + totalRielBee}r';
 
   @override
   Map<String, Object?> toJson() => {

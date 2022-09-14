@@ -11,9 +11,9 @@ class MonthlyExpensesListItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: const Icon(
+      leading: Icon(
         Icons.keyboard_double_arrow_right,
-        color: Colors.pink,
+        color: Theme.of(context).primaryColor,
       ),
       title: Text(
         item.date.toYearMonth(),

@@ -1,16 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import 'int_extension.dart';
+
 extension TimestampExtension on Timestamp {
   String getYear() => year.toString();
 
-  String getMonth() => month < 10 ? '0$month' : month.toString();
+  String getMonth() => month.padLeft();
 
-  String getDay() => day < 10 ? '0$day' : day.toString();
+  String getDay() => day.padLeft();
 
-  String getHour() => hour < 10 ? '0$hour' : hour.toString();
+  String getHour() => hour.padLeft();
 
-  String getMinute() => minute < 10 ? '0$minute' : minute.toString();
+  String getMinute() => minute.padLeft();
 
   String toYearMonth() => '$year-${getMonth()}';
 

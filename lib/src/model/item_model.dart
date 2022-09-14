@@ -41,11 +41,11 @@ class ItemModel extends BaseModel {
   String getDisplayAmount() {
     switch (type) {
       case ItemType.me:
-        return '\$$dollarMe   ·   ${rielMe}r';
+        return '\$${dollarMe.toStringAsFixed(2)}   ·   ${rielMe}r';
       case ItemType.bee:
-        return '\$$dollarBee   ·   ${rielBee}r';
+        return '\$${dollarBee.toStringAsFixed(2)}   ·   ${rielBee}r';
       default:
-        return '\$$dollarMe   ·   ${rielMe}r     |     \$$dollarBee   ·   ${rielBee}r';
+        return '\$${dollarMe.toStringAsFixed(2)}   ·   ${rielMe}r     |     \$${dollarBee.toStringAsFixed(2)}   ·   ${rielBee}r';
     }
   }
 
@@ -54,7 +54,7 @@ class ItemModel extends BaseModel {
       case ItemType.me:
         return const Icon(Icons.person, color: Colors.blue);
       case ItemType.bee:
-        return const Icon(Icons.person, color: Colors.pink);
+        return const Icon(Icons.person, color: Colors.pinkAccent);
       default:
         return const Icon(Icons.people, color: Colors.green);
     }

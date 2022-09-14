@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../common/extension/context_extension.dart';
 import '../../../common/extension/double_extension.dart';
 import '../../../model/month_model.dart';
+import '../../widget/card_widget.dart';
 import '../monthly_expenses/monthly_expenses_screen.dart';
 
 class DailyExpensesMonthWidget extends StatelessWidget {
@@ -14,28 +15,57 @@ class DailyExpensesMonthWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => context.push(MonthlyExpensesScreen(date: item.date)),
-      child: Card(
-        margin: 8.0.spacingAll(),
-        clipBehavior: Clip.antiAliasWithSaveLayer,
-        shape: RoundedRectangleBorder(borderRadius: 12.0.circular()),
-        child: Container(
-          width: double.infinity,
-          padding: 16.0.spacingAll(),
-          color: Colors.white,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
             children: [
-              Text(item.getMyExpenses),
-              Text(item.getBeeExpenses),
-              const SizedBox(height: 8.0),
-              Align(
-                alignment: Alignment.topRight,
-                child: Text(item.getTotalMonthlyExpenses),
+              Expanded(
+                child: CardWidget(
+                  margin: [8.0, 8.0, 4.0, 0.0].spacingLTRB(),
+                  child: Container(
+                    width: double.infinity,
+                    padding: 16.0.spacingAll(),
+                    color: Colors.blue,
+                    alignment: Alignment.center,
+                    child: Text(
+                      item.getMyExpenses,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: CardWidget(
+                  margin: [4.0, 8.0, 8.0, 0.0].spacingLTRB(),
+                  child: Container(
+                    width: double.infinity,
+                    padding: 16.0.spacingAll(),
+                    color: Colors.pinkAccent,
+                    alignment: Alignment.center,
+                    child: Text(
+                      item.getBeeExpenses,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
-        ),
+          CardWidget(
+            margin: 8.0.spacingAll(),
+            child: Container(
+              width: double.infinity,
+              padding: 16.0.spacingAll(),
+              color: Colors.green,
+              alignment: Alignment.center,
+              child: Text(
+                item.getTotalMonthlyExpenses,
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

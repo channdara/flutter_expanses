@@ -30,12 +30,14 @@ class MonthModel extends BaseModel {
   final int totalRielMe;
   final int totalRielBee;
 
-  String get getMyExpenses => 'Me: \$$totalDollarMe   ·   ${totalRielMe}r';
+  String get getMyExpenses =>
+      '\$${totalDollarMe.toStringAsFixed(2)}   ·   ${totalRielMe}r';
 
-  String get getBeeExpenses => 'Bee: \$$totalDollarBee   ·   ${totalRielBee}r';
+  String get getBeeExpenses =>
+      '\$${totalDollarBee.toStringAsFixed(2)}   ·   ${totalRielBee}r';
 
   String get getTotalMonthlyExpenses =>
-      'Total This Month: \$${totalDollarMe + totalDollarBee}   ·   ${totalRielMe + totalRielBee}r';
+      'Total This Month: \$${(totalDollarMe + totalDollarBee).toStringAsFixed(2)}   ·   ${totalRielMe + totalRielBee}r';
 
   @override
   Map<String, Object?> toJson() => {
