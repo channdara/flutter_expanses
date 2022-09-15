@@ -13,8 +13,9 @@ class PurchasedItemsListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      padding: 70.0.spacingBottom(),
+      padding: 8.0.spacingVertical(),
       itemCount: docs.length,
+      physics: const AlwaysScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         final data = docs[index].data();
         if (data == null) return const SizedBox();

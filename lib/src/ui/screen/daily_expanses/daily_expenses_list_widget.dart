@@ -15,6 +15,7 @@ class DailyExpensesListWidget extends StatelessWidget {
     return ListView.builder(
       padding: 70.0.spacingBottom(),
       itemCount: docs.length,
+      physics: const AlwaysScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         final data = docs[index].data();
         if (data == null) return const SizedBox();

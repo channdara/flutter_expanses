@@ -12,7 +12,7 @@ class MonthlyExpensesListItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(
-        Icons.keyboard_double_arrow_right,
+        Icons.calendar_month,
         color: Theme.of(context).primaryColor,
       ),
       title: Text(

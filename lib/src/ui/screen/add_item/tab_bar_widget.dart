@@ -23,6 +23,7 @@ class TabBarWidget extends StatelessWidget {
           borderRadius: 12.0.circular(),
           color: _color(),
         ),
+        labelColor: Colors.white,
         unselectedLabelColor: Colors.grey.shade700,
         tabs: ItemType.values
             .map((e) => Tab(text: e.name.toCapitalized()))

@@ -45,7 +45,7 @@ class ItemModel extends BaseModel {
       case ItemType.bee:
         return '\$${dollarBee.toStringAsFixed(2)}   ·   ${rielBee}r';
       default:
-        return '\$${dollarMe.toStringAsFixed(2)}   ·   ${rielMe}r     |     \$${dollarBee.toStringAsFixed(2)}   ·   ${rielBee}r';
+        return '\$${dollarMe.toStringAsFixed(2)}   ·   ${rielMe}r   |   \$${dollarBee.toStringAsFixed(2)}   ·   ${rielBee}r';
     }
   }
 
