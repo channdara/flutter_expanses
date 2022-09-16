@@ -18,4 +18,18 @@ extension ContextExtension on BuildContext {
     Navigator.of(this).popUntil((route) => route.isFirst);
     pushReplacement(screen);
   }
+
+  void showErrorSnackBar(String content) {
+    ScaffoldMessenger.of(this).showSnackBar(SnackBar(
+      backgroundColor: Colors.red,
+      content: Text('ERROR: $content'),
+    ));
+  }
+
+  void showSuccessSnackBar(String content) {
+    ScaffoldMessenger.of(this).showSnackBar(SnackBar(
+      backgroundColor: Colors.green,
+      content: Text('SUCCESS: $content'),
+    ));
+  }
 }

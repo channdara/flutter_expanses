@@ -93,12 +93,12 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
             children: [
               TextFormFieldWidget(
                 labelText: 'Item Description',
-                prefixIcon: const Icon(Icons.add_chart),
+                prefixIcon: const Icon(Icons.description_outlined),
                 controller: _itemController,
                 focusNode: _itemFocusNode,
                 onEditingComplete: () => _rielFocusNode.requestFocus(),
               ),
-              TabBarWidget(controller: _tabController),
+              const SizedBox(height: 16.0),
               Row(
                 children: [
                   Expanded(
@@ -122,11 +122,15 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
                   ),
                 ],
               ),
+              TabBarWidget(controller: _tabController),
               ElevatedButtonWidget(
-                margin: 32.0.spacingTop(),
+                margin: 16.0.spacingTop(),
                 label: widget.buttonText,
                 onPressed: () {
-                  if (_itemController.text.isEmpty) return;
+                  if (_itemController.text.trim().isEmpty) {
+                    context.showErrorSnackBar('Item Description is required');
+                    return;
+                  }
                   final timestamp = Timestamp.now();
                   final newItem = _createPurchaseItem(timestamp);
                   if (widget.willAdd) {
