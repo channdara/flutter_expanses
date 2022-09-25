@@ -14,7 +14,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends BaseState<SplashScreen> {
   @override
   void initState() {
-    firebaseService.checkCurrentDate().then((date) {
+    firestoreService.checkCurrentDate().then((date) {
       context.pushClearTop(DailyExpensesScreen(date: date));
     });
     super.initState();

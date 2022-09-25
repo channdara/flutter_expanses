@@ -6,6 +6,7 @@ import '../model/enum/collection.dart';
 import '../model/enum/field.dart';
 import '../model/item_model.dart';
 import '../model/month_model.dart';
+import '../model/monthly_summary.dart';
 import '../model/year_model.dart';
 
 class FirestoreService {
@@ -115,5 +116,25 @@ class FirestoreService {
     if (value.exists) return;
     final data = DayModel(id: _timestamp.day, date: _timestamp);
     await _day(_timestamp).set(data.toJson());
+  }
+
+  Future<List<MonthlySummary>> getMonthlySummary(Timestamp date) async {
+    final List<MonthlySummary> monthlySummaries = [];
+    final dailies = await _month(date).collection(Collection.owner.value).get();
+    for (final daily in dailies.docs) {
+      final List<ItemModel> items = [];
+      final day = DayModel.fromJson(daily.data());
+      final purchasedItems = await _month(date)
+          .collection(Collection.owner.value)
+          .doc(daily.id)
+          .collection(Collection.owner.value)
+          .get();
+      for (final item in purchasedItems.docs) {
+        final itemModel = ItemModel.fromJson(item.data());
+        items.add(itemModel);
+      }
+      monthlySummaries.add(MonthlySummary(day: day, items: items));
+    }
+    return monthlySummaries;
   }
 }

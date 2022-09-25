@@ -22,7 +22,8 @@ class DailyExpensesMonthWidget extends StatelessWidget {
             children: [
               Expanded(
                 child: CardWidget(
-                  margin: [8.0, 8.0, 4.0, 0.0].spacingLTRB(),
+                  margin: [8.0, 8.0, 0.0, 0.0].spacingLTRB(),
+                  borderRadius: 12.0.radiusTopLeft(),
                   child: Container(
                     width: double.infinity,
                     padding: 16.0.spacingAll(),
@@ -37,7 +38,8 @@ class DailyExpensesMonthWidget extends StatelessWidget {
               ),
               Expanded(
                 child: CardWidget(
-                  margin: [4.0, 8.0, 8.0, 0.0].spacingLTRB(),
+                  margin: [0.0, 8.0, 8.0, 0.0].spacingLTRB(),
+                  borderRadius: 12.0.radiusTopRight(),
                   child: Container(
                     width: double.infinity,
                     padding: 16.0.spacingAll(),
@@ -53,7 +55,8 @@ class DailyExpensesMonthWidget extends StatelessWidget {
             ],
           ),
           CardWidget(
-            margin: 8.0.spacingAll(),
+            margin: 8.0.spacingHorizontal(),
+            borderRadius: 12.0.radiusBothBottom(),
             child: Container(
               width: double.infinity,
               padding: 16.0.spacingAll(),

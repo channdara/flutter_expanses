@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../../../common/extension/context_extension.dart';
 import '../../../common/extension/timestamp_extension.dart';
 import '../../../model/month_model.dart';
+import '../monthly_summary/monthly_summary_screen.dart';
 
 class MonthlyExpensesListItemWidget extends StatelessWidget {
   const MonthlyExpensesListItemWidget({super.key, required this.item});
@@ -37,6 +39,7 @@ class MonthlyExpensesListItemWidget extends StatelessWidget {
           ),
         ],
       ),
+      onTap: () => context.push(MonthlySummaryScreen(date: item.date)),
     );
   }
 }

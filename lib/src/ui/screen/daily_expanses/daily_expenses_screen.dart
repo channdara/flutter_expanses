@@ -29,7 +29,7 @@ class _DailyExpensesScreenState extends BaseState<DailyExpensesScreen> {
       body: Column(
         children: [
           StreamBuilder<DocumentSnapshot>(
-            stream: firebaseService.monthDocumentSnapshot(widget.date),
+            stream: firestoreService.monthDocumentSnapshot(widget.date),
             builder: (context, snapshot) {
               if (snapshot.data == null) return const SizedBox();
               final data = snapshot.data!.data();
@@ -40,7 +40,7 @@ class _DailyExpensesScreenState extends BaseState<DailyExpensesScreen> {
           ),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
-              stream: firebaseService.dayQuerySnapshot(widget.date),
+              stream: firestoreService.dayQuerySnapshot(widget.date),
               builder: (context, snapshot) {
                 if (snapshot.data == null) return const SizedBox();
                 return DailyExpensesListWidget(docs: snapshot.data!.docs);

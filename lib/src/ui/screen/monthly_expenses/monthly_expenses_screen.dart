@@ -22,7 +22,7 @@ class _MonthlyExpensesScreenState extends BaseState<MonthlyExpensesScreen> {
     return Scaffold(
       appBar: AppBar(title: Text(widget.appBarTitle)),
       body: StreamBuilder<QuerySnapshot>(
-        stream: firebaseService.monthQuerySnapshot(widget.date),
+        stream: firestoreService.monthQuerySnapshot(widget.date),
         builder: (context, snapshot) {
           if (snapshot.data == null) return const SizedBox();
           return MonthlyExpensesListWidget(docs: snapshot.data!.docs);

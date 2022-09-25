@@ -4,5 +4,5 @@ import '../../service/firestore_service.dart';
 
 abstract class BaseState<T extends StatefulWidget> extends State<T> {
   @protected
-  final FirestoreService firebaseService = FirestoreService();
+  final FirestoreService firestoreService = FirestoreService();
 }

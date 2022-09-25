@@ -22,7 +22,7 @@ class _PurchasedItemsScreenState extends BaseState<PurchasedItemsScreen> {
     return Scaffold(
       appBar: AppBar(title: Text(widget.appBarTitle)),
       body: StreamBuilder<QuerySnapshot>(
-        stream: firebaseService.itemQuerySnapshot(widget.date),
+        stream: firestoreService.itemQuerySnapshot(widget.date),
         builder: (context, snapshot) {
           if (snapshot.data == null) return const SizedBox();
           return PurchasedItemsListWidget(docs: snapshot.data!.docs);

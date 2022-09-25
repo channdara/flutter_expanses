@@ -192,22 +192,22 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
   }
 
   void _addPurchaseItem(ItemModel item) {
-    firebaseService.addItem(item);
-    firebaseService.increaseMonth(item.date, item);
-    firebaseService.increaseDay(item.date, item);
+    firestoreService.addItem(item);
+    firestoreService.increaseMonth(item.date, item);
+    firestoreService.increaseDay(item.date, item);
   }
 
   void _updatePurchasedItem(ItemModel oldItem, ItemModel newItem) {
-    firebaseService.updateItem(oldItem, newItem);
-    firebaseService
+    firestoreService.updateItem(oldItem, newItem);
+    firestoreService
         .increaseDay(oldItem.date, oldItem, isIncrement: false)
         .whenComplete(() {
-      firebaseService.increaseDay(oldItem.date, newItem);
+      firestoreService.increaseDay(oldItem.date, newItem);
     });
-    firebaseService
+    firestoreService
         .increaseMonth(oldItem.date, oldItem, isIncrement: false)
         .whenComplete(() {
-      firebaseService.increaseMonth(oldItem.date, newItem);
+      firestoreService.increaseMonth(oldItem.date, newItem);
     });
   }
 }

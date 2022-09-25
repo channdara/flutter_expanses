@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../common/base/base_model.dart';
+import '../common/extension/timestamp_extension.dart';
 import 'enum/field.dart';
 
 class DayModel extends BaseModel {
@@ -30,8 +31,13 @@ class DayModel extends BaseModel {
   final int totalRielMe;
   final int totalRielBee;
 
-  String get getTotalDailyExpenses =>
-      'Total Today: \$${(totalDollarMe + totalDollarBee).toStringAsFixed(2)}   ·   ${totalRielMe + totalRielBee}r';
+  String get _bothTotalExpenses =>
+      '\$${(totalDollarMe + totalDollarBee).toStringAsFixed(2)}   ·   ${totalRielMe + totalRielBee}r';
+
+  String get getTotalDailyExpenses => 'Total Today: $_bothTotalExpenses';
+
+  String get getSummaryTotalExpenses =>
+      '${date.toYearMonthDay()}:   $_bothTotalExpenses';
 
   @override
   Map<String, Object?> toJson() => {
