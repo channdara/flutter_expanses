@@ -20,7 +20,6 @@ class FirestoreService {
 
   Timestamp get _timestamp => Timestamp.now();
 
-  /// getting DocumentReference for current year, month and day
   DocumentReference _year(Timestamp timestamp) => FirebaseFirestore.instance
       .collection(Collection.owner.value)
       .doc(timestamp.getYear());
@@ -33,33 +32,27 @@ class FirestoreService {
       .collection(Collection.owner.value)
       .doc(timestamp.getDay());
 
-  /// getting stream of DocumentSnapshot
-  Stream<DocumentSnapshot> monthDocumentSnapshot(Timestamp timestamp) =>
-      _month(timestamp).snapshots().distinct();
+  Future<void> _checkYear() async {
+    final value = await _year(_timestamp).get();
+    if (value.exists) return;
+    final data = YearModel(id: _timestamp.year, date: _timestamp);
+    await _year(_timestamp).set(data.toJson());
+  }
 
-  /// getting stream of QuerySnapshot
-  Stream<QuerySnapshot> monthQuerySnapshot(Timestamp timestamp) =>
-      _year(timestamp)
-          .collection(Collection.owner.value)
-          .orderBy(Field.id.name, descending: true)
-          .snapshots()
-          .distinct();
+  Future<void> _checkMonth() async {
+    final value = await _month(_timestamp).get();
+    if (value.exists) return;
+    final data = MonthModel(id: _timestamp.month, date: _timestamp);
+    await _month(_timestamp).set(data.toJson());
+  }
 
-  Stream<QuerySnapshot> dayQuerySnapshot(Timestamp timestamp) =>
-      _month(timestamp)
-          .collection(Collection.owner.value)
-          .orderBy(Field.id.name, descending: true)
-          .snapshots()
-          .distinct();
+  Future<void> _checkDay() async {
+    final value = await _day(_timestamp).get();
+    if (value.exists) return;
+    final data = DayModel(id: _timestamp.day, date: _timestamp);
+    await _day(_timestamp).set(data.toJson());
+  }
 
-  Stream<QuerySnapshot> itemQuerySnapshot(Timestamp timestamp) =>
-      _day(timestamp)
-          .collection(Collection.owner.value)
-          .orderBy(Field.id.name, descending: true)
-          .snapshots()
-          .distinct();
-
-  /// Firestore functionality
   Future<void> addItem(ItemModel item) async {
     _day(item.date)
         .collection(Collection.owner.value)
@@ -97,44 +90,71 @@ class FirestoreService {
     return _timestamp;
   }
 
-  Future<void> _checkYear() async {
-    final value = await _year(_timestamp).get();
-    if (value.exists) return;
-    final data = YearModel(id: _timestamp.year, date: _timestamp);
-    await _year(_timestamp).set(data.toJson());
-  }
-
-  Future<void> _checkMonth() async {
-    final value = await _month(_timestamp).get();
-    if (value.exists) return;
-    final data = MonthModel(id: _timestamp.month, date: _timestamp);
-    await _month(_timestamp).set(data.toJson());
-  }
-
-  Future<void> _checkDay() async {
-    final value = await _day(_timestamp).get();
-    if (value.exists) return;
-    final data = DayModel(id: _timestamp.day, date: _timestamp);
-    await _day(_timestamp).set(data.toJson());
-  }
-
-  Future<List<MonthlySummary>> getMonthlySummary(Timestamp date) async {
-    final List<MonthlySummary> monthlySummaries = [];
-    final dailies = await _month(date).collection(Collection.owner.value).get();
-    for (final daily in dailies.docs) {
-      final List<ItemModel> items = [];
-      final day = DayModel.fromJson(daily.data());
-      final purchasedItems = await _month(date)
+  Future<List<MonthlySummary>> getMonthlySummary(Timestamp timestamp) async {
+    final List<MonthlySummary> monthlySummaryItems = [];
+    final allDaily =
+        await _month(timestamp).collection(Collection.owner.value).get();
+    for (final daily in allDaily.docs) {
+      final List<ItemModel> itemModelItems = [];
+      final dayModel = DayModel.fromJson(daily.data());
+      final allItems = await _month(timestamp)
           .collection(Collection.owner.value)
           .doc(daily.id)
           .collection(Collection.owner.value)
           .get();
-      for (final item in purchasedItems.docs) {
+      for (final item in allItems.docs) {
         final itemModel = ItemModel.fromJson(item.data());
-        items.add(itemModel);
+        itemModelItems.add(itemModel);
       }
-      monthlySummaries.add(MonthlySummary(day: day, items: items));
+      monthlySummaryItems.add(
+        MonthlySummary(day: dayModel, items: itemModelItems),
+      );
     }
-    return monthlySummaries;
+    return monthlySummaryItems;
+  }
+
+  Future<List<MonthModel>> getMonthlyExpenses(Timestamp timestamp) async {
+    final List<MonthModel> monthModelItems = [];
+    final allMonthly = await _year(timestamp)
+        .collection(Collection.owner.value)
+        .orderBy(Field.id.name, descending: true)
+        .get();
+    for (final monthly in allMonthly.docs) {
+      final monthModel = MonthModel.fromJson(monthly.data());
+      monthModelItems.add(monthModel);
+    }
+    return monthModelItems;
+  }
+
+  Future<List<ItemModel>> getPurchasedItems(Timestamp timestamp) async {
+    final List<ItemModel> itemModelItems = [];
+    final allItems = await _day(timestamp)
+        .collection(Collection.owner.value)
+        .orderBy(Field.id.name, descending: true)
+        .get();
+    for (final item in allItems.docs) {
+      final itemModel = ItemModel.fromJson(item.data());
+      itemModelItems.add(itemModel);
+    }
+    return itemModelItems;
+  }
+
+  Future<List<DayModel>> getDailyExpenses(Timestamp timestamp) async {
+    final List<DayModel> dayModelItems = [];
+    final getDaily = await _month(timestamp)
+        .collection(Collection.owner.value)
+        .orderBy(Field.id.name, descending: true)
+        .get();
+    for (final daily in getDaily.docs) {
+      final dayModel = DayModel.fromJson(daily.data());
+      dayModelItems.add(dayModel);
+    }
+    return dayModelItems;
+  }
+
+  Future<MonthModel> getCurrentMonthSummary(Timestamp timestamp) async {
+    final currentMonth = await _month(timestamp).get();
+    final data = currentMonth.data()! as Map<String, dynamic>;
+    return MonthModel.fromJson(data);
   }
 }

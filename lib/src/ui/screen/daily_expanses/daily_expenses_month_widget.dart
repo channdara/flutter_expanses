@@ -9,12 +9,15 @@ import '../monthly_expenses/monthly_expenses_screen.dart';
 class DailyExpensesMonthWidget extends StatelessWidget {
   const DailyExpensesMonthWidget({super.key, required this.item});
 
-  final MonthModel item;
+  final MonthModel? item;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.push(MonthlyExpensesScreen(date: item.date)),
+      onTap: () {
+        if (item == null) return;
+        context.push(MonthlyExpensesScreen(date: item!.date));
+      },
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -30,7 +33,7 @@ class DailyExpensesMonthWidget extends StatelessWidget {
                     color: Colors.blue,
                     alignment: Alignment.center,
                     child: Text(
-                      item.getMyExpenses,
+                      item?.getMyExpenses ?? '...',
                       style: const TextStyle(color: Colors.white),
                     ),
                   ),
@@ -46,7 +49,7 @@ class DailyExpensesMonthWidget extends StatelessWidget {
                     color: Colors.pinkAccent,
                     alignment: Alignment.center,
                     child: Text(
-                      item.getBeeExpenses,
+                      item?.getBeeExpenses ?? '...',
                       style: const TextStyle(color: Colors.white),
                     ),
                   ),
@@ -63,7 +66,7 @@ class DailyExpensesMonthWidget extends StatelessWidget {
               color: Colors.green,
               alignment: Alignment.center,
               child: Text(
-                item.getTotalMonthlyExpenses,
+                item?.getTotalMonthlyExpenses ?? '...',
                 style: const TextStyle(color: Colors.white),
               ),
             ),

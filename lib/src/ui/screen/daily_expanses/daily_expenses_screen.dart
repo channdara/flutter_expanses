@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../common/base/base_state.dart';
 import '../../../common/extension/context_extension.dart';
+import '../../../model/day_model.dart';
 import '../../../model/month_model.dart';
 import '../add_item/add_item_screen.dart';
 import 'daily_expenses_list_widget.dart';
@@ -24,26 +25,28 @@ class _DailyExpensesScreenState extends BaseState<DailyExpensesScreen> {
       appBar: AppBar(title: const Text('Daily Expenses')),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () => context.push(const AddItemScreen()),
+        onPressed: () async {
+          await context.push(const AddItemScreen());
+          setState(() {});
+        },
       ),
       body: Column(
         children: [
-          StreamBuilder<DocumentSnapshot>(
-            stream: firestoreService.monthDocumentSnapshot(widget.date),
+          FutureBuilder<MonthModel>(
+            future: firestoreService.getCurrentMonthSummary(widget.date),
             builder: (context, snapshot) {
-              if (snapshot.data == null) return const SizedBox();
-              final data = snapshot.data!.data();
-              if (data == null) return const SizedBox();
-              final item = MonthModel.fromJson(data as Map<String, dynamic>);
-              return DailyExpensesMonthWidget(item: item);
+              return DailyExpensesMonthWidget(item: snapshot.data);
             },
           ),
           Expanded(
-            child: StreamBuilder<QuerySnapshot>(
-              stream: firestoreService.dayQuerySnapshot(widget.date),
+            child: FutureBuilder<List<DayModel>>(
+              future: firestoreService.getDailyExpenses(widget.date),
               builder: (context, snapshot) {
+                if (snapshot.connectionState != ConnectionState.done) {
+                  return const Center(child: CircularProgressIndicator());
+                }
                 if (snapshot.data == null) return const SizedBox();
-                return DailyExpensesListWidget(docs: snapshot.data!.docs);
+                return DailyExpensesListWidget(docs: snapshot.data!);
               },
             ),
           ),

@@ -10,37 +10,46 @@ class MonthlySummaryListItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(
-        Icons.arrow_circle_right_outlined,
-        color: Theme.of(context).primaryColor,
+    return Padding(
+      padding: 16.0.spacingBottom(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            item.day.getSummaryTotalExpenses,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 4.0),
+          Padding(
+            padding: 16.0.spacingLeft(),
+            child: Column(
+              children: item
+                  .getItems()
+                  .map((item) => Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Icon(
+                            Icons.subdirectory_arrow_right,
+                            color: Colors.grey,
+                            size: 16.0,
+                          ),
+                          const SizedBox(width: 4.0),
+                          Expanded(
+                            child: Text(
+                              item.content,
+                              style: TextStyle(
+                                fontSize: 12.0,
+                                color: item.getDisplayTextColor(),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ))
+                  .toList(),
+            ),
+          ),
+        ],
       ),
-      title: Text(
-        item.day.getSummaryTotalExpenses,
-        style: const TextStyle(fontWeight: FontWeight.bold),
-      ),
-      subtitle: Wrap(
-        spacing: 4.0,
-        runSpacing: 4.0,
-        children: item
-            .getItems()
-            .map((e) => Container(
-                  padding: [2.0, 8.0].spacingSymmetric(),
-                  decoration: BoxDecoration(
-                    borderRadius: 12.0.circular(),
-                    color: Colors.blue,
-                  ),
-                  child: Text(
-                    e.content,
-                    style: const TextStyle(
-                      fontSize: 12.0,
-                      color: Colors.white,
-                    ),
-                  ),
-                ))
-            .toList(),
-      ),
-      onTap: () {},
     );
   }
 }

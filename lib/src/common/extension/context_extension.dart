@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 extension ContextExtension on BuildContext {
-  void push(StatefulWidget screen) {
-    Navigator.of(this).push(MaterialPageRoute(builder: (_) => screen));
+  Future<void> push(StatefulWidget screen) async {
+    await Navigator.of(this).push(MaterialPageRoute(builder: (_) => screen));
   }
 
   void pop() {

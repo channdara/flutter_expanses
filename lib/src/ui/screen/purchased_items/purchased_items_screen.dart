@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../common/base/base_state.dart';
 import '../../../common/extension/timestamp_extension.dart';
+import '../../../model/item_model.dart';
 import 'purchased_items_list_widget.dart';
 
 class PurchasedItemsScreen extends StatefulWidget {
@@ -21,11 +22,14 @@ class _PurchasedItemsScreenState extends BaseState<PurchasedItemsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.appBarTitle)),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: firestoreService.itemQuerySnapshot(widget.date),
+      body: FutureBuilder<List<ItemModel>>(
+        future: firestoreService.getPurchasedItems(widget.date),
         builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return const Center(child: CircularProgressIndicator());
+          }
           if (snapshot.data == null) return const SizedBox();
-          return PurchasedItemsListWidget(docs: snapshot.data!.docs);
+          return PurchasedItemsListWidget(docs: snapshot.data!);
         },
       ),
     );

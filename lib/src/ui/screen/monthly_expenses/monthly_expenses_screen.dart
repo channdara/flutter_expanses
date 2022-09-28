@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../common/base/base_state.dart';
 import '../../../common/extension/timestamp_extension.dart';
+import '../../../model/month_model.dart';
 import 'monthly_expenses_list_widget.dart';
 
 class MonthlyExpensesScreen extends StatefulWidget {
@@ -21,11 +22,14 @@ class _MonthlyExpensesScreenState extends BaseState<MonthlyExpensesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.appBarTitle)),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: firestoreService.monthQuerySnapshot(widget.date),
+      body: FutureBuilder<List<MonthModel>>(
+        future: firestoreService.getMonthlyExpenses(widget.date),
         builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return const Center(child: CircularProgressIndicator());
+          }
           if (snapshot.data == null) return const SizedBox();
-          return MonthlyExpensesListWidget(docs: snapshot.data!.docs);
+          return MonthlyExpensesListWidget(docs: snapshot.data!);
         },
       ),
     );

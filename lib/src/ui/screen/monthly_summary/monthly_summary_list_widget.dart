@@ -12,7 +12,7 @@ class MonthlySummaryListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      padding: 8.0.spacingVertical(),
+      padding: [16.0, 16.0, 16.0, 0.0].spacingLTRB(),
       itemCount: docs.length,
       physics: const AlwaysScrollableScrollPhysics(),
       itemBuilder: (context, index) {

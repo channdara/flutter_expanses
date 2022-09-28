@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/extension/double_extension.dart';
@@ -8,7 +7,7 @@ import '../../screen/daily_expanses/daily_expenses_list_item_widget.dart';
 class DailyExpensesListWidget extends StatelessWidget {
   const DailyExpensesListWidget({super.key, required this.docs});
 
-  final List<QueryDocumentSnapshot> docs;
+  final List<DayModel> docs;
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +16,8 @@ class DailyExpensesListWidget extends StatelessWidget {
       itemCount: docs.length,
       physics: const AlwaysScrollableScrollPhysics(),
       itemBuilder: (context, index) {
-        final data = docs[index].data();
-        if (data == null) return const SizedBox();
-        final item = DayModel.fromJson(data as Map<String, dynamic>);
+        final item = docs[index];
+        if (item == null) return const SizedBox();
         return DailyExpensesListItemWidget(item: item);
       },
     );

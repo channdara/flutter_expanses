@@ -60,6 +60,17 @@ class ItemModel extends BaseModel {
     }
   }
 
+  Color getDisplayTextColor() {
+    switch (type) {
+      case ItemType.me:
+        return Colors.blue;
+      case ItemType.bee:
+        return Colors.pinkAccent;
+      default:
+        return Colors.green;
+    }
+  }
+
   String totalDollar() => (dollarMe + dollarBee).toString();
 
   String totalRiel() => (rielMe + rielBee).toString();
