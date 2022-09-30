@@ -29,7 +29,10 @@ class _MonthlyExpensesScreenState extends BaseState<MonthlyExpensesScreen> {
             return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.data == null) return const SizedBox();
-          return MonthlyExpensesListWidget(docs: snapshot.data!);
+          return RefreshIndicator(
+            onRefresh: awaitSetState,
+            child: MonthlyExpensesListWidget(docs: snapshot.data!),
+          );
         },
       ),
     );

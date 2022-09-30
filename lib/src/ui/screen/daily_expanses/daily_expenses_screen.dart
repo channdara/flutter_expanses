@@ -25,10 +25,7 @@ class _DailyExpensesScreenState extends BaseState<DailyExpensesScreen> {
       appBar: AppBar(title: const Text('Daily Expenses')),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () async {
-          await context.push(const AddItemScreen());
-          setState(() {});
-        },
+        onPressed: () => context.push(const AddItemScreen()),
       ),
       body: Column(
         children: [
@@ -46,7 +43,10 @@ class _DailyExpensesScreenState extends BaseState<DailyExpensesScreen> {
                   return const Center(child: CircularProgressIndicator());
                 }
                 if (snapshot.data == null) return const SizedBox();
-                return DailyExpensesListWidget(docs: snapshot.data!);
+                return RefreshIndicator(
+                  onRefresh: awaitSetState,
+                  child: DailyExpensesListWidget(docs: snapshot.data!),
+                );
               },
             ),
           ),

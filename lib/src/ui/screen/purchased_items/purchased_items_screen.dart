@@ -29,7 +29,10 @@ class _PurchasedItemsScreenState extends BaseState<PurchasedItemsScreen> {
             return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.data == null) return const SizedBox();
-          return PurchasedItemsListWidget(docs: snapshot.data!);
+          return RefreshIndicator(
+            onRefresh: awaitSetState,
+            child: PurchasedItemsListWidget(docs: snapshot.data!),
+          );
         },
       ),
     );

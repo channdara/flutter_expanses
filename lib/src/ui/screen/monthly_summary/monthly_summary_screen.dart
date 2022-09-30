@@ -29,7 +29,10 @@ class _MonthlySummaryScreenState extends BaseState<MonthlySummaryScreen> {
             return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.data == null) return const SizedBox();
-          return MonthlySummaryListWidget(docs: snapshot.data!);
+          return RefreshIndicator(
+            onRefresh: awaitSetState,
+            child: MonthlySummaryListWidget(docs: snapshot.data!),
+          );
         },
       ),
     );
