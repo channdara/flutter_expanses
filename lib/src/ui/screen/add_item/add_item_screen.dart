@@ -5,6 +5,7 @@ import '../../../common/base/base_state.dart';
 import '../../../common/extension/context_extension.dart';
 import '../../../common/extension/double_extension.dart';
 import '../../../common/extension/string_extension.dart';
+import '../../../common/extension/timestamp_extension.dart';
 import '../../../model/enum/item_type.dart';
 import '../../../model/item_model.dart';
 import '../../widget/elevated_button_widget.dart';
@@ -22,6 +23,9 @@ class AddItemScreen extends StatefulWidget {
 
   String get buttonText => willAdd ? 'Add' : 'Update';
 
+  String get getDate =>
+      willAdd ? Timestamp.now().toYearMonthDay() : item!.date.toYearMonthDay();
+
   @override
   State<AddItemScreen> createState() => _AddItemScreenState();
 }
@@ -32,9 +36,12 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
   late TextEditingController _itemController;
   late TextEditingController _dollarController;
   late TextEditingController _rielController;
+  late TextEditingController _dateController;
   late FocusNode _itemFocusNode;
   late FocusNode _dollarFocusNode;
   late FocusNode _rielFocusNode;
+
+  Timestamp timestamp = Timestamp.now();
 
   @override
   void initState() {
@@ -48,11 +55,13 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
     _itemController = TextEditingController(text: widget.item?.content);
     _dollarController = TextEditingController(text: widget.item?.totalDollar());
     _rielController = TextEditingController(text: widget.item?.totalRiel());
+    _dateController = TextEditingController(text: widget.getDate);
 
     _itemFocusNode = FocusNode();
     _dollarFocusNode = FocusNode();
     _rielFocusNode = FocusNode();
     if (widget.willAdd) _itemFocusNode.requestFocus();
+    if (!widget.willAdd) timestamp = widget.item!.date;
     super.initState();
   }
 
@@ -62,6 +71,7 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
     _itemController.dispose();
     _dollarController.dispose();
     _rielController.dispose();
+    _dateController.dispose();
     _itemFocusNode.dispose();
     _dollarFocusNode.dispose();
     _rielFocusNode.dispose();
@@ -77,6 +87,8 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
     _itemController.clear();
     _dollarController.clear();
     _rielController.clear();
+    timestamp = Timestamp.now();
+    _dateController.text = Timestamp.now().toYearMonthDay();
     _tabController.animateTo(0);
     _itemFocusNode.requestFocus();
   }
@@ -123,6 +135,39 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
                 ],
               ),
               TabBarWidget(controller: _tabController),
+              Stack(
+                children: [
+                  TextFormFieldWidget(
+                    labelText: 'Timestamp',
+                    prefixIcon: const Icon(Icons.edit_calendar),
+                    enabled: widget.willAdd,
+                    controller: _dateController,
+                  ),
+                  if (widget.willAdd)
+                    GestureDetector(
+                      child: Container(
+                        color: Colors.transparent,
+                        height: 48.0,
+                        width: double.infinity,
+                      ),
+                      onTap: () {
+                        final now = DateTime.now();
+                        showDatePicker(
+                          context: context,
+                          initialDate: now,
+                          firstDate: now.subtract(const Duration(days: 7)),
+                          lastDate: now,
+                        ).then((value) {
+                          if (value == null) return;
+                          setState(() {
+                            timestamp = Timestamp.fromDate(value);
+                            _dateController.text = timestamp.toYearMonthDay();
+                          });
+                        });
+                      },
+                    ),
+                ],
+              ),
               ElevatedButtonWidget(
                 margin: 16.0.spacingTop(),
                 label: widget.buttonText,
@@ -131,8 +176,7 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
                     context.showErrorSnackBar('Item Description is required');
                     return;
                   }
-                  final timestamp = Timestamp.now();
-                  final newItem = _createPurchaseItem(timestamp);
+                  final newItem = _createPurchaseItem();
                   if (widget.willAdd) {
                     _addPurchaseItem(newItem);
                     _clearController();
@@ -149,7 +193,7 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
     );
   }
 
-  ItemModel _createPurchaseItem(Timestamp timestamp) {
+  ItemModel _createPurchaseItem() {
     final type = ItemType.getItemType(_tabController.index);
     double dollarMe = 0.0;
     double dollarBee = 0.0;
