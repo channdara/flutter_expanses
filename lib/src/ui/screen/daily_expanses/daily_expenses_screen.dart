@@ -6,8 +6,8 @@ import '../../../common/extension/context_extension.dart';
 import '../../../model/day_model.dart';
 import '../../../model/month_model.dart';
 import '../add_item/add_item_screen.dart';
-import 'daily_expenses_list_widget.dart';
-import 'daily_expenses_month_widget.dart';
+import 'daily_expenses_screen_list_widget.dart';
+import 'daily_expenses_screen_summary_widget.dart';
 
 class DailyExpensesScreen extends StatefulWidget {
   const DailyExpensesScreen({super.key, required this.date});
@@ -32,7 +32,7 @@ class _DailyExpensesScreenState extends BaseState<DailyExpensesScreen> {
           FutureBuilder<MonthModel>(
             future: firestoreService.getCurrentMonthSummary(widget.date),
             builder: (context, snapshot) {
-              return DailyExpensesMonthWidget(item: snapshot.data);
+              return DailyExpensesScreenSummaryWidget(item: snapshot.data);
             },
           ),
           Expanded(
@@ -45,7 +45,7 @@ class _DailyExpensesScreenState extends BaseState<DailyExpensesScreen> {
                 if (snapshot.data == null) return const SizedBox();
                 return RefreshIndicator(
                   onRefresh: awaitSetState,
-                  child: DailyExpensesListWidget(docs: snapshot.data!),
+                  child: DailyExpensesScreenListWidget(docs: snapshot.data!),
                 );
               },
             ),

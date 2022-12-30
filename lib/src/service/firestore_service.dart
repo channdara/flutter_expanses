@@ -83,11 +83,10 @@ class FirestoreService {
     _day(timestamp).update(item.toIncrementJson(isIncrement: isIncrement));
   }
 
-  Future<Timestamp> checkCurrentDate() async {
+  Future<void> checkCurrentDate() async {
     await _checkYear();
     await _checkMonth();
     await _checkDay();
-    return _timestamp;
   }
 
   Future<List<MonthlySummary>> getMonthlySummary(Timestamp timestamp) async {

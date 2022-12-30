@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../common/base/base_state.dart';
 import '../../../common/extension/timestamp_extension.dart';
 import '../../../model/item_model.dart';
-import 'purchased_items_list_widget.dart';
+import 'purchased_items_screen_list_widget.dart';
 
 class PurchasedItemsScreen extends StatefulWidget {
   const PurchasedItemsScreen({super.key, required this.date});
@@ -31,7 +31,7 @@ class _PurchasedItemsScreenState extends BaseState<PurchasedItemsScreen> {
           if (snapshot.data == null) return const SizedBox();
           return RefreshIndicator(
             onRefresh: awaitSetState,
-            child: PurchasedItemsListWidget(docs: snapshot.data!),
+            child: PurchasedItemsScreenListWidget(docs: snapshot.data!),
           );
         },
       ),

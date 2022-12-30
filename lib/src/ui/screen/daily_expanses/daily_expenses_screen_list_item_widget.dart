@@ -5,19 +5,15 @@ import '../../../common/extension/timestamp_extension.dart';
 import '../../../model/day_model.dart';
 import '../purchased_items/purchased_items_screen.dart';
 
-class DailyExpensesListItemWidget extends StatelessWidget {
-  const DailyExpensesListItemWidget({super.key, required this.item});
+class DailyExpensesScreenListItemWidget extends StatelessWidget {
+  const DailyExpensesScreenListItemWidget({super.key, required this.item});
 
   final DayModel item;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(
-        Icons.circle,
-        size: 20.0,
-        color: item.date.getDayOfWeekColor(),
-      ),
+      leading: const Icon(Icons.circle, size: 20.0, color: Colors.blue),
       title: Text(
         item.date.toYearMonthDay(),
         style: const TextStyle(fontWeight: FontWeight.bold),

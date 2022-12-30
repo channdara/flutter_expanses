@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 
 import '../../../common/extension/double_extension.dart';
-import '../../../model/month_model.dart';
-import 'monthly_expenses_list_item_widget.dart';
+import '../../../model/day_model.dart';
+import '../../screen/daily_expanses/daily_expenses_screen_list_item_widget.dart';
 
-class MonthlyExpensesListWidget extends StatelessWidget {
-  const MonthlyExpensesListWidget({super.key, required this.docs});
+class DailyExpensesScreenListWidget extends StatelessWidget {
+  const DailyExpensesScreenListWidget({super.key, required this.docs});
 
-  final List<MonthModel> docs;
+  final List<DayModel> docs;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      padding: 8.0.spacingVertical(),
+      padding: 70.0.spacingBottom(),
       itemCount: docs.length,
       physics: const AlwaysScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         final item = docs[index];
         if (item == null) return const SizedBox();
-        return MonthlyExpensesListItemWidget(item: item);
+        return DailyExpensesScreenListItemWidget(item: item);
       },
     );
   }

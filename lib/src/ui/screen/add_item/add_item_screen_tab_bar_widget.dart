@@ -4,8 +4,8 @@ import '../../../common/extension/double_extension.dart';
 import '../../../common/extension/string_extension.dart';
 import '../../../model/enum/item_type.dart';
 
-class TabBarWidget extends StatelessWidget {
-  const TabBarWidget({super.key, required this.controller});
+class AddItemScreenTabBarWidget extends StatelessWidget {
+  const AddItemScreenTabBarWidget({super.key, required this.controller});
 
   final TabController controller;
 

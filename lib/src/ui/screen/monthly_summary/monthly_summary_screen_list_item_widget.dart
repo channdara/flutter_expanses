@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../common/extension/double_extension.dart';
 import '../../../model/monthly_summary.dart';
 
-class MonthlySummaryListItemWidget extends StatelessWidget {
-  const MonthlySummaryListItemWidget({super.key, required this.item});
+class MonthlySummaryScreenListItemWidget extends StatelessWidget {
+  const MonthlySummaryScreenListItemWidget({super.key, required this.item});
 
   final MonthlySummary item;
 

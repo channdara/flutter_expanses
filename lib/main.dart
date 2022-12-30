@@ -1,9 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-import 'src/common/extension/timestamp_extension.dart';
-import 'src/ui/screen/splash_screen.dart';
+import 'src/ui/screen/splash_screen/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,8 +22,12 @@ class _MainAppState extends State<MainApp> {
     return MaterialApp(
       home: const SplashScreen(),
       theme: ThemeData(
-        primarySwatch: Timestamp.now().getDayOfWeekColor(),
         fontFamily: 'ProductSan',
+        appBarTheme: AppBarTheme(
+          elevation: 0.0,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          foregroundColor: Colors.black,
+        ),
       ),
     );
   }

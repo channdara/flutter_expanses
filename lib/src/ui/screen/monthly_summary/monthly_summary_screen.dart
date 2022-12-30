@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../common/base/base_state.dart';
 import '../../../common/extension/timestamp_extension.dart';
 import '../../../model/monthly_summary.dart';
-import 'monthly_summary_list_widget.dart';
+import 'monthly_summary_screen_list_widget.dart';
 
 class MonthlySummaryScreen extends StatefulWidget {
   const MonthlySummaryScreen({super.key, required this.date});
@@ -31,7 +31,7 @@ class _MonthlySummaryScreenState extends BaseState<MonthlySummaryScreen> {
           if (snapshot.data == null) return const SizedBox();
           return RefreshIndicator(
             onRefresh: awaitSetState,
-            child: MonthlySummaryListWidget(docs: snapshot.data!),
+            child: MonthlySummaryScreenListWidget(docs: snapshot.data!),
           );
         },
       ),
