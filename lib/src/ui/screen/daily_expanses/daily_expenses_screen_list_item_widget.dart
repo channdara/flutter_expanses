@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../common/color_constant.dart';
 import '../../../common/extension/context_extension.dart';
 import '../../../common/extension/timestamp_extension.dart';
 import '../../../model/day_model.dart';
@@ -13,7 +14,11 @@ class DailyExpensesScreenListItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: const Icon(Icons.circle, size: 20.0, color: Colors.blue),
+      leading: const Icon(
+        Icons.circle,
+        size: 20.0,
+        color: ColorConstant.colorPrimary,
+      ),
       title: Text(
         item.date.toYearMonthDay(),
         style: const TextStyle(fontWeight: FontWeight.bold),

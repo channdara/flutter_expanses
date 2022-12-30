@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../common/color_constant.dart';
 import '../../../common/extension/double_extension.dart';
 import '../../../model/monthly_summary.dart';
 
@@ -18,7 +19,7 @@ class MonthlySummaryScreenListItemWidget extends StatelessWidget {
         children: [
           Container(
             width: double.infinity,
-            color: Colors.blue,
+            color: ColorConstant.colorPrimary,
             padding: [8.0, 16.0].spacingSymmetric(),
             child: Text(
               item.day.getSummaryTotalExpenses,

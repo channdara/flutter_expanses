@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../common/color_constant.dart';
+
 class SavingScreen extends StatefulWidget {
   const SavingScreen({super.key});
 
@@ -17,7 +19,7 @@ class _SavingScreenState extends State<SavingScreen> {
         children: [
           Stack(
             children: [
-              Container(height: size, color: Colors.blue),
+              Container(height: size, color: ColorConstant.colorPrimary),
             ],
           ),
           const Expanded(

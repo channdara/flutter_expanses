@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../../common/base/base_state.dart';
+import '../../../common/color_constant.dart';
 import '../../../common/extension/context_extension.dart';
 import '../../../common/extension/double_extension.dart';
 import '../../../common/extension/timestamp_extension.dart';
@@ -75,7 +76,7 @@ class _DailyExpensesScreenState extends BaseState<DailyExpensesScreen>
         children: [
           Stack(
             children: [
-              Container(height: size, color: Colors.blue),
+              Container(height: size, color: ColorConstant.colorPrimary),
               Container(
                 margin: (size / 2).spacingTop(),
                 child: FutureBuilder<MonthModel>(
@@ -109,7 +110,7 @@ class _DailyExpensesScreenState extends BaseState<DailyExpensesScreen>
               unselectedLabelColor: Colors.black,
               padding: 4.0.spacingAll(),
               indicator: BoxDecoration(
-                color: Colors.blue,
+                color: Theme.of(context).primaryColor,
                 borderRadius: 8.0.circular(),
               ),
               tabs: _tabBarItems

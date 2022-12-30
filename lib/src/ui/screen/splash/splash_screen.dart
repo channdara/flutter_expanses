@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../common/base/base_state.dart';
+import '../../../common/color_constant.dart';
 import '../../../common/extension/context_extension.dart';
 import '../main_screen/main_screen.dart';
 
@@ -22,6 +23,6 @@ class _SplashScreenState extends BaseState<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return const Scaffold(backgroundColor: ColorConstant.colorPrimary);
   }
 }
