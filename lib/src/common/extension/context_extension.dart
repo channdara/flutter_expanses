@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../color_constant.dart';
+
 extension ContextExtension on BuildContext {
   Future<void> push(StatefulWidget screen) async {
     await Navigator.of(this).push(MaterialPageRoute(builder: (_) => screen));
@@ -21,14 +23,14 @@ extension ContextExtension on BuildContext {
 
   void showErrorSnackBar(String content) {
     ScaffoldMessenger.of(this).showSnackBar(SnackBar(
-      backgroundColor: Colors.red,
+      backgroundColor: ColorConstant.colorFailed,
       content: Text('ERROR: $content'),
     ));
   }
 
   void showSuccessSnackBar(String content) {
     ScaffoldMessenger.of(this).showSnackBar(SnackBar(
-      backgroundColor: Colors.green,
+      backgroundColor: ColorConstant.colorSuccess,
       content: Text('SUCCESS: $content'),
     ));
   }
