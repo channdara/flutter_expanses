@@ -37,7 +37,7 @@ class MonthModel extends BaseModel {
       '\$${totalDollarBee.toStringAsFixed(2)}   ·   ${totalRielBee}r';
 
   String get getTotalMonthlyExpenses =>
-      'Total This Month: \$${(totalDollarMe + totalDollarBee).toStringAsFixed(2)}   ·   ${totalRielMe + totalRielBee}r';
+      '\$${(totalDollarMe + totalDollarBee).toStringAsFixed(2)}   ·   ${totalRielMe + totalRielBee}r';
 
   @override
   Map<String, Object?> toJson() => {

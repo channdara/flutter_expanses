@@ -17,48 +17,64 @@ class DailyExpensesScreenSummaryWidget extends StatelessWidget {
         if (item == null) return;
         context.push(MonthlyExpensesScreen(date: item!.date));
       },
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
+      child: Card(
+        margin: 16.0.spacingAll(),
+        shape: RoundedRectangleBorder(borderRadius: 12.0.circular()),
+        child: Padding(
+          padding: [16.0, 8.0].spacingSymmetric(),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Expanded(
-                child: Container(
-                  width: double.infinity,
-                  padding: 16.0.spacingAll(),
-                  color: Colors.blue,
-                  alignment: Alignment.center,
-                  child: Text(
-                    item?.getMyExpenses ?? '...',
-                    style: const TextStyle(color: Colors.white),
+              Row(
+                children: const [
+                  Expanded(
+                    child: Text(
+                      'My expenses',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.grey, fontSize: 12.0),
+                    ),
                   ),
-                ),
+                  SizedBox(width: 8.0),
+                  Expanded(
+                    child: Text(
+                      'Bee expenses',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.grey, fontSize: 12.0),
+                    ),
+                  ),
+                ],
               ),
-              Expanded(
-                child: Container(
-                  width: double.infinity,
-                  padding: 16.0.spacingAll(),
-                  color: Colors.pinkAccent,
-                  alignment: Alignment.center,
-                  child: Text(
-                    item?.getBeeExpenses ?? '...',
-                    style: const TextStyle(color: Colors.white),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      item?.getMyExpenses ?? '...',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(color: Colors.blue),
+                    ),
                   ),
-                ),
+                  const SizedBox(width: 8.0),
+                  Expanded(
+                    child: Text(
+                      item?.getBeeExpenses ?? '...',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(color: Colors.pinkAccent),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16.0),
+              const Text(
+                'Total expenses for this month',
+                style: TextStyle(color: Colors.grey, fontSize: 12.0),
+              ),
+              Text(
+                item?.getTotalMonthlyExpenses ?? '...',
+                style: const TextStyle(color: Colors.green),
               ),
             ],
           ),
-          Container(
-            width: double.infinity,
-            padding: 16.0.spacingAll(),
-            color: Colors.green,
-            alignment: Alignment.center,
-            child: Text(
-              item?.getTotalMonthlyExpenses ?? '...',
-              style: const TextStyle(color: Colors.white),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

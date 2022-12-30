@@ -12,7 +12,7 @@ class PurchasedItemsScreenListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      padding: 8.0.spacingVertical(),
+      padding: 70.0.spacingBottom(),
       itemCount: docs.length,
       physics: const AlwaysScrollableScrollPhysics(),
       itemBuilder: (context, index) {

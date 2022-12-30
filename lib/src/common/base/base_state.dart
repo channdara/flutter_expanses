@@ -6,6 +6,9 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
   @protected
   final FirestoreService firestoreService = FirestoreService();
 
+  @protected
   Future<void> awaitSetState() async => Future<void>.delayed(
-      const Duration(milliseconds: 100), () => setState(() {}));
+        const Duration(milliseconds: 100),
+        () => setState(() {}),
+      );
 }

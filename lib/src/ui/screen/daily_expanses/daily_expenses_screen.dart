@@ -1,43 +1,125 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../../common/base/base_state.dart';
 import '../../../common/extension/context_extension.dart';
-import '../../../model/day_model.dart';
+import '../../../common/extension/double_extension.dart';
+import '../../../common/extension/timestamp_extension.dart';
+import '../../../model/item_model.dart';
 import '../../../model/month_model.dart';
 import '../add_item/add_item_screen.dart';
-import 'daily_expenses_screen_list_widget.dart';
+import '../purchased_items/purchased_items_screen_list_widget.dart';
 import 'daily_expenses_screen_summary_widget.dart';
 
 class DailyExpensesScreen extends StatefulWidget {
-  const DailyExpensesScreen({super.key, required this.date});
-
-  final Timestamp date;
+  const DailyExpensesScreen({super.key});
 
   @override
   State<DailyExpensesScreen> createState() => _DailyExpensesScreenState();
 }
 
-class _DailyExpensesScreenState extends BaseState<DailyExpensesScreen> {
+class _DailyExpensesScreenState extends BaseState<DailyExpensesScreen>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+  final List<Timestamp> _tabBarItems = [];
+  Timestamp _date = Timestamp.now();
+
+  @override
+  void initState() {
+    super.initState();
+    _generateTabBarItems();
+    _tabController = TabController(
+      length: _tabBarItems.length,
+      initialIndex: _getCurrentTabBarIndex(),
+      vsync: this,
+    );
+    _tabController.addListener(_tabControllerListener);
+  }
+
+  void _generateTabBarItems() {
+    final DateTime now = DateTime.now();
+    final DateTime lastDayOfMonth = DateTime(now.year, now.month + 1, 0);
+    List.generate(
+      lastDayOfMonth.day,
+      (index) {
+        final date = DateTime(now.year, now.month, index + 1);
+        final timestamp = Timestamp.fromDate(date);
+        _tabBarItems.add(timestamp);
+      },
+    );
+  }
+
+  int _getCurrentTabBarIndex() {
+    final DateTime now = DateTime.now();
+    return _tabBarItems.indexWhere((element) => element.day == now.day);
+  }
+
+  void _tabControllerListener() {
+    if (_tabController.indexIsChanging) {
+      _date = _tabBarItems[_tabController.index];
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size.width / 3;
     return Scaffold(
-      appBar: AppBar(title: const Text('Daily Expenses')),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () => context.push(const AddItemScreen()),
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          FutureBuilder<MonthModel>(
-            future: firestoreService.getCurrentMonthSummary(widget.date),
-            builder: (context, snapshot) {
-              return DailyExpensesScreenSummaryWidget(item: snapshot.data);
-            },
+          Stack(
+            children: [
+              Container(height: size, color: Colors.blue),
+              Container(
+                margin: (size / 2).spacingTop(),
+                child: FutureBuilder<MonthModel>(
+                  future: firestoreService.getCurrentMonthSummary(
+                    Timestamp.now(),
+                  ),
+                  builder: (context, snapshot) {
+                    final item = snapshot.data;
+                    return DailyExpensesScreenSummaryWidget(item: item);
+                  },
+                ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 16.0),
+            child: Text(
+              DateFormat('dd MMMM yyyy').format(_date.toDate()),
+              style: const TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Card(
+            margin: const EdgeInsets.only(top: 4.0),
+            shape: const RoundedRectangleBorder(),
+            child: TabBar(
+              controller: _tabController,
+              isScrollable: true,
+              unselectedLabelColor: Colors.black,
+              padding: 4.0.spacingAll(),
+              indicator: BoxDecoration(
+                color: Colors.blue,
+                borderRadius: 8.0.circular(),
+              ),
+              tabs: _tabBarItems
+                  .map((e) => Tab(child: Text(e.getDay())))
+                  .toList(),
+            ),
           ),
           Expanded(
-            child: FutureBuilder<List<DayModel>>(
-              future: firestoreService.getDailyExpenses(widget.date),
+            child: FutureBuilder<List<ItemModel>>(
+              future: firestoreService.getPurchasedItems(_date),
               builder: (context, snapshot) {
                 if (snapshot.connectionState != ConnectionState.done) {
                   return const Center(child: CircularProgressIndicator());
@@ -45,7 +127,7 @@ class _DailyExpensesScreenState extends BaseState<DailyExpensesScreen> {
                 if (snapshot.data == null) return const SizedBox();
                 return RefreshIndicator(
                   onRefresh: awaitSetState,
-                  child: DailyExpensesScreenListWidget(docs: snapshot.data!),
+                  child: PurchasedItemsScreenListWidget(docs: snapshot.data!),
                 );
               },
             ),

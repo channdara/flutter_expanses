@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../common/extension/double_extension.dart';
 import '../../../model/monthly_summary.dart';
 import 'monthly_summary_screen_list_item_widget.dart';
 
@@ -12,7 +11,7 @@ class MonthlySummaryScreenListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      padding: [16.0, 16.0, 16.0, 0.0].spacingLTRB(),
+      padding: EdgeInsets.zero,
       itemCount: docs.length,
       physics: const AlwaysScrollableScrollPhysics(),
       itemBuilder: (context, index) {

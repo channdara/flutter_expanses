@@ -10,18 +10,24 @@ class MonthlySummaryScreenListItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: 16.0.spacingBottom(),
+    return Card(
+      margin: 16.0.spacingAll().copyWith(top: 0.0),
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      shape: RoundedRectangleBorder(borderRadius: 12.0.circular()),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            item.day.getSummaryTotalExpenses,
-            style: const TextStyle(fontWeight: FontWeight.bold),
+          Container(
+            width: double.infinity,
+            color: Colors.blue,
+            padding: [8.0, 16.0].spacingSymmetric(),
+            child: Text(
+              item.day.getSummaryTotalExpenses,
+              style: const TextStyle(fontSize: 16.0, color: Colors.white),
+            ),
           ),
-          const SizedBox(height: 4.0),
-          Padding(
-            padding: 16.0.spacingLeft(),
+          Container(
+            width: double.infinity,
+            padding: 16.0.spacingAll(),
             child: Column(
               children: item
                   .getItems()
@@ -33,12 +39,11 @@ class MonthlySummaryScreenListItemWidget extends StatelessWidget {
                             color: Colors.grey,
                             size: 16.0,
                           ),
-                          const SizedBox(width: 4.0),
+                          const SizedBox(width: 8.0),
                           Expanded(
                             child: Text(
                               item.content,
                               style: TextStyle(
-                                fontSize: 12.0,
                                 color: item.getDisplayTextColor(),
                               ),
                             ),

@@ -1,9 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/base/base_state.dart';
 import '../daily_expanses/daily_expenses_screen.dart';
-import '../monthly_expenses/monthly_expenses_screen.dart';
+import '../saving/saving_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -20,10 +19,7 @@ class _MainScreenState extends BaseState<MainScreen> {
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
-        children: [
-          DailyExpensesScreen(date: Timestamp.now()),
-          MonthlyExpensesScreen(date: Timestamp.now()),
-        ],
+        children: const [DailyExpensesScreen(), SavingScreen()],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
