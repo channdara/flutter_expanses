@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../../common/base/base_state.dart';
-import '../../../common/color_constant.dart';
 import '../../../common/extension/context_extension.dart';
 import '../../../common/extension/timestamp_extension.dart';
 import '../../../model/item_model.dart';
 import '../../../model/month_model.dart';
+import '../../widget/custom_app_bar.dart';
 import '../add_item_screen/add_item_screen.dart';
 import 'daily_expenses_screen_list.dart';
 import 'daily_expenses_screen_summary.dart';
@@ -64,7 +64,6 @@ class _DailyExpensesScreenState extends BaseState<DailyExpensesScreen>
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size.width / 3;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
@@ -73,22 +72,16 @@ class _DailyExpensesScreenState extends BaseState<DailyExpensesScreen>
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Stack(
-            children: [
-              Container(height: size, color: ColorConstant.colorPrimary),
-              Container(
-                margin: EdgeInsets.only(top: size / 2),
-                child: FutureBuilder<MonthModel>(
-                  future: firestoreService.getCurrentMonthSummary(
-                    Timestamp.now(),
-                  ),
-                  builder: (context, snapshot) {
-                    final item = snapshot.data;
-                    return DailyExpensesScreenSummary(item: item);
-                  },
-                ),
+          CustomAppBar(
+            child: FutureBuilder<MonthModel>(
+              future: firestoreService.getCurrentMonthSummary(
+                Timestamp.now(),
               ),
-            ],
+              builder: (context, snapshot) {
+                final item = snapshot.data;
+                return DailyExpensesScreenSummary(item: item);
+              },
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 16.0),

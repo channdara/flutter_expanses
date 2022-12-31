@@ -10,9 +10,7 @@ import '../model/monthly_summary.dart';
 import '../model/year_model.dart';
 
 class FirestoreService {
-  factory FirestoreService() {
-    return _singleton;
-  }
+  factory FirestoreService() => _singleton;
 
   FirestoreService._internal();
 

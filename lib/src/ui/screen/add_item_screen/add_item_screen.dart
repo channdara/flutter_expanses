@@ -40,7 +40,7 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
   late FocusNode _dollarFocusNode;
   late FocusNode _rielFocusNode;
 
-  Timestamp timestamp = Timestamp.now();
+  Timestamp _timestamp = Timestamp.now();
 
   @override
   void initState() {
@@ -60,7 +60,7 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
     _dollarFocusNode = FocusNode();
     _rielFocusNode = FocusNode();
     if (widget.willAdd) _itemFocusNode.requestFocus();
-    if (!widget.willAdd) timestamp = widget.item!.date;
+    if (!widget.willAdd) _timestamp = widget.item!.date;
     super.initState();
   }
 
@@ -86,7 +86,7 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
     _itemController.clear();
     _dollarController.clear();
     _rielController.clear();
-    timestamp = Timestamp.now();
+    _timestamp = Timestamp.now();
     _dateController.text = Timestamp.now().toYearMonthDay();
     _tabController.animateTo(0);
     _itemFocusNode.requestFocus();
@@ -159,8 +159,8 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
                         ).then((value) {
                           if (value == null) return;
                           setState(() {
-                            timestamp = Timestamp.fromDate(value);
-                            _dateController.text = timestamp.toYearMonthDay();
+                            _timestamp = Timestamp.fromDate(value);
+                            _dateController.text = _timestamp.toYearMonthDay();
                           });
                         });
                       },
@@ -223,14 +223,14 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
         }
     }
     return ItemModel(
-      id: timestamp.seconds,
+      id: _timestamp.seconds,
       content: _itemController.text.trim(),
       type: type,
       dollarMe: dollarMe,
       dollarBee: dollarBee,
       rielMe: rielMe,
       rielBee: rielBee,
-      date: timestamp,
+      date: _timestamp,
     );
   }
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../common/color_constant.dart';
+import '../../widget/custom_app_bar.dart';
 
 class SavingScreen extends StatefulWidget {
   const SavingScreen({super.key});
@@ -12,17 +12,12 @@ class SavingScreen extends StatefulWidget {
 class _SavingScreenState extends State<SavingScreen> {
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size.width / 3;
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              Container(height: size, color: ColorConstant.colorPrimary),
-            ],
-          ),
-          const Expanded(
+        children: const [
+          CustomAppBar(),
+          Expanded(
             child: Center(
               child: Text('To be implement soon!'),
             ),

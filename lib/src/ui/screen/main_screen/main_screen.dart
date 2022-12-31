@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../common/base/base_state.dart';
 import '../daily_expanses_screen/daily_expenses_screen.dart';
 import '../saving_screen/saving_screen.dart';
+import '../settings_screen/settings_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -19,7 +20,11 @@ class _MainScreenState extends BaseState<MainScreen> {
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
-        children: const [DailyExpensesScreen(), SavingScreen()],
+        children: const [
+          DailyExpensesScreen(),
+          SavingScreen(),
+          SettingsScreen(),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
@@ -35,6 +40,10 @@ class _MainScreenState extends BaseState<MainScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.arrow_downward),
             label: 'Saving',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
           ),
         ],
       ),
