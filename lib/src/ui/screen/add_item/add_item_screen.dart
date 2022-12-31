@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../../../common/base/base_state.dart';
 import '../../../common/extension/context_extension.dart';
-import '../../../common/extension/double_extension.dart';
 import '../../../common/extension/string_extension.dart';
 import '../../../common/extension/timestamp_extension.dart';
 import '../../../model/enum/item_type.dart';
@@ -100,7 +99,7 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
       child: Scaffold(
         appBar: AppBar(title: Text(widget.appBarTitle)),
         body: Padding(
-          padding: 16.0.spacingAll(),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
               TextFormFieldWidget(
@@ -169,7 +168,7 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
                 ],
               ),
               ElevatedButtonWidget(
-                margin: 16.0.spacingTop(),
+                margin: const EdgeInsets.only(top: 16.0),
                 label: widget.buttonText,
                 onPressed: () {
                   if (_itemController.text.trim().isEmpty) {

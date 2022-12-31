@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../common/extension/double_extension.dart';
-
 class TextFormFieldWidget extends StatelessWidget {
   const TextFormFieldWidget({
     super.key,
@@ -30,8 +28,8 @@ class TextFormFieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       decoration: InputDecoration(
-        contentPadding: 16.0.spacingHorizontal(),
-        border: OutlineInputBorder(borderRadius: 12.0.circular()),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
         labelText: labelText,
         prefixIcon: prefixIcon,
       ),

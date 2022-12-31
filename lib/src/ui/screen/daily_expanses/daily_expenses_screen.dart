@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import '../../../common/base/base_state.dart';
 import '../../../common/color_constant.dart';
 import '../../../common/extension/context_extension.dart';
-import '../../../common/extension/double_extension.dart';
 import '../../../common/extension/timestamp_extension.dart';
 import '../../../model/item_model.dart';
 import '../../../model/month_model.dart';
@@ -78,7 +77,7 @@ class _DailyExpensesScreenState extends BaseState<DailyExpensesScreen>
             children: [
               Container(height: size, color: ColorConstant.colorPrimary),
               Container(
-                margin: (size / 2).spacingTop(),
+                margin: EdgeInsets.only(top: size / 2),
                 child: FutureBuilder<MonthModel>(
                   future: firestoreService.getCurrentMonthSummary(
                     Timestamp.now(),
@@ -107,11 +106,11 @@ class _DailyExpensesScreenState extends BaseState<DailyExpensesScreen>
             child: TabBar(
               controller: _tabController,
               isScrollable: true,
-              unselectedLabelColor: Colors.black,
-              padding: 4.0.spacingAll(),
+              unselectedLabelColor: Colors.grey,
+              padding: const EdgeInsets.all(4.0),
               indicator: BoxDecoration(
                 color: Theme.of(context).primaryColor,
-                borderRadius: 8.0.circular(),
+                borderRadius: BorderRadius.circular(8.0),
               ),
               tabs: _tabBarItems
                   .map((e) => Tab(child: Text(e.getDay())))

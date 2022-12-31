@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../common/color_constant.dart';
-import '../../../common/extension/double_extension.dart';
 import '../../../model/monthly_summary.dart';
 
 class MonthlySummaryScreenListItemWidget extends StatelessWidget {
@@ -12,23 +11,26 @@ class MonthlySummaryScreenListItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: 16.0.spacingAll().copyWith(top: 0.0),
+      margin: const EdgeInsets.all(16.0).copyWith(top: 0.0),
       clipBehavior: Clip.antiAliasWithSaveLayer,
-      shape: RoundedRectangleBorder(borderRadius: 12.0.circular()),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
       child: Column(
         children: [
           Container(
             width: double.infinity,
             color: ColorConstant.colorPrimary,
-            padding: [8.0, 16.0].spacingSymmetric(),
+            padding: const EdgeInsets.symmetric(
+              vertical: 8.0,
+              horizontal: 16.0,
+            ),
             child: Text(
               item.day.getSummaryTotalExpenses,
-              style: const TextStyle(fontSize: 16.0, color: Colors.white),
+              style: const TextStyle(fontSize: 16.0),
             ),
           ),
           Container(
             width: double.infinity,
-            padding: 16.0.spacingAll(),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               children: item
                   .getItems()

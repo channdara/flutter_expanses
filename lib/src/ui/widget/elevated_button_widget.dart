@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../common/extension/double_extension.dart';
-
 class ElevatedButtonWidget extends StatelessWidget {
   const ElevatedButtonWidget({
     super.key,
@@ -22,10 +20,10 @@ class ElevatedButtonWidget extends StatelessWidget {
       child: ElevatedButton(
         style: ButtonStyle(
           padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-            16.0.spacingVertical(),
+            const EdgeInsets.symmetric(vertical: 16.0),
           ),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(borderRadius: 12.0.circular()),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
           ),
         ),
         onPressed: onPressed,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../common/extension/double_extension.dart';
 import '../../../model/item_model.dart';
 import 'purchased_items_screen_list_item_widget.dart';
 
@@ -12,7 +11,7 @@ class PurchasedItemsScreenListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      padding: 70.0.spacingBottom(),
+      padding: const EdgeInsets.only(bottom: 70.0),
       itemCount: docs.length,
       physics: const AlwaysScrollableScrollPhysics(),
       itemBuilder: (context, index) {

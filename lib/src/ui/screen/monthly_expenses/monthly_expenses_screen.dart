@@ -11,7 +11,7 @@ class MonthlyExpensesScreen extends StatefulWidget {
 
   final Timestamp date;
 
-  String get appBarTitle => 'Expenses on: ${date.year}';
+  String get appBarTitle => 'Expenses on ${date.year}';
 
   @override
   State<MonthlyExpensesScreen> createState() => _MonthlyExpensesScreenState();

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../common/extension/double_extension.dart';
 import '../../../common/extension/string_extension.dart';
 import '../../../model/enum/item_type.dart';
 
@@ -12,15 +11,15 @@ class AddItemScreenTabBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: 16.0.spacingVertical(),
+      margin: const EdgeInsets.symmetric(vertical: 16.0),
       decoration: BoxDecoration(
         color: Colors.grey.shade300,
-        borderRadius: 12.0.circular(),
+        borderRadius: BorderRadius.circular(12.0),
       ),
       child: TabBar(
         controller: controller,
         indicator: BoxDecoration(
-          borderRadius: 12.0.circular(),
+          borderRadius: BorderRadius.circular(12.0),
           color: _color(),
         ),
         labelColor: Colors.white,

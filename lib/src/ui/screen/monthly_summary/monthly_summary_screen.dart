@@ -11,7 +11,7 @@ class MonthlySummaryScreen extends StatefulWidget {
 
   final Timestamp date;
 
-  String get appBarTitle => 'Summary on: ${date.toYearMonth()}';
+  String get appBarTitle => 'Summary on ${date.toYearMonth()}';
 
   @override
   State<MonthlySummaryScreen> createState() => _MonthlySummaryScreenState();

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../common/extension/context_extension.dart';
-import '../../../common/extension/double_extension.dart';
 import '../../../model/month_model.dart';
 import '../monthly_expenses/monthly_expenses_screen.dart';
 
@@ -18,10 +17,12 @@ class DailyExpensesScreenSummaryWidget extends StatelessWidget {
         context.push(MonthlyExpensesScreen(date: item!.date));
       },
       child: Card(
-        margin: 16.0.spacingAll(),
-        shape: RoundedRectangleBorder(borderRadius: 12.0.circular()),
+        margin: const EdgeInsets.all(16.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0),
+        ),
         child: Padding(
-          padding: [16.0, 8.0].spacingSymmetric(),
+          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
