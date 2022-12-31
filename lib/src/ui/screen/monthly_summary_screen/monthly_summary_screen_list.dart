@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../../../model/monthly_summary.dart';
-import 'monthly_summary_screen_list_item_widget.dart';
+import 'monthly_summary_screen_list_item.dart';
 
-class MonthlySummaryScreenListWidget extends StatelessWidget {
-  const MonthlySummaryScreenListWidget({super.key, required this.docs});
+class MonthlySummaryScreenList extends StatelessWidget {
+  const MonthlySummaryScreenList({super.key, required this.docs});
 
   final List<MonthlySummary> docs;
 
@@ -17,7 +17,7 @@ class MonthlySummaryScreenListWidget extends StatelessWidget {
       itemBuilder: (context, index) {
         final item = docs[index];
         if (item == null) return const SizedBox();
-        return MonthlySummaryScreenListItemWidget(item: item);
+        return MonthlySummaryScreenListItem(item: item);
       },
     );
   }

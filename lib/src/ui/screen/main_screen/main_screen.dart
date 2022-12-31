@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../common/base/base_state.dart';
-import '../daily_expanses/daily_expenses_screen.dart';
-import '../saving/saving_screen.dart';
+import '../daily_expanses_screen/daily_expenses_screen.dart';
+import '../saving_screen/saving_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});

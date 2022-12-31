@@ -4,10 +4,10 @@ import '../../../common/color_constant.dart';
 import '../../../common/extension/context_extension.dart';
 import '../../../common/extension/timestamp_extension.dart';
 import '../../../model/month_model.dart';
-import '../monthly_summary/monthly_summary_screen.dart';
+import '../monthly_summary_screen/monthly_summary_screen.dart';
 
-class MonthlyExpensesScreenListItemWidget extends StatelessWidget {
-  const MonthlyExpensesScreenListItemWidget({super.key, required this.item});
+class MonthlyExpensesScreenListItem extends StatelessWidget {
+  const MonthlyExpensesScreenListItem({super.key, required this.item});
 
   final MonthModel item;
 

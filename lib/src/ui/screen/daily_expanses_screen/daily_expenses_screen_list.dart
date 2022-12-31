@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../../../model/item_model.dart';
-import 'purchased_items_screen_list_item_widget.dart';
+import 'daily_expenses_screen_list_item.dart';
 
-class PurchasedItemsScreenListWidget extends StatelessWidget {
-  const PurchasedItemsScreenListWidget({super.key, required this.docs});
+class DailyExpensesScreenList extends StatelessWidget {
+  const DailyExpensesScreenList({super.key, required this.docs});
 
   final List<ItemModel> docs;
 
@@ -17,7 +17,7 @@ class PurchasedItemsScreenListWidget extends StatelessWidget {
       itemBuilder: (context, index) {
         final item = docs[index];
         if (item == null) return const SizedBox();
-        return PurchasedItemScreenListItemWidget(item: item);
+        return DailyExpensesScreenListItem(item: item);
       },
     );
   }

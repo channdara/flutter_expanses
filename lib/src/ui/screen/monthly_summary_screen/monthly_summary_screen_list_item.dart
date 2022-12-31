@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../common/color_constant.dart';
 import '../../../model/monthly_summary.dart';
 
-class MonthlySummaryScreenListItemWidget extends StatelessWidget {
-  const MonthlySummaryScreenListItemWidget({super.key, required this.item});
+class MonthlySummaryScreenListItem extends StatelessWidget {
+  const MonthlySummaryScreenListItem({super.key, required this.item});
 
   final MonthlySummary item;
 

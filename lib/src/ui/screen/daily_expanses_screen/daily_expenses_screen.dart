@@ -8,9 +8,9 @@ import '../../../common/extension/context_extension.dart';
 import '../../../common/extension/timestamp_extension.dart';
 import '../../../model/item_model.dart';
 import '../../../model/month_model.dart';
-import '../add_item/add_item_screen.dart';
-import '../purchased_items/purchased_items_screen_list_widget.dart';
-import 'daily_expenses_screen_summary_widget.dart';
+import '../add_item_screen/add_item_screen.dart';
+import 'daily_expenses_screen_list.dart';
+import 'daily_expenses_screen_summary.dart';
 
 class DailyExpensesScreen extends StatefulWidget {
   const DailyExpensesScreen({super.key});
@@ -84,7 +84,7 @@ class _DailyExpensesScreenState extends BaseState<DailyExpensesScreen>
                   ),
                   builder: (context, snapshot) {
                     final item = snapshot.data;
-                    return DailyExpensesScreenSummaryWidget(item: item);
+                    return DailyExpensesScreenSummary(item: item);
                   },
                 ),
               ),
@@ -127,7 +127,7 @@ class _DailyExpensesScreenState extends BaseState<DailyExpensesScreen>
                 if (snapshot.data == null) return const SizedBox();
                 return RefreshIndicator(
                   onRefresh: awaitSetState,
-                  child: PurchasedItemsScreenListWidget(docs: snapshot.data!),
+                  child: DailyExpensesScreenList(docs: snapshot.data!),
                 );
               },
             ),

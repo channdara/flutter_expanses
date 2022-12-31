@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../common/extension/string_extension.dart';
 import '../../../model/enum/item_type.dart';
 
-class AddItemScreenTabBarWidget extends StatelessWidget {
-  const AddItemScreenTabBarWidget({super.key, required this.controller});
+class AddItemScreenTabBar extends StatelessWidget {
+  const AddItemScreenTabBar({super.key, required this.controller});
 
   final TabController controller;
 

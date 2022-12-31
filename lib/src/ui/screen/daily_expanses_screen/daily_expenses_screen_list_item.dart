@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import '../../../common/extension/context_extension.dart';
 import '../../../common/extension/timestamp_extension.dart';
 import '../../../model/item_model.dart';
-import '../add_item/add_item_screen.dart';
+import '../add_item_screen/add_item_screen.dart';
 
-class PurchasedItemScreenListItemWidget extends StatelessWidget {
-  const PurchasedItemScreenListItemWidget({super.key, required this.item});
+class DailyExpensesScreenListItem extends StatelessWidget {
+  const DailyExpensesScreenListItem({super.key, required this.item});
 
   final ItemModel item;
 

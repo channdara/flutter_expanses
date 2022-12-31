@@ -9,7 +9,7 @@ import '../../../model/enum/item_type.dart';
 import '../../../model/item_model.dart';
 import '../../widget/elevated_button_widget.dart';
 import '../../widget/text_form_field_widget.dart';
-import 'add_item_screen_tab_bar_widget.dart';
+import 'add_item_screen_tab_bar.dart';
 
 class AddItemScreen extends StatefulWidget {
   const AddItemScreen({super.key, this.item});
@@ -133,7 +133,7 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
                   ),
                 ],
               ),
-              AddItemScreenTabBarWidget(controller: _tabController),
+              AddItemScreenTabBar(controller: _tabController),
               Stack(
                 children: [
                   TextFormFieldWidget(

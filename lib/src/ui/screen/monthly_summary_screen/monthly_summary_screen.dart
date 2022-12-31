@@ -3,27 +3,27 @@ import 'package:flutter/material.dart';
 
 import '../../../common/base/base_state.dart';
 import '../../../common/extension/timestamp_extension.dart';
-import '../../../model/month_model.dart';
-import 'monthly_expenses_screen_list_widget.dart';
+import '../../../model/monthly_summary.dart';
+import 'monthly_summary_screen_list.dart';
 
-class MonthlyExpensesScreen extends StatefulWidget {
-  const MonthlyExpensesScreen({super.key, required this.date});
+class MonthlySummaryScreen extends StatefulWidget {
+  const MonthlySummaryScreen({super.key, required this.date});
 
   final Timestamp date;
 
-  String get appBarTitle => 'Expenses on ${date.year}';
+  String get appBarTitle => 'Summary on ${date.toYearMonth()}';
 
   @override
-  State<MonthlyExpensesScreen> createState() => _MonthlyExpensesScreenState();
+  State<MonthlySummaryScreen> createState() => _MonthlySummaryScreenState();
 }
 
-class _MonthlyExpensesScreenState extends BaseState<MonthlyExpensesScreen> {
+class _MonthlySummaryScreenState extends BaseState<MonthlySummaryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.appBarTitle)),
-      body: FutureBuilder<List<MonthModel>>(
-        future: firestoreService.getMonthlyExpenses(widget.date),
+      body: FutureBuilder<List<MonthlySummary>>(
+        future: firestoreService.getMonthlySummary(widget.date),
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
             return const Center(child: CircularProgressIndicator());
@@ -31,7 +31,7 @@ class _MonthlyExpensesScreenState extends BaseState<MonthlyExpensesScreen> {
           if (snapshot.data == null) return const SizedBox();
           return RefreshIndicator(
             onRefresh: awaitSetState,
-            child: MonthlyExpensesScreenListWidget(docs: snapshot.data!),
+            child: MonthlySummaryScreenList(docs: snapshot.data!),
           );
         },
       ),

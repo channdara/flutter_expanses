@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../../../model/month_model.dart';
-import 'monthly_expenses_screen_list_item_widget.dart';
+import 'monthly_expenses_screen_list_item.dart';
 
-class MonthlyExpensesScreenListWidget extends StatelessWidget {
-  const MonthlyExpensesScreenListWidget({super.key, required this.docs});
+class MonthlyExpensesScreenList extends StatelessWidget {
+  const MonthlyExpensesScreenList({super.key, required this.docs});
 
   final List<MonthModel> docs;
 
@@ -17,7 +17,7 @@ class MonthlyExpensesScreenListWidget extends StatelessWidget {
       itemBuilder: (context, index) {
         final item = docs[index];
         if (item == null) return const SizedBox();
-        return MonthlyExpensesScreenListItemWidget(item: item);
+        return MonthlyExpensesScreenListItem(item: item);
       },
     );
   }

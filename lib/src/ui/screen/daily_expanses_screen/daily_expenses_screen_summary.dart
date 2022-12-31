@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../../common/extension/context_extension.dart';
 import '../../../model/month_model.dart';
-import '../monthly_expenses/monthly_expenses_screen.dart';
+import '../monthly_expenses_screen/monthly_expenses_screen.dart';
 
-class DailyExpensesScreenSummaryWidget extends StatelessWidget {
-  const DailyExpensesScreenSummaryWidget({super.key, required this.item});
+class DailyExpensesScreenSummary extends StatelessWidget {
+  const DailyExpensesScreenSummary({super.key, required this.item});
 
   final MonthModel? item;
 
