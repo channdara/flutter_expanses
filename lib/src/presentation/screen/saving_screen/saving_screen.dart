@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../common/base/base_state.dart';
 import '../../widget/custom_app_bar.dart';
 
 class SavingScreen extends StatefulWidget {
@@ -9,7 +10,7 @@ class SavingScreen extends StatefulWidget {
   State<SavingScreen> createState() => _SavingScreenState();
 }
 
-class _SavingScreenState extends State<SavingScreen> {
+class _SavingScreenState extends BaseState<SavingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
