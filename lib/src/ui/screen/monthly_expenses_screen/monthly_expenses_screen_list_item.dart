@@ -22,6 +22,7 @@ class MonthlyExpensesScreenListItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.0),
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               width: double.infinity,
@@ -35,8 +36,7 @@ class MonthlyExpensesScreenListItem extends StatelessWidget {
                 style: const TextStyle(fontSize: 16.0),
               ),
             ),
-            Container(
-              width: double.infinity,
+            Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,10 +53,7 @@ class MonthlyExpensesScreenListItem extends StatelessWidget {
                         const TextSpan(text: 'Total expense is:   '),
                         TextSpan(
                           text: item.getTotalMonthlyExpenses,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
-                          ),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
