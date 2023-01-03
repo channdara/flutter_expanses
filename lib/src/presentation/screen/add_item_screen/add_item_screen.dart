@@ -92,6 +92,68 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
     _itemFocusNode.requestFocus();
   }
 
+  ItemModel _createPurchaseItem() {
+    final type = ItemType.getItemType(_tabController.index);
+    double dollarMe = 0.0;
+    double dollarBee = 0.0;
+    int rielMe = 0;
+    int rielBee = 0;
+    switch (type) {
+      case ItemType.me:
+        {
+          dollarMe = _dollarController.text.trim().toDouble();
+          rielMe = _rielController.text.trim().toInt();
+          break;
+        }
+      case ItemType.bee:
+        {
+          dollarBee = _dollarController.text.trim().toDouble();
+          rielBee = _rielController.text.trim().toInt();
+          break;
+        }
+      case ItemType.both:
+        {
+          final splitDollar = _dollarController.text.trim().toDouble() / 2;
+          final splitRiel = _rielController.text.trim().toInt() / 2;
+          dollarMe = splitDollar;
+          dollarBee = splitDollar;
+          rielMe = splitRiel.toInt();
+          rielBee = splitRiel.toInt();
+          break;
+        }
+    }
+    return ItemModel(
+      id: _timestamp.seconds,
+      content: _itemController.text.trim(),
+      type: type,
+      dollarMe: dollarMe,
+      dollarBee: dollarBee,
+      rielMe: rielMe,
+      rielBee: rielBee,
+      date: _timestamp,
+    );
+  }
+
+  void _addPurchaseItem(ItemModel item) {
+    expansesService.addItem(item);
+    expansesService.increaseMonth(item.date, item);
+    expansesService.increaseDay(item.date, item);
+  }
+
+  void _updatePurchasedItem(ItemModel oldItem, ItemModel newItem) {
+    expansesService.updateItem(oldItem, newItem);
+    expansesService
+        .increaseDay(oldItem.date, oldItem, isIncrement: false)
+        .whenComplete(() {
+      expansesService.increaseDay(oldItem.date, newItem);
+    });
+    expansesService
+        .increaseMonth(oldItem.date, oldItem, isIncrement: false)
+        .whenComplete(() {
+      expansesService.increaseMonth(oldItem.date, newItem);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -190,67 +252,5 @@ class _AddItemScreenState extends BaseState<AddItemScreen>
         ),
       ),
     );
-  }
-
-  ItemModel _createPurchaseItem() {
-    final type = ItemType.getItemType(_tabController.index);
-    double dollarMe = 0.0;
-    double dollarBee = 0.0;
-    int rielMe = 0;
-    int rielBee = 0;
-    switch (type) {
-      case ItemType.me:
-        {
-          dollarMe = _dollarController.text.trim().toDouble();
-          rielMe = _rielController.text.trim().toInt();
-          break;
-        }
-      case ItemType.bee:
-        {
-          dollarBee = _dollarController.text.trim().toDouble();
-          rielBee = _rielController.text.trim().toInt();
-          break;
-        }
-      case ItemType.both:
-        {
-          final splitDollar = _dollarController.text.trim().toDouble() / 2;
-          final splitRiel = _rielController.text.trim().toInt() / 2;
-          dollarMe = splitDollar;
-          dollarBee = splitDollar;
-          rielMe = splitRiel.toInt();
-          rielBee = splitRiel.toInt();
-          break;
-        }
-    }
-    return ItemModel(
-      id: _timestamp.seconds,
-      content: _itemController.text.trim(),
-      type: type,
-      dollarMe: dollarMe,
-      dollarBee: dollarBee,
-      rielMe: rielMe,
-      rielBee: rielBee,
-      date: _timestamp,
-    );
-  }
-
-  void _addPurchaseItem(ItemModel item) {
-    firestoreService.addItem(item);
-    firestoreService.increaseMonth(item.date, item);
-    firestoreService.increaseDay(item.date, item);
-  }
-
-  void _updatePurchasedItem(ItemModel oldItem, ItemModel newItem) {
-    firestoreService.updateItem(oldItem, newItem);
-    firestoreService
-        .increaseDay(oldItem.date, oldItem, isIncrement: false)
-        .whenComplete(() {
-      firestoreService.increaseDay(oldItem.date, newItem);
-    });
-    firestoreService
-        .increaseMonth(oldItem.date, oldItem, isIncrement: false)
-        .whenComplete(() {
-      firestoreService.increaseMonth(oldItem.date, newItem);
-    });
   }
 }

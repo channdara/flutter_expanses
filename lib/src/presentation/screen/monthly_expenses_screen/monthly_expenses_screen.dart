@@ -17,7 +17,7 @@ class _MonthlyExpensesScreenState extends BaseState<MonthlyExpensesScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Monthly Expenses')),
       body: FutureBuilder<List<MonthModel>>(
-        future: firestoreService.getMonthlyExpenses(),
+        future: expansesService.getMonthlyExpenses(),
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
             return const Center(child: CircularProgressIndicator());

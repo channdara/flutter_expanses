@@ -26,7 +26,7 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
                     icon: Icons.check_circle,
                     title: 'Check Daily Documents',
                     subtitle: 'Check and create missing daily document',
-                    onTap: () => firestoreService.checkAllDay(),
+                    onTap: () => expansesService.checkAllDay(),
                   ),
                 ],
               ),

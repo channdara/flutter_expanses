@@ -24,14 +24,14 @@ extension ContextExtension on BuildContext {
   void showErrorSnackBar(String content) {
     ScaffoldMessenger.of(this).showSnackBar(SnackBar(
       backgroundColor: ColorConstant.colorFailed,
-      content: Text(content),
+      content: Text(content, textAlign: TextAlign.center),
     ));
   }
 
   void showSuccessSnackBar(String content) {
     ScaffoldMessenger.of(this).showSnackBar(SnackBar(
       backgroundColor: ColorConstant.colorSuccess,
-      content: Text(content),
+      content: Text(content, textAlign: TextAlign.center),
     ));
   }
 }

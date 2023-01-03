@@ -23,7 +23,7 @@ class _MonthlySummaryScreenState extends BaseState<MonthlySummaryScreen> {
     return Scaffold(
       appBar: AppBar(title: Text(widget.appBarTitle)),
       body: FutureBuilder<List<MonthlySummary>>(
-        future: firestoreService.getMonthlySummary(widget.date),
+        future: expansesService.getMonthlySummary(widget.date),
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
             return const Center(child: CircularProgressIndicator());

@@ -9,12 +9,12 @@ import '../model/month_model.dart';
 import '../model/monthly_summary.dart';
 import '../model/year_model.dart';
 
-class FirestoreService {
-  factory FirestoreService() => _singleton;
+class ExpansesService {
+  factory ExpansesService() => _singleton;
 
-  FirestoreService._internal();
+  ExpansesService._internal();
 
-  static final FirestoreService _singleton = FirestoreService._internal();
+  static final ExpansesService _singleton = ExpansesService._internal();
 
   Timestamp get _timestamp => Timestamp.now();
 

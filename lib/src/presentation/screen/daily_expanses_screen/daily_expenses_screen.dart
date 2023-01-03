@@ -66,6 +66,7 @@ class _DailyExpensesScreenState extends BaseState<DailyExpensesScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        heroTag: 1,
         child: const Icon(Icons.add),
         onPressed: () => context.push(const AddItemScreen()),
       ),
@@ -74,7 +75,7 @@ class _DailyExpensesScreenState extends BaseState<DailyExpensesScreen>
         children: [
           CustomAppBar(
             child: FutureBuilder<MonthModel>(
-              future: firestoreService.getCurrentMonthSummary(
+              future: expansesService.getCurrentMonthSummary(
                 Timestamp.now(),
               ),
               builder: (context, snapshot) {
@@ -112,7 +113,7 @@ class _DailyExpensesScreenState extends BaseState<DailyExpensesScreen>
           ),
           Expanded(
             child: FutureBuilder<List<ItemModel>>(
-              future: firestoreService.getPurchasedItems(_date),
+              future: expansesService.getPurchasedItems(_date),
               builder: (context, snapshot) {
                 if (snapshot.connectionState != ConnectionState.done) {
                   return const Center(child: CircularProgressIndicator());

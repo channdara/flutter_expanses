@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../common/base/base_state.dart';
+import '../../../common/extension/context_extension.dart';
 import '../../widget/custom_app_bar.dart';
+import '../add_saving_screen/add_saving_screen.dart';
 
 class SavingScreen extends StatefulWidget {
   const SavingScreen({super.key});
@@ -15,8 +17,9 @@ class _SavingScreenState extends BaseState<SavingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        heroTag: 2,
         child: const Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () => context.push(const AddSavingScreen()),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

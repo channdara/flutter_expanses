@@ -16,7 +16,7 @@ class _SplashScreenState extends BaseState<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    firestoreService.checkCurrentDate().whenComplete(() {
+    expansesService.checkCurrentDate().whenComplete(() {
       context.pushClearTop(const MainScreen());
     });
   }

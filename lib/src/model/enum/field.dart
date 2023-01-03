@@ -11,4 +11,6 @@ enum Field {
   content,
   type,
   date,
+  amount,
+  remark,
 }
