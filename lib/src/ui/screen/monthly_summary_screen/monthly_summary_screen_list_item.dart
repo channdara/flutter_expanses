@@ -15,6 +15,7 @@ class MonthlySummaryScreenListItem extends StatelessWidget {
       clipBehavior: Clip.antiAliasWithSaveLayer,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             width: double.infinity,
@@ -28,30 +29,26 @@ class MonthlySummaryScreenListItem extends StatelessWidget {
               style: const TextStyle(fontSize: 16.0),
             ),
           ),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Wrap(
+              spacing: 4.0,
+              runSpacing: 4.0,
               children: item
                   .getItems()
-                  .map((item) => Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Icon(
-                            Icons.subdirectory_arrow_right,
-                            color: Colors.grey,
-                            size: 16.0,
-                          ),
-                          const SizedBox(width: 8.0),
-                          Expanded(
-                            child: Text(
-                              item.content,
-                              style: TextStyle(
-                                color: item.getDisplayTextColor(),
-                              ),
-                            ),
-                          ),
-                        ],
+                  .map((e) => Container(
+                        decoration: BoxDecoration(
+                          color: e.getDisplayTextColor(),
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 4.0,
+                          horizontal: 12.0,
+                        ),
+                        child: Text(
+                          e.content,
+                          style: const TextStyle(color: Colors.white),
+                        ),
                       ))
                   .toList(),
             ),
