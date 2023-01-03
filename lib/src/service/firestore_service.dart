@@ -51,6 +51,18 @@ class FirestoreService {
     await _day(_timestamp).set(data.toJson());
   }
 
+  Future<void> checkAllDay() async {
+    List.generate(_timestamp.day, (index) async {
+      final date = DateTime(_timestamp.year, _timestamp.month, index + 1);
+      final timestamp = Timestamp.fromDate(date);
+      final day = await _day(timestamp).get();
+      if (!day.exists) {
+        final data = DayModel(id: timestamp.day, date: timestamp);
+        await _day(timestamp).set(data.toJson());
+      }
+    });
+  }
+
   Future<void> addItem(ItemModel item) async {
     _day(item.date)
         .collection(Collection.owner.value)

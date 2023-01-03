@@ -1,7 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import 'package:path_provider/path_provider.dart';
 
 import 'src/common/color_constant.dart';
 import 'src/ui/screen/splash_screen/splash_screen.dart';
@@ -9,7 +7,6 @@ import 'src/ui/screen/splash_screen/splash_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  Hive.init((await getApplicationDocumentsDirectory()).path);
   runApp(const MainApp());
 }
 

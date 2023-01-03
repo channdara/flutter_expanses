@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../common/extension/context_extension.dart';
+import '../../../common/base/base_state.dart';
 import '../../widget/custom_app_bar.dart';
-import 'setting_item_template_screen/setting_item_template_screen.dart';
 import 'settings_screen_item.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -12,7 +11,7 @@ class SettingsScreen extends StatefulWidget {
   State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class _SettingsScreenState extends BaseState<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,11 +23,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: Column(
                 children: [
                   SettingsScreenItem(
-                    icon: Icons.note_alt,
-                    title: 'Item Templates',
-                    subtitle: 'Add or edit item template',
-                    onTap: () =>
-                        context.push(const SettingItemTemplateScreen()),
+                    icon: Icons.check_circle,
+                    title: 'Check Daily Documents',
+                    subtitle: 'Check and create missing daily document',
+                    onTap: () => firestoreService.checkAllDay(),
                   ),
                 ],
               ),

@@ -1,14 +1,10 @@
 import 'package:flutter/widgets.dart';
 
-import '../../service/database_service.dart';
 import '../../service/firestore_service.dart';
 
 abstract class BaseState<T extends StatefulWidget> extends State<T> {
   @protected
   final FirestoreService firestoreService = FirestoreService();
-
-  @protected
-  final DatabaseService databaseService = DatabaseService();
 
   @protected
   Future<void> awaitSetState() async => Future<void>.delayed(
