@@ -12,10 +12,7 @@ class DailyExpensesScreenSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        if (item == null) return;
-        context.push(MonthlyExpensesScreen(date: item!.date));
-      },
+      onTap: () => context.push(const MonthlyExpensesScreen()),
       child: Card(
         margin: const EdgeInsets.all(16.0),
         shape: RoundedRectangleBorder(

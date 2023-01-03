@@ -110,15 +110,22 @@ class FirestoreService {
     return monthlySummaryItems;
   }
 
-  Future<List<MonthModel>> getMonthlyExpenses(Timestamp timestamp) async {
+  Future<List<MonthModel>> getMonthlyExpenses() async {
     final List<MonthModel> monthModelItems = [];
-    final allMonthly = await _year(timestamp)
+    final year = await FirebaseFirestore.instance
         .collection(Collection.owner.value)
         .orderBy(Field.id.name, descending: true)
         .get();
-    for (final monthly in allMonthly.docs) {
-      final monthModel = MonthModel.fromJson(monthly.data());
-      monthModelItems.add(monthModel);
+    for (final doc in year.docs) {
+      final timestamp = Timestamp.fromDate(DateTime.parse('${doc.id}-01-01'));
+      final allMonthly = await _year(timestamp)
+          .collection(Collection.owner.value)
+          .orderBy(Field.id.name, descending: true)
+          .get();
+      for (final monthly in allMonthly.docs) {
+        final monthModel = MonthModel.fromJson(monthly.data());
+        monthModelItems.add(monthModel);
+      }
     }
     return monthModelItems;
   }

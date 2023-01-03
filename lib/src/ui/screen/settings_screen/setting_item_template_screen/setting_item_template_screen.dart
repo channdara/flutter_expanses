@@ -21,9 +21,7 @@ class _SettingItemTemplateScreenState
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () {
-          context.push(const SettingItemTemplateScreenAddItem());
-        },
+        onPressed: () => context.push(const SettingItemTemplateScreenAddItem()),
       ),
       appBar: AppBar(title: const Text('Item Templates')),
       body: FutureBuilder<List<ItemTemplate>>(
@@ -40,9 +38,8 @@ class _SettingItemTemplateScreenState
                 final item = snapshot.data![index];
                 if (item == null) return const SizedBox();
                 return GestureDetector(
-                  onTap: () {
-                    context.push(SettingItemTemplateScreenAddItem(item: item));
-                  },
+                  onTap: () => context
+                      .push(SettingItemTemplateScreenAddItem(item: item)),
                   child: Card(
                     margin: const EdgeInsets.all(16.0).copyWith(top: 0.0),
                     shape: RoundedRectangleBorder(

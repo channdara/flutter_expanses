@@ -27,9 +27,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     icon: Icons.note_alt,
                     title: 'Item Templates',
                     subtitle: 'Add or edit item template',
-                    onTap: () {
-                      context.push(const SettingItemTemplateScreen());
-                    },
+                    onTap: () =>
+                        context.push(const SettingItemTemplateScreen()),
                   ),
                 ],
               ),
