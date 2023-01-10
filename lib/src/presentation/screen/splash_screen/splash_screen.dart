@@ -17,7 +17,9 @@ class _SplashScreenState extends BaseState<SplashScreen> {
   void initState() {
     super.initState();
     expansesService.checkCurrentDate().whenComplete(() {
-      context.pushClearTop(const MainScreen());
+      savingService.checkCurrentDate().whenComplete(() {
+        context.pushClearTop(const MainScreen());
+      });
     });
   }
 

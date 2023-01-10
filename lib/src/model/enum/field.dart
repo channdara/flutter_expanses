@@ -11,6 +11,7 @@ enum Field {
   content,
   type,
   date,
-  amount,
+  amount_dollar,
+  amount_riel,
   remark,
 }

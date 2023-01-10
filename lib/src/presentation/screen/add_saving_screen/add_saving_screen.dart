@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../common/base/base_state.dart';
 import '../../../common/extension/context_extension.dart';
 import '../../../common/extension/string_extension.dart';
+import '../../../common/extension/timestamp_extension.dart';
 import '../../../model/saving_model.dart';
 import '../../widget/elevated_button_widget.dart';
 import '../../widget/text_form_field_widget.dart';
@@ -19,50 +20,75 @@ class AddSavingScreen extends StatefulWidget {
 
   String get buttonText => willAdd ? 'Add' : 'Update';
 
+  String get getDate =>
+      willAdd ? Timestamp.now().toYearMonthDay() : item!.date.toYearMonthDay();
+
   @override
   State<AddSavingScreen> createState() => _AddSavingScreenState();
 }
 
 class _AddSavingScreenState extends BaseState<AddSavingScreen> {
-  late TextEditingController _amountController;
+  late TextEditingController _dollarController;
+  late TextEditingController _rielController;
   late TextEditingController _remarkController;
-  late FocusNode _amountFocusNode;
+  late TextEditingController _dateController;
+  late FocusNode _dollarFocusNode;
+  late FocusNode _rielFocusNode;
 
   Timestamp _timestamp = Timestamp.now();
 
   @override
   void initState() {
-    _amountController =
-        TextEditingController(text: widget.item?.amount.toString());
+    _dollarController =
+        TextEditingController(text: widget.item?.amountDollar.toString());
+    _rielController =
+        TextEditingController(text: widget.item?.amountRiel.toString());
     _remarkController = TextEditingController(text: widget.item?.remark);
+    _dateController = TextEditingController(text: widget.getDate);
 
-    _amountFocusNode = FocusNode();
+    _dollarFocusNode = FocusNode();
+    _rielFocusNode = FocusNode();
 
-    if (widget.willAdd) _amountFocusNode.requestFocus();
+    if (widget.willAdd) _dollarFocusNode.requestFocus();
     if (!widget.willAdd) _timestamp = widget.item!.date;
     super.initState();
   }
 
   @override
   void dispose() {
-    _amountController.dispose();
+    _dollarController.dispose();
+    _rielController.dispose();
     _remarkController.dispose();
-    _amountFocusNode.dispose();
+    _dateController.dispose();
+    _dollarFocusNode.dispose();
+    _rielFocusNode.dispose();
     super.dispose();
   }
 
   void _clearController() {
-    _amountController.clear();
+    final now = Timestamp.now();
+    _dollarController.clear();
+    _rielController.clear();
     _remarkController.clear();
-    _amountFocusNode.requestFocus();
-    _timestamp = Timestamp.now();
+    _dateController.text = now.toYearMonthDay();
+    _dollarFocusNode.requestFocus();
+    _timestamp = now;
   }
 
   void _addSaving(SavingModel item) {
-
+    savingService.addSaving(item);
+    savingService.increaseYear(item.date, item);
   }
 
-  void _updateSaving(SavingModel oldItem, SavingModel newItem) {}
+  void _updateSaving(SavingModel newItem) {
+    final oldItem = widget.item!;
+    savingService.updateItem(oldItem, newItem);
+    savingService.increaseYear(oldItem.date, oldItem, false).whenComplete(() {
+      savingService.increaseYear(oldItem.date, newItem).whenComplete(() {
+        context.pop();
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,35 +96,90 @@ class _AddSavingScreenState extends BaseState<AddSavingScreen> {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
         appBar: AppBar(title: Text(widget.appBarTitle)),
-        body: Padding(
+        body: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              TextFormFieldWidget(
-                controller: _amountController,
-                focusNode: _amountFocusNode,
-                labelText: 'Saving amount',
-                keyboardType: TextInputType.number,
-                prefixIcon: const Icon(Icons.currency_bitcoin),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormFieldWidget(
+                      labelText: 'Dollar',
+                      prefixIcon: const Icon(Icons.currency_bitcoin),
+                      controller: _dollarController,
+                      keyboardType: TextInputType.number,
+                      focusNode: _dollarFocusNode,
+                      onEditingComplete: () => _rielFocusNode.requestFocus(),
+                    ),
+                  ),
+                  const Text(' or '),
+                  Expanded(
+                    child: TextFormFieldWidget(
+                      labelText: 'Riel',
+                      prefixIcon: const Icon(Icons.currency_bitcoin),
+                      controller: _rielController,
+                      keyboardType: TextInputType.number,
+                      focusNode: _rielFocusNode,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16.0),
+              Stack(
+                children: [
+                  TextFormFieldWidget(
+                    labelText: 'Timestamp',
+                    prefixIcon: const Icon(Icons.edit_calendar),
+                    enabled: widget.willAdd,
+                    controller: _dateController,
+                  ),
+                  if (widget.willAdd)
+                    GestureDetector(
+                      child: Container(
+                        color: Colors.transparent,
+                        height: 48.0,
+                        width: double.infinity,
+                      ),
+                      onTap: () {
+                        final now = DateTime.now();
+                        final lastDay = DateTime(now.year + 1, 1, 0).day;
+                        showDatePicker(
+                          context: context,
+                          initialDate: now,
+                          firstDate: DateTime(now.year),
+                          lastDate: DateTime(now.year, 12, lastDay),
+                        ).then((value) {
+                          if (value == null) return;
+                          setState(() {
+                            _timestamp = Timestamp.fromDate(value);
+                            _dateController.text = _timestamp.toYearMonthDay();
+                          });
+                        });
+                      },
+                    ),
+                ],
               ),
               const SizedBox(height: 16.0),
               TextFormFieldWidget(
                 controller: _remarkController,
                 labelText: 'Remark (optional)',
-                prefixIcon: const Icon(Icons.currency_bitcoin),
+                prefixIcon: const Icon(Icons.description_outlined),
               ),
               ElevatedButtonWidget(
                 margin: const EdgeInsets.only(top: 16.0),
                 label: widget.buttonText,
                 onPressed: () {
-                  if (_amountController.text.trim().isEmpty) {
+                  final dollar = _dollarController.text.trim();
+                  final riel = _rielController.text.trim();
+                  if (dollar.isEmpty && riel.isEmpty) {
                     context.showErrorSnackBar('Amount is required');
                     return;
                   }
                   final saving = SavingModel(
                     id: _timestamp.seconds,
                     date: _timestamp,
-                    amount: _amountController.text.trim().toDouble(),
+                    amountDollar: dollar.toDouble(),
+                    amountRiel: riel.toInt(),
                     remark: _remarkController.text.trim(),
                   );
                   if (widget.willAdd) {
@@ -106,7 +187,7 @@ class _AddSavingScreenState extends BaseState<AddSavingScreen> {
                     _clearController();
                     return;
                   }
-                  _updateSaving(widget.item!, saving);
+                  _updateSaving(saving);
                 },
               ),
             ],

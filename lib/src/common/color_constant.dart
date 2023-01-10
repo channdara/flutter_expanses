@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 mixin ColorConstant {
-  static const Color colorBlack = Color(0xFF0E102D);
-  static const Color colorDarkGray = Color(0xFF56586B);
-  static const Color colorGray = Color(0xFFB7B7C0);
-  static const Color colorLightGray = Color(0xFFE7E7EA);
+  // static const Color colorBlack = Color(0xFF0E102D);
+  // static const Color colorDarkGray = Color(0xFF56586B);
+  // static const Color colorGray = Color(0xFFB7B7C0);
+  // static const Color colorLightGray = Color(0xFFE7E7EA);
   static const Color colorPrimary = Color(0xFFF2BE3E);
   static const Color colorSuccess = Color(0xFF4BB543);
   static const Color colorFailed = Color(0xFFFA113D);
